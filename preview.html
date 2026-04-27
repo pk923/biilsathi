@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template Preview — BillSathi</title>
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Globals required by template-utils.js -->
+    <script>
+        var g_currency = '₹';
+        var g_d = {};
+        var uploadedSig = null;
+    </script>
+    <script src="js/template-utils.js"></script>
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --ink:        #0a0a0f;
+            --ink2:       #3d3d52;
+            --ink3:       #8888a0;
+            --bg:         #f0eeff;
+            --surface:    #ffffff;
+            --accent:     #5b3fff;
+            --accent2:    #7c5fff;
+            --accent-soft:#ede9ff;
+            --green:      #10b981;
+            --radius:     14px;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ═══════════════════════════════════════
+           TOP BAR
+        ═══════════════════════════════════════ */
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            height: 68px;
+            background: #fff;
+            border-bottom: 1px solid rgba(91,63,255,.12);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            gap: 16px;
+            box-shadow: 0 1px 8px rgba(91,63,255,.07);
+        }
+
+        /* Logo */
+        .top-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .top-logo img {
+            height: 38px;
+            width: auto;
+            object-fit: contain;
+        }
+        .top-logo-text {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.6px;
+            line-height: 1;
+        }
+        .top-logo-text .bill  { color: var(--ink); }
+        .top-logo-text .sathi { color: var(--accent); }
+
+        /* Template name */
+        .top-tpl-info {
+            flex: 1;
+            padding-left: 20px;
+            border-left: 1.5px solid #eee;
+            min-width: 0;
+        }
+        .top-tpl-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--ink);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .top-tpl-cat {
+            font-size: 11px;
+            color: var(--ink3);
+            margin-top: 1px;
+        }
+
+        /* Buttons */
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 9px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--ink2);
+            background: #f3f3f8;
+            border: 1.5px solid #e8e6f8;
+            border-radius: 999px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background .2s, border-color .2s;
+            font-family: inherit;
+        }
+        .btn-back:hover { background: var(--accent-soft); border-color: #c4b8ff; color: var(--accent); }
+        .btn-back svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+
+        .btn-use {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 10px 22px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #fff;
+            background: var(--accent);
+            border: none;
+            border-radius: 999px;
+            cursor: pointer;
+            font-family: inherit;
+            box-shadow: 0 4px 16px rgba(91,63,255,.32);
+            transition: background .2s, transform .15s, box-shadow .2s;
+            white-space: nowrap;
+        }
+        .btn-use:hover {
+            background: var(--accent2);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 22px rgba(91,63,255,.42);
+        }
+        .btn-use svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+        /* ═══════════════════════════════════════
+           MAIN CONTENT
+        ═══════════════════════════════════════ */
+        .preview-stage {
+            min-height: calc(100vh - 68px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 28px 16px 48px;
+        }
+
+        /* Label above card */
+        .preview-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--ink3);
+            letter-spacing: .04em;
+            text-transform: uppercase;
+        }
+        .preview-label-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 0 3px rgba(16,185,129,.2);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 3px rgba(16,185,129,.2); }
+            50%       { box-shadow: 0 0 0 6px rgba(16,185,129,.08); }
+        }
+
+        /* Document card wrapper */
+        .preview-card {
+            width: 100%;
+            max-width: 900px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow:
+                0 2px 4px rgba(0,0,0,.04),
+                0 12px 40px rgba(91,63,255,.10),
+                0 40px 80px rgba(91,63,255,.07);
+            overflow: hidden;
+            border: 1px solid rgba(91,63,255,.08);
+        }
+
+        /* Card top strip — REMOVED (was causing unwanted blue line) */
+
+        /* The iframe lives here — no fixed height, auto expands */
+        .preview-iframe-wrap {
+            overflow: hidden;
+            background: #fff;
+        }
+
+        #preview-iframe {
+            width: 100%;
+            /* Start tall; JS will auto-size to content */
+            height: 1100px;
+            border: none;
+            display: block;
+            background: #fff;
+        }
+
+        /* ═══════════════════════════════════════
+           LOADING STATE
+        ═══════════════════════════════════════ */
+        #loading-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            height: 360px;
+            color: var(--ink3);
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--accent-soft);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ═══════════════════════════════════════
+           ERROR STATE
+        ═══════════════════════════════════════ */
+        #error-state {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            height: 360px;
+            text-align: center;
+            padding: 40px;
+        }
+        #error-state .err-icon {
+            font-size: 48px;
+        }
+        #error-state h2 {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--ink);
+        }
+        #error-state p {
+            font-size: 13px;
+            color: var(--ink3);
+            max-width: 280px;
+            line-height: 1.6;
+        }
+        #error-state a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 20px;
+            background: var(--accent);
+            color: #fff;
+            font-weight: 700;
+            font-size: 13px;
+            border-radius: 999px;
+            text-decoration: none;
+            box-shadow: 0 4px 14px rgba(91,63,255,.3);
+        }
+
+        /* ═══════════════════════════════════════
+           RESPONSIVE
+        ═══════════════════════════════════════ */
+        @media (max-width: 640px) {
+            .topbar { padding: 0 16px; }
+            .top-tpl-info { display: none; }
+            .btn-back span { display: none; }
+            .btn-use span { display: none; }
+            .preview-stage { padding: 20px 12px 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+        <a href="templates.html" class="top-logo">
+            <img src="assets/favicon.png" alt="BillSathi">
+            <div class="top-logo-text">
+                <span class="bill">Bill</span><span class="sathi">sathi</span>
+            </div>
+        </a>
+
+        <div class="top-tpl-info">
+            <div class="top-tpl-name" id="tpl-name-display">Loading template...</div>
+            <div class="top-tpl-cat" id="tpl-cat-display">BillSathi Templates</div>
+        </div>
+
+        <div class="top-actions">
+            <button class="btn-back" onclick="goBack()">
+                <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+                <span>Back to Templates</span>
+            </button>
+            <button class="btn-use" id="btn-use-tpl" onclick="useTemplate()">
+                <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                <span>Use This Template</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- PREVIEW STAGE -->
+    <main class="preview-stage">
+
+        <div class="preview-label">
+            <div class="preview-label-dot"></div>
+            Live Document Preview
+        </div>
+
+        <div class="preview-card" id="preview-card">
+
+            <!-- Loading placeholder -->
+            <div id="loading-state">
+                <div class="spinner"></div>
+                <div>Rendering template...</div>
+            </div>
+
+            <!-- Error fallback -->
+            <div id="error-state">
+                <div class="err-icon">⚠️</div>
+                <h2>Template Not Found</h2>
+                <p>We couldn't find the template you're looking for. Please go back and choose one.</p>
+                <a href="templates.html">← Back to Templates</a>
+            </div>
+
+            <!-- The actual iframe viewer (hidden until loaded) -->
+            <div class="preview-iframe-wrap" id="iframe-wrap" style="display:none">
+                <iframe id="preview-iframe" title="Invoice Template Preview"></iframe>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+        /* ═══════════════════════════════════════
+           TEMPLATE REGISTRY — mirrors templates.html
+        ═══════════════════════════════════════ */
+        var TEMPLATES = {
+            product: [
+                { id: 'p1',  name: 'Modern Retail Invoice',        cat: 'Product' },
+                { id: 'p2',  name: 'Electronics Shop Invoice',     cat: 'Product' },
+                { id: 'p3',  name: 'GST Product Invoice',          cat: 'Product' },
+                { id: 'p4',  name: 'Minimal Store Invoice',        cat: 'Product' },
+                { id: 'p5',  name: 'Wholesale Invoice',            cat: 'Product' },
+                { id: 'p6',  name: 'Luxury Retail Invoice',        cat: 'Product' },
+                { id: 'p7',  name: 'Grocery Fast Billing',         cat: 'Product' },
+                { id: 'p8',  name: 'Electronics Neon',             cat: 'Product' },
+                { id: 'p9',  name: 'Pharmacy Clean Invoice',       cat: 'Product' },
+                { id: 'p10', name: 'Furniture Premium Catalog',    cat: 'Product' }
+            ],
+            service: [
+                { id: 's1',  name: 'Freelancer Invoice',           cat: 'Service' },
+                { id: 's2',  name: 'Agency Invoice',               cat: 'Service' },
+                { id: 's3',  name: 'Consulting Invoice',           cat: 'Service' },
+                { id: 's4',  name: 'Project Invoice',              cat: 'Service' },
+                { id: 's5',  name: 'Creative Service Invoice',     cat: 'Service' },
+                { id: 's6',  name: 'Freelancer Creative',          cat: 'Service' },
+                { id: 's7',  name: 'Consultant Executive',         cat: 'Service' },
+                { id: 's8',  name: 'Salon & Beauty Invoice',       cat: 'Service' },
+                { id: 's9',  name: 'Repair Work Order',            cat: 'Service' },
+                { id: 's10', name: 'Marketing Agency Premium',     cat: 'Service' }
+            ],
+            subscription: [
+                { id: 'sub1',  name: 'Membership Invoice',         cat: 'Subscription' },
+                { id: 'sub2',  name: 'Gym Invoice',                cat: 'Subscription' },
+                { id: 'sub3',  name: 'Coaching Invoice',           cat: 'Subscription' },
+                { id: 'sub4',  name: 'SaaS Billing Invoice',       cat: 'Subscription' },
+                { id: 'sub5',  name: 'Recurring Payment Invoice',  cat: 'Subscription' },
+                { id: 'sub6',  name: 'SaaS Monthly Billing',       cat: 'Subscription' },
+                { id: 'sub7',  name: 'Gym Membership Invoice',     cat: 'Subscription' },
+                { id: 'sub8',  name: 'OTT / Streaming Bill',       cat: 'Subscription' },
+                { id: 'sub9',  name: 'Tuition / Coaching Monthly', cat: 'Subscription' },
+                { id: 'sub10', name: 'Internet / Utility Bill',    cat: 'Subscription' }
+            ]
+        };
+
+        /* ═══════════════════════════════════════
+           BOOT
+        ═══════════════════════════════════════ */
+        var currentId = null;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            /* Priority: URL param first (most reliable), then localStorage */
+            var params = new URLSearchParams(window.location.search);
+            var id = params.get('template') || '';
+            if (!id) {
+                try { id = localStorage.getItem('previewTemplate') || ''; } catch(e) {}
+            }
+
+            if (!id) { showError('No template ID provided.'); return; }
+
+            /* Resolve meta from registry */
+            var meta = null;
+            for (var cat in TEMPLATES) {
+                var found = TEMPLATES[cat].find(function(t) { return t.id === id; });
+                if (found) { meta = found; break; }
+            }
+            if (!meta) { showError('Unknown template: ' + id); return; }
+
+            currentId = id;
+
+            /* Update topbar */
+            document.getElementById('tpl-name-display').textContent = meta.name;
+            document.getElementById('tpl-cat-display').textContent  = meta.cat + ' Business Template  ·  BillSathi';
+            document.title = meta.name + ' Preview — BillSathi';
+
+            /* Resolve template function — try all possible sources */
+            var fn = null;
+            /* 1. TPL_MAP from template-utils.js (all 30 templates) */
+            if (typeof TPL_MAP !== 'undefined' && typeof TPL_MAP[id] === 'function') {
+                fn = TPL_MAP[id];
+            }
+            /* 2. Global window function (tpl_p1, tpl_s1, tpl_sub1 etc) */
+            if (!fn && typeof window['tpl_' + id] === 'function') {
+                fn = window['tpl_' + id];
+            }
+            /* 3. tpl_sub IDs: the 'sub' prefix maps to window['tpl_sub1'] etc */
+            if (!fn && id.indexOf('sub') === 0 && typeof window['tpl_' + id] === 'function') {
+                fn = window['tpl_' + id];
+            }
+            if (typeof fn !== 'function') {
+                showError('Template function not found for: ' + id + '. TPL_MAP keys: ' + (typeof TPL_MAP !== 'undefined' ? Object.keys(TPL_MAP).join(', ') : 'TPL_MAP not loaded'));
+                return;
+            }
+
+            /* Build rich sample data */
+            var sampleData = {
+                biz:     'Your Business Name',
+                tagline: 'Quality · Speed · Trust',
+                phone:   '+91 98765 43210',
+                email:   'hello@yourbusiness.com',
+                addr:    'Mumbai, Maharashtra 400001',
+                web:     'www.yourbusiness.com',
+                gstin:   '27AABCX1234M1Z5',
+                pan:     'AABCX1234M',
+                client:  'Valued Client Pvt Ltd',
+                bphone:  '+91 91234 56789',
+                bemail:  'client@example.com',
+                baddr:   'New Delhi, India 110001',
+                inv:     'INV-2024-001',
+                date:    today(),
+                due:     dueDate(14),
+                payMethod: 'Bank Transfer',
+                bank:    'State Bank of India',
+                accno:   'XXXX-XXXX-4321',
+                terms:   'Payment due within 14 days. Thank you for your business.',
+                items: [
+                    { name: 'Premium Package',  qty: 2, price: 2500, gst: 18,
+                      hrs: 4, rate: 2500, desc: 'Professional delivery',
+                      duration: '1 Month', billingType: 'hourly', sku: 'PRD-001' },
+                    { name: 'Add-on Service',   qty: 1, price: 1200, gst: 12,
+                      hrs: 2, rate: 1200, desc: 'Support & maintenance',
+                      duration: '1 Month', billingType: 'hourly', sku: 'SVC-002' }
+                ]
+            };
+
+            /* Render the template */
+            var html;
+            try {
+                g_d = sampleData; /* sync global for helper functions */
+                html = fn(sampleData);
+            } catch(err) {
+                showError('Render error: ' + err.message);
+                return;
+            }
+
+            /* Inject via srcdoc — reliable, no doc.write() race */
+            var iframe  = document.getElementById('preview-iframe');
+            var wrap    = document.getElementById('iframe-wrap');
+            var loading = document.getElementById('loading-state');
+
+            iframe.srcdoc = html;
+
+            iframe.addEventListener('load', function () {
+                /* Auto-size to content height — no cropping */
+                try {
+                    var h = iframe.contentDocument.documentElement.scrollHeight
+                          || iframe.contentDocument.body.scrollHeight;
+                    if (h > 300) {
+                        iframe.style.height = h + 'px';
+                        wrap.style.height   = h + 'px';
+                    }
+                } catch(e) { /* cross-origin safety */ }
+
+                loading.style.display = 'none';
+                wrap.style.display    = 'block';
+            }, { once: true });
+
+            /* Fallback: show after 3s even if load event doesn't fire */
+            setTimeout(function () {
+                if (wrap.style.display === 'none') {
+                    loading.style.display = 'none';
+                    wrap.style.display    = 'block';
+                }
+            }, 3000);
+        });
+
+        /* ═══════════════════════════════════════
+           ACTIONS
+        ═══════════════════════════════════════ */
+        function goBack() {
+            window.location.href = 'templates.html';
+        }
+
+        function useTemplate() {
+            if (!currentId) { goBack(); return; }
+            try { localStorage.setItem('selectedTemplate', currentId); } catch(e) {}
+            window.location.href = 'builder.html?template=' + currentId;
+        }
+
+        /* ═══════════════════════════════════════
+           STATES
+        ═══════════════════════════════════════ */
+        function showError(msg) {
+            document.getElementById('loading-state').style.display = 'none';
+            document.getElementById('error-state').style.display   = 'flex';
+            /* Show debug info in dev (won't appear to end user since element is hidden by default) */
+            if (msg) console.warn('[preview.html]', msg);
+        }
+
+        /* ═══════════════════════════════════════
+           DATE UTILS
+        ═══════════════════════════════════════ */
+        function today() {
+            return new Date().toISOString().split('T')[0];
+        }
+        function dueDate(days) {
+            var d = new Date();
+            d.setDate(d.getDate() + days);
+            return d.toISOString().split('T')[0];
+        }
+    </script>
+
+</body>
+</html>

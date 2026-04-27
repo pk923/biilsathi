@@ -1,0 +1,4565 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BillSathi — Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet" />
+    <style>
+        /* ════════════════════════════════════════════════
+   TOKENS
+════════════════════════════════════════════════ */
+        :root {
+            --font: 'Inter', system-ui, sans-serif;
+            --mono: 'JetBrains Mono', monospace;
+
+            /* Brand */
+            --brand: #5b3fff;
+            --brand-hover: #4a30e8;
+            --brand-subtle: rgba(91, 63, 255, .08);
+            --brand-subtle-hover: rgba(91, 63, 255, .13);
+            --brand-border: rgba(91, 63, 255, .2);
+
+            /* Surfaces — slightly tinted, less stark white */
+            --bg: linear-gradient(155deg, #f0f0f8 0%, #f4f3fb 40%, #eff0f7 100%);
+            --bg-solid: #f2f1f9;
+            --surface: #ffffff;
+            --surface-2: #fbfaff;
+
+            /* Borders — refined */
+            --line: #e6e5f0;
+            --line-2: #cccce0;
+
+            /* Text — improved contrast hierarchy */
+            --t1: #07071a;
+            --t2: #42425c;
+            --t3: #8484a6;
+
+            /* Status */
+            --green: #057a55;
+            --green-bg: #f0fdf8;
+            --green-border: #6ee7c7;
+            --amber: #b45309;
+            --amber-bg: #fffbeb;
+            --amber-border: #fbbf24;
+            --red: #be1b37;
+            --red-bg: #fff1f2;
+            --red-border: #fda4af;
+            --gray: #52525b;
+            --gray-bg: #f4f4f5;
+            --gray-border: #d4d4d8;
+
+            /* Shadows — richer depth system */
+            --shadow-xs: 0 1px 2px rgba(15, 10, 50, .05);
+            --shadow-sm: 0 1px 4px rgba(15, 10, 50, .07), 0 1px 2px rgba(15, 10, 50, .04);
+            --shadow-md: 0 6px 20px rgba(15, 10, 50, .09), 0 2px 6px rgba(15, 10, 50, .05);
+            --shadow-lg: 0 12px 32px rgba(15, 10, 50, .12), 0 4px 12px rgba(15, 10, 50, .06);
+            --shadow-brand: 0 6px 20px rgba(91, 63, 255, .18), 0 2px 6px rgba(91, 63, 255, .1);
+
+            /* Layout */
+            --sb: 232px;
+            --tb: 57px;
+            --r: 12px;
+            --r-sm: 8px;
+        }
+
+        /* ════════════════════════════════════════════════
+   RESET + BASE
+════════════════════════════════════════════════ */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            -webkit-text-size-adjust: 100%
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-solid);
+            background-image: var(--bg);
+            color: var(--t1);
+            font-size: 13.5px;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            opacity: 0;
+            transition: opacity .35s ease;
+        }
+
+        body.up {
+            opacity: 1
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit
+        }
+
+        button {
+            font-family: var(--font);
+            cursor: pointer
+        }
+
+        svg {
+            display: block
+        }
+
+        /* ════════════════════════════════════════════════
+   LAYOUT SHELL
+════════════════════════════════════════════════ */
+        .shell {
+            display: flex;
+            min-height: 100vh
+        }
+
+        .main {
+            margin-left: var(--sb);
+            flex: 1;
+            display: flex;
+            flex-direction: column
+        }
+
+        /* ════════════════════════════════════════════════
+   SIDEBAR — premium feel
+════════════════════════════════════════════════ */
+        .sb {
+            width: var(--sb);
+            background: var(--surface);
+            border-right: 1px solid var(--line);
+            box-shadow: 1px 0 0 0 var(--line), 3px 0 12px rgba(15, 10, 50, .04);
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 200;
+            overflow-y: auto;
+        }
+
+                /* BillSathi Logo */
+        .sb-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 16px 13px;
+            border-bottom: 1px solid var(--line);
+            flex-shrink: 0;
+            text-decoration: none;
+        }
+        .sb-logo-img { height: 52px; width: auto; max-width: none; max-height: none; object-fit: contain; display: block; background: transparent; border: none; box-shadow: none; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; }
+    @media (max-width: 768px) { .sb-logo-img { height: 42px; } }
+        .sb-logo-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--t1);
+            letter-spacing: -.4px;
+        }
+        .sb-logo-name em {
+            color: var(--brand);
+            font-style: normal;
+        }
+
+        /* Nav */
+        .sb-body {
+            flex: 1;
+            padding: 14px 10px;
+            overflow-y: auto
+        }
+
+        .sb-sect {
+            margin-bottom: 24px
+        }
+
+        .sb-sect-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--t3);
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            padding: 0 10px;
+            margin-bottom: 5px;
+        }
+
+        .sb-link {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 8px 10px;
+            border-radius: var(--r-sm);
+            font-size: 13.5px;
+            font-weight: 500;
+            color: var(--t2);
+            transition: background .18s ease, color .18s ease, box-shadow .18s ease;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            margin-bottom: 1px;
+        }
+
+        .sb-link svg {
+            width: 15px;
+            height: 15px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            transition: opacity .18s ease;
+            opacity: .55;
+        }
+
+        .sb-link:hover {
+            background: var(--bg-solid);
+            color: var(--t1);
+            box-shadow: none
+        }
+
+        .sb-link:hover svg {
+            opacity: .85
+        }
+
+        /* Premium active state with glow */
+        .sb-link.active {
+            background: var(--brand-subtle);
+            color: var(--brand);
+            font-weight: 600;
+            box-shadow: inset 2px 0 0 var(--brand), 0 1px 4px rgba(91, 63, 255, .08);
+        }
+
+        .sb-link.active svg {
+            opacity: 1;
+            stroke: var(--brand)
+        }
+
+        .sb-badge {
+            margin-left: auto;
+            font-size: 10.5px;
+            font-weight: 600;
+            color: var(--t3);
+            background: var(--bg-solid);
+            border: 1px solid var(--line);
+            padding: 1px 7px;
+            border-radius: 99px;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .sb-foot {
+            padding: 10px;
+            border-top: 1px solid var(--line);
+            flex-shrink: 0;
+        }
+
+        .sb-user {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 9px 10px;
+            border-radius: var(--r-sm);
+            cursor: pointer;
+            transition: background .18s ease;
+        }
+
+        .sb-user:hover {
+            background: var(--bg-solid)
+        }
+
+        .sb-av {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6b4fff 0%, #4a30e8 100%);
+            display: grid;
+            place-items: center;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+            box-shadow: 0 0 0 2px rgba(91, 63, 255, .2), 0 2px 6px rgba(91, 63, 255, .2);
+        }
+
+        .sb-uinfo .uname {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--t1);
+            letter-spacing: -.1px
+        }
+
+        .sb-uinfo .urole {
+            font-size: 11px;
+            color: var(--t3);
+            margin-top: 1px
+        }
+
+        .sb-user-icon {
+            margin-left: auto;
+            color: var(--t3)
+        }
+
+        .sb-user-icon svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round
+        }
+
+        /* ════════════════════════════════════════════════
+   TOPBAR — elevated
+════════════════════════════════════════════════ */
+        .topbar {
+            height: var(--tb);
+            background: rgba(255, 255, 255, .92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--line);
+            box-shadow: 0 1px 0 var(--line), 0 2px 12px rgba(15, 10, 50, .04);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 26px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-shrink: 0;
+        }
+
+        .tb-trail {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 13px
+        }
+
+        .tb-trail-home {
+            color: var(--t3);
+            font-weight: 500
+        }
+
+        .tb-trail-sep {
+            color: var(--line-2)
+        }
+
+        .tb-trail-cur {
+            font-weight: 700;
+            color: var(--t1);
+            letter-spacing: -.15px
+        }
+
+        .tb-actions {
+            display: flex;
+            align-items: center;
+            gap: 7px
+        }
+
+        .tb-search-box {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            height: 33px;
+            padding: 0 11px;
+            background: var(--bg-solid);
+            border: 1px solid var(--line);
+            border-radius: var(--r-sm);
+            font-size: 13px;
+            color: var(--t3);
+            min-width: 210px;
+            transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+            cursor: text;
+        }
+
+        .tb-search-box:hover,
+        .tb-search-box:focus-within {
+            border-color: var(--brand);
+            box-shadow: 0 0 0 3px rgba(91, 63, 255, .1);
+            background: #fff
+        }
+
+        .tb-search-box svg {
+            width: 13px;
+            height: 13px;
+            stroke: var(--t3);
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            flex-shrink: 0
+        }
+
+        .tb-search-box input {
+            border: none;
+            background: transparent;
+            font-family: var(--font);
+            font-size: 13px;
+            color: var(--t1);
+            outline: none;
+            width: 100%;
+        }
+
+        .tb-search-box input::placeholder {
+            color: var(--t3);
+        }
+
+        .tb-icon {
+            width: 33px;
+            height: 33px;
+            border-radius: var(--r-sm);
+            background: var(--bg-solid);
+            border: 1px solid var(--line);
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            position: relative;
+            transition: border-color .18s ease, background .18s ease, box-shadow .18s ease, transform .15s ease;
+        }
+
+        .tb-icon:hover {
+            border-color: var(--line-2);
+            background: var(--surface);
+            box-shadow: var(--shadow-sm);
+            transform: translateY(-1px)
+        }
+
+        .tb-icon svg {
+            width: 15px;
+            height: 15px;
+            stroke: var(--t2);
+            fill: none;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round
+        }
+
+        .tb-pip {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--red);
+            border: 1.5px solid var(--surface);
+            box-shadow: 0 0 4px rgba(190, 27, 55, .4);
+        }
+
+        .tb-av {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6b4fff 0%, #4a30e8 100%);
+            display: grid;
+            place-items: center;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            border: 2px solid rgba(91, 63, 255, .2);
+            transition: border-color .18s ease, box-shadow .18s ease, transform .15s ease;
+            box-shadow: 0 2px 6px rgba(91, 63, 255, .2);
+        }
+
+        .tb-av:hover {
+            border-color: rgba(91, 63, 255, .45);
+            box-shadow: 0 0 0 3px rgba(91, 63, 255, .12), 0 4px 10px rgba(91, 63, 255, .25);
+            transform: translateY(-1px)
+        }
+
+        /* ════════════════════════════════════════════════
+   PAGE CONTENT
+════════════════════════════════════════════════ */
+        .page {
+            padding: 30px 26px;
+            flex: 1;
+            display: none;
+            opacity: 0;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── Page Header ── */
+        .pg-hdr {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .pg-hdr h1 {
+            font-size: 21px;
+            font-weight: 800;
+            color: var(--t1);
+            letter-spacing: -.7px;
+            line-height: 1.15;
+        }
+
+        .pg-hdr .sub {
+            font-size: 13px;
+            color: var(--t2);
+            margin-top: 5px;
+            font-weight: 400;
+            letter-spacing: -.1px;
+        }
+
+        .pg-hdr-right {
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        /* Buttons — enhanced */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            height: 34px;
+            padding: 0 15px;
+            border-radius: var(--r-sm);
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid transparent;
+            transition: background .18s ease, border-color .18s ease, color .18s ease, box-shadow .25s ease, transform .15s ease;
+            letter-spacing: -.1px;
+        }
+
+        .btn svg {
+            width: 12px;
+            height: 12px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2.4;
+            stroke-linecap: round
+        }
+
+        .btn-fill {
+            background: linear-gradient(135deg, #6b4fff 0%, #5032f0 100%);
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 1px 4px rgba(91, 63, 255, .3), inset 0 1px 0 rgba(255, 255, 255, .12);
+        }
+
+        .btn-fill:hover {
+            background: linear-gradient(135deg, #7a5fff 0%, #5b3fff 100%);
+            box-shadow: var(--shadow-brand), inset 0 1px 0 rgba(255, 255, 255, .15);
+            transform: translateY(-1px);
+        }
+
+        .btn-fill:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(91, 63, 255, .25)
+        }
+
+        .btn-outline {
+            background: var(--surface);
+            color: var(--t2);
+            border-color: var(--line);
+            box-shadow: var(--shadow-xs);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--line-2);
+            color: var(--t1);
+            box-shadow: var(--shadow-sm);
+            transform: translateY(-1px);
+            background: #fcfcff;
+        }
+
+        .btn-outline:active {
+            transform: translateY(0)
+        }
+
+        /* Date chip */
+        .date-pill {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            height: 34px;
+            padding: 0 13px;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: var(--r-sm);
+            font-size: 12.5px;
+            color: var(--t2);
+            box-shadow: var(--shadow-xs);
+            font-weight: 500;
+        }
+
+        .date-pill svg {
+            width: 13px;
+            height: 13px;
+            stroke: var(--t3);
+            fill: none;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round
+        }
+
+        /* ── KPI Grid — premium cards ── */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+            margin-bottom: 22px;
+        }
+
+        /* ── Green Impact KPI — native to design system ── */
+        .kpi-green-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 11.5px;
+            color: var(--t2);
+            font-weight: 500;
+        }
+
+        .kpi-green-row strong {
+            font-weight: 800;
+            color: var(--t1);
+            font-size: 14px;
+            font-feature-settings: 'tnum';
+            font-variant-numeric: tabular-nums;
+        }
+
+        .kpi-tree-est {
+            font-size: 10.5px;
+            color: var(--t3);
+            margin-top: 10px;
+            font-style: italic;
+            text-align: center;
+            border-top: 1px solid var(--line);
+            padding-top: 8px;
+        }
+
+        .kpi {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-top: 1px solid rgba(255, 255, 255, .9);
+            border-radius: var(--r);
+            padding: 22px 24px;
+            box-shadow: var(--shadow-sm);
+            transition: border-color .22s ease, box-shadow .22s ease, transform .22s cubic-bezier(.2, .8, .4, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Subtle top highlight line */
+        .kpi::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, .8) 30%, rgba(255, 255, 255, .8) 70%, transparent 100%);
+        }
+
+        .kpi:hover {
+            border-color: var(--line-2);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-3px);
+        }
+
+        .kpi-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px
+        }
+
+        .kpi-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--t3);
+            letter-spacing: .01em;
+            text-transform: none
+        }
+
+        .kpi-ic {
+            width: 32px;
+            height: 32px;
+            border-radius: 9px;
+            display: grid;
+            place-items: center;
+        }
+
+        .kpi-ic svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round
+        }
+
+        .kpi-ic.blue {
+            background: rgba(59, 130, 246, .1);
+            color: #2563eb;
+            box-shadow: 0 1px 4px rgba(59, 130, 246, .15)
+        }
+
+        .kpi-ic.green {
+            background: var(--green-bg);
+            color: var(--green);
+            box-shadow: 0 1px 4px rgba(5, 122, 85, .12)
+        }
+
+        .kpi-ic.amber {
+            background: var(--amber-bg);
+            color: var(--amber);
+            box-shadow: 0 1px 4px rgba(180, 83, 9, .12)
+        }
+
+        .kpi-ic.purple {
+            background: var(--brand-subtle);
+            color: var(--brand);
+            box-shadow: 0 1px 4px rgba(91, 63, 255, .14)
+        }
+
+        .kpi-val {
+            font-size: 29px;
+            font-weight: 800;
+            color: var(--t1);
+            letter-spacing: -1.8px;
+            line-height: 1;
+            font-feature-settings: 'tnum';
+        }
+
+        .kpi-foot {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 13px
+        }
+
+        .kpi-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            padding: 2.5px 8px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .01em;
+        }
+
+        .kpi-tag.up {
+            background: var(--green-bg);
+            color: var(--green);
+            border: 1px solid rgba(110, 231, 199, .5)
+        }
+
+        .kpi-tag.flat {
+            background: var(--gray-bg);
+            color: var(--gray);
+            border: 1px solid var(--gray-border)
+        }
+
+        .kpi-foot-txt {
+            font-size: 11.5px;
+            color: var(--t3);
+            font-weight: 450
+        }
+
+        /* ── Two-column layout ── */
+        .row {
+            display: grid;
+            gap: 16px;
+            margin-bottom: 16px
+        }
+
+        .row-main {
+            grid-template-columns: 1fr 306px
+        }
+
+        .row-bottom {
+            grid-template-columns: 1fr 306px
+        }
+
+        /* ── Card — elevated ── */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: var(--r);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow .22s ease, border-color .22s ease, transform .22s cubic-bezier(.2, .8, .4, 1);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--line-2);
+        }
+
+        .card-hd {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 22px 13px;
+            border-bottom: 1px solid var(--line);
+            background: var(--surface-2);
+        }
+
+        .card-hd-left h3 {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--t1);
+            letter-spacing: -.25px;
+        }
+
+        .card-hd-left p {
+            font-size: 12px;
+            color: var(--t3);
+            margin-top: 2px;
+            font-weight: 450
+        }
+
+        .card-action {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--brand);
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            transition: background .18s ease, color .18s ease, box-shadow .18s ease;
+            letter-spacing: -.1px;
+        }
+
+        .card-action:hover {
+            background: var(--brand-subtle);
+            color: var(--brand-hover);
+            box-shadow: 0 0 0 1px var(--brand-border);
+        }
+
+        /* ── Table — breathable ── */
+        .tbl {
+            width: 100%;
+            border-collapse: collapse
+        }
+
+        .tbl th {
+            padding: 10px 22px;
+            font-size: 10.5px;
+            font-weight: 700;
+            color: var(--t3);
+            text-align: left;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            background: var(--surface-2);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .tbl td {
+            padding: 12px 22px;
+            font-size: 13px;
+            color: var(--t2);
+            border-bottom: 1px solid rgba(0, 0, 0, .024);
+            vertical-align: middle;
+        }
+
+        .tbl tbody tr:last-child td {
+            border-bottom: none
+        }
+
+        .tbl tbody tr {
+            cursor: pointer;
+            transition: background .15s ease;
+        }
+
+        .tbl tbody tr:hover td {
+            background: rgba(91, 63, 255, .03);
+        }
+
+        .cell-id {
+            font-family: var(--mono);
+            font-size: 11.5px;
+            font-weight: 500;
+            color: var(--t1);
+        }
+
+        .cell-client {
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .client-dot {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            font-size: 10.5px;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, .15);
+        }
+
+        .client-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--t1);
+            letter-spacing: -.1px
+        }
+
+        .client-email {
+            font-size: 11.5px;
+            color: var(--t3);
+            margin-top: 1px
+        }
+
+        .cell-amount {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--t1);
+            letter-spacing: -.2px
+        }
+
+        .cell-date {
+            font-size: 12px;
+            color: var(--t3);
+            font-weight: 450
+        }
+
+        /* Status badge */
+        .st {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3.5px 9px;
+            border-radius: 5px;
+            font-size: 11.5px;
+            font-weight: 700;
+            letter-spacing: .01em;
+        }
+
+        .st-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: currentColor;
+            flex-shrink: 0
+        }
+
+        .st.paid {
+            color: var(--green);
+            background: var(--green-bg);
+            border: 1px solid var(--green-border)
+        }
+
+        .st.pending {
+            color: var(--amber);
+            background: var(--amber-bg);
+            border: 1px solid var(--amber-border)
+        }
+
+        .st.overdue {
+            color: var(--red);
+            background: var(--red-bg);
+            border: 1px solid var(--red-border)
+        }
+
+        .st.draft {
+            color: var(--gray);
+            background: var(--gray-bg);
+            border: 1px solid var(--gray-border)
+        }
+
+        .tbl-action {
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            border: none;
+            background: none;
+            display: inline-grid;
+            place-items: center;
+            cursor: pointer;
+            transition: background .15s ease, box-shadow .15s ease;
+        }
+
+        .tbl-action:hover {
+            background: var(--bg-solid);
+            box-shadow: var(--shadow-xs)
+        }
+
+        .tbl-action svg {
+            width: 13px;
+            height: 13px;
+            stroke: var(--t3);
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round
+        }
+
+        /* ── Activity Feed ── */
+        .feed {
+            padding: 4px 0
+        }
+
+        .feed-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 11px 22px;
+            transition: background .15s ease;
+        }
+
+        .feed-item:hover {
+            background: rgba(91, 63, 255, .025)
+        }
+
+        .feed-spine {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 4px;
+            flex-shrink: 0;
+        }
+
+        .feed-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, .8)
+        }
+
+        .feed-wire {
+            width: 1px;
+            background: var(--line);
+            flex: 1;
+            min-height: 18px;
+            margin-top: 4px
+        }
+
+        .feed-item:last-child .feed-wire {
+            display: none
+        }
+
+        .feed-txt {
+            font-size: 12.5px;
+            color: var(--t2);
+            line-height: 1.55
+        }
+
+        .feed-txt b {
+            font-weight: 700;
+            color: var(--t1)
+        }
+
+        .feed-ago {
+            font-size: 11px;
+            color: var(--t3);
+            margin-top: 3px;
+            font-weight: 450
+        }
+
+        /* ── Revenue Chart ── */
+        .chart-inner {
+            padding: 20px 22px 22px
+        }
+
+        .chart-kpi {
+            margin-bottom: 18px
+        }
+
+        .chart-num {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--t1);
+            letter-spacing: -1.4px;
+            line-height: 1;
+            font-feature-settings: 'tnum';
+        }
+
+        .chart-desc {
+            font-size: 12px;
+            color: var(--t2);
+            margin-top: 5px;
+            font-weight: 450
+        }
+
+        .chart-trend {
+            color: var(--green);
+            font-weight: 700
+        }
+
+        .bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 5px;
+            height: 90px
+        }
+
+        .bar-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px
+        }
+
+        .bar {
+            width: 100%;
+            border-radius: 4px 4px 0 0;
+            background: rgba(91, 63, 255, .12);
+            cursor: pointer;
+            position: relative;
+            min-height: 3px;
+            transition: background .2s ease, box-shadow .2s ease;
+        }
+
+        .bar.active {
+            background: linear-gradient(180deg, #7a5fff 0%, #5b3fff 100%);
+            box-shadow: 0 -3px 10px rgba(91, 63, 255, .25);
+        }
+
+        .bar:hover {
+            background: linear-gradient(180deg, #7a5fff 0%, #5b3fff 100%);
+            box-shadow: 0 -3px 10px rgba(91, 63, 255, .25);
+        }
+
+        .bar-tip {
+            position: absolute;
+            bottom: calc(100% + 6px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--t1);
+            color: white;
+            font-size: 10.5px;
+            font-weight: 600;
+            font-family: var(--mono);
+            padding: 3px 8px;
+            border-radius: 5px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .14s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .2);
+        }
+
+        .bar:hover .bar-tip {
+            opacity: 1
+        }
+
+        .bar-lbl {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--t3)
+        }
+
+        /* ── Top Clients ── */
+        .client-list {
+            padding: 4px 0
+        }
+
+        .cl-row {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 10px 22px;
+            cursor: pointer;
+            transition: background .15s ease;
+        }
+
+        .cl-row:hover {
+            background: rgba(91, 63, 255, .025)
+        }
+
+        .cl-av {
+            width: 29px;
+            height: 29px;
+            border-radius: 8px;
+            display: grid;
+            place-items: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, .14);
+        }
+
+        .cl-mid {
+            flex: 1;
+            min-width: 0
+        }
+
+        .cl-nm {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--t1);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            letter-spacing: -.1px
+        }
+
+        .cl-track {
+            height: 3px;
+            background: rgba(91, 63, 255, .1);
+            border-radius: 3px;
+            margin-top: 6px;
+            overflow: hidden
+        }
+
+        .cl-fill {
+            height: 3px;
+            border-radius: 3px;
+            background: linear-gradient(90deg, #5b3fff, #7a5fff);
+            transition: width .65s cubic-bezier(.4, 0, .2, 1)
+        }
+
+        .cl-right {
+            text-align: right;
+            flex-shrink: 0
+        }
+
+        .cl-amt {
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--t1);
+            letter-spacing: -.2px
+        }
+
+        .cl-inv {
+            font-size: 11px;
+            color: var(--t3);
+            margin-top: 2px;
+            font-weight: 450
+        }
+
+        /* ── Toast — refined ── */
+        .toast {
+            position: fixed;
+            bottom: 22px;
+            right: 22px;
+            background: var(--t1);
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 11px 18px;
+            border-radius: var(--r-sm);
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, .18), 0 4px 12px rgba(0, 0, 0, .1);
+            z-index: 9999;
+            transform: translateY(14px);
+            opacity: 0;
+            transition: transform .26s cubic-bezier(.4, 0, .2, 1), opacity .26s ease;
+            pointer-events: none;
+            border: 1px solid rgba(255, 255, 255, .08);
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1
+        }
+
+        .t-pip {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #4ade80;
+            flex-shrink: 0;
+            box-shadow: 0 0 6px rgba(74, 222, 128, .6)
+        }
+
+        /* ── Reveal animation ── */
+        .rev {
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity .4s ease, transform .4s cubic-bezier(.2, .8, .4, 1)
+        }
+
+        .rev.in {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        .d1 {
+            transition-delay: .05s
+        }
+
+        .d2 {
+            transition-delay: .1s
+        }
+
+        .d3 {
+            transition-delay: .15s
+        }
+
+        .d4 {
+            transition-delay: .2s
+        }
+
+        .d5 {
+            transition-delay: .25s
+        }
+
+        /* ── Responsive ── */
+        @media(max-width:1400px) {
+            .kpi-grid {
+                grid-template-columns: repeat(3, 1fr)
+            }
+        }
+
+        @media(max-width:1200px) {
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        @media(max-width:1000px) {
+
+            .row-main,
+            .row-bottom {
+                grid-template-columns: 1fr
+            }
+        }
+
+        @media(max-width:768px) {
+            :root {
+                --sb: 0px
+            }
+
+            .sb {
+                transform: translateX(-232px);
+                width: 232px;
+                transition: transform .25s ease
+            }
+
+            .main {
+                margin-left: 0
+            }
+
+            .page {
+                padding: 16px
+            }
+
+            .topbar {
+                padding: 0 16px
+            }
+
+            .kpi-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px
+            }
+
+            .kpi-val {
+                font-size: 22px
+            }
+        }
+
+        /* ══════════════════════════════════════════════════
+           GST UNLOCK SYSTEM
+        ══════════════════════════════════════════════════ */
+
+        /* ══════════════════════════════════════════════════
+           GST BANNER — Slim Clean Premium
+        ══════════════════════════════════════════════════ */
+        @keyframes gstBannerIn {
+            from {
+                opacity: 0;
+                transform: translateY(-6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .gst-banner {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 13px 16px 13px 20px;
+            margin-bottom: 24px;
+            border-radius: 12px;
+            background: #ffffff;
+            border: 1px solid #ede9fe;
+            box-shadow: 0 1px 6px rgba(109, 40, 217, .07), 0 1px 2px rgba(0, 0, 0, .04);
+            position: relative;
+            overflow: hidden;
+            animation: gstBannerIn .35s cubic-bezier(.2, .8, .4, 1) both;
+        }
+
+        /* Thin brand-purple left rail */
+        .gst-banner::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, #a78bfa 0%, #7c3aed 100%);
+            border-radius: 12px 0 0 12px;
+        }
+
+        .gst-banner::after {
+            display: none;
+        }
+
+        /* Icon badge — small and crisp */
+        .gst-banner-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            background: #f5f3ff;
+            border: 1px solid #ede9fe;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            box-shadow: none;
+            position: relative;
+            z-index: 1;
+        }
+
+        .gst-banner-icon svg {
+            width: 15px;
+            height: 15px;
+            stroke: #7c3aed;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Text block */
+        .gst-banner-text {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .gst-banner-text strong {
+            display: inline;
+            font-size: 13px;
+            font-weight: 700;
+            color: #1c1033;
+            letter-spacing: -.15px;
+        }
+
+        .gst-banner-text span {
+            display: inline;
+            font-size: 12.5px;
+            color: #6b7280;
+            font-weight: 400;
+            margin-left: 6px;
+        }
+
+        /* Pills hidden */
+        .gst-banner-pills {
+            display: none;
+        }
+
+        .gst-banner-pill {
+            display: none;
+        }
+
+        /* CTA button — compact lavender pill */
+        .gst-banner-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 18px;
+            border-radius: 50px;
+            border: none;
+            background: linear-gradient(105deg, #a78bfa 0%, #7c3aed 60%, #6d28d9 100%);
+            color: #ffffff;
+            font-size: 12.5px;
+            font-weight: 700;
+            font-family: var(--font);
+            cursor: pointer;
+            letter-spacing: -.05px;
+            box-shadow:
+                0 3px 12px rgba(124, 58, 237, .35),
+                inset 0 1px 0 rgba(255, 255, 255, .2);
+            transition: all .2s cubic-bezier(.34, 1.3, .64, 1);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .gst-banner-btn:hover {
+            background: linear-gradient(105deg, #b89efb 0%, #8b5cf6 55%, #7c3aed 100%);
+            transform: translateY(-1px);
+            box-shadow:
+                0 6px 18px rgba(124, 58, 237, .42),
+                inset 0 1px 0 rgba(255, 255, 255, .22);
+        }
+
+        .gst-banner-btn:active {
+            transform: translateY(0) scale(.98);
+            box-shadow: 0 2px 6px rgba(124, 58, 237, .3);
+        }
+
+        .gst-banner-btn svg {
+            width: 12px;
+            height: 12px;
+            stroke: rgba(255, 255, 255, .85);
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: transform .18s ease;
+        }
+
+        .gst-banner-btn:hover svg {
+            transform: translateX(2px);
+        }
+
+        /* Dismiss × */
+        .gst-banner-dismiss {
+            background: none;
+            border: none;
+            color: #d1d5db;
+            cursor: pointer;
+            padding: 5px;
+            flex-shrink: 0;
+            border-radius: 6px;
+            transition: color .15s, background .15s;
+            display: flex;
+            align-items: center;
+            margin-left: 2px;
+        }
+
+        .gst-banner-dismiss:hover {
+            color: #6b7280;
+            background: #f3f4f6;
+        }
+
+        .gst-banner-dismiss svg {
+            width: 12px;
+            height: 12px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            .gst-banner {
+                flex-wrap: wrap;
+                padding: 14px 14px 14px 18px;
+                gap: 12px;
+            }
+
+            .gst-banner-text span {
+                display: none;
+            }
+
+            .gst-banner-btn {
+                flex: 1;
+                justify-content: center;
+            }
+        }
+
+        /* Banner hidden when GST verified */
+        .gst-verified .gst-banner {
+            display: none !important;
+        }
+
+
+        /* ── Verified badge in dashboard header ── */
+        .gst-verified-badge {
+            display: none;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px 4px 8px;
+            background: var(--green-bg);
+            border: 1px solid var(--green-border);
+            border-radius: 99px;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--green);
+            letter-spacing: -.05px;
+            animation: badgeIn .4s cubic-bezier(.34, 1.56, .64, 1) both;
+        }
+
+        @keyframes badgeIn {
+            from {
+                opacity: 0;
+                transform: scale(.7);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .gst-verified-badge svg {
+            width: 14px;
+            height: 14px;
+            stroke: var(--green);
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .gst-verified .gst-verified-badge {
+            display: flex;
+        }
+
+        /* ── Elements hidden unless GST verified ── */
+        .gst-only {
+            display: none !important;
+        }
+
+        .gst-verified .gst-only {
+            display: revert !important;
+        }
+
+        /* Sidebar GST badge */
+        .sb-gst-badge {
+            margin-left: auto;
+            font-size: 9.5px;
+            font-weight: 700;
+            color: rgba(160, 130, 255, .9);
+            background: rgba(91, 63, 255, .12);
+            border: 1px solid rgba(91, 63, 255, .2);
+            padding: 1px 7px;
+            border-radius: 99px;
+            letter-spacing: .04em;
+        }
+
+        .gst-verified .sb-gst-badge {
+            display: none;
+        }
+
+        /* ── GST Verification Modal ── */
+        .gst-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 3, 18, .75);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 9500;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .gst-overlay.open {
+            display: flex;
+            animation: overlayIn .3s ease both;
+        }
+
+        @keyframes overlayIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .gst-modal {
+            width: 100%;
+            max-width: 540px;
+            background: linear-gradient(155deg, #0f0922 0%, #14082e 100%);
+            border: 1px solid rgba(91, 63, 255, .3);
+            border-radius: 22px;
+            box-shadow: 0 32px 80px rgba(0, 0, 0, .55), 0 4px 24px rgba(91, 63, 255, .2);
+            overflow: hidden;
+            animation: modalIn .4s cubic-bezier(.34, 1.15, .64, 1) both;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(.92) translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* orb */
+        .gst-modal-orb {
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: rgba(91, 63, 255, .2);
+            filter: blur(70px);
+            top: -80px;
+            right: -60px;
+            pointer-events: none;
+        }
+
+        .gst-modal-head {
+            padding: 28px 28px 22px;
+            border-bottom: 1px solid rgba(255, 255, 255, .06);
+            position: relative;
+        }
+
+        .gst-modal-eyebrow {
+            font-size: 10.5px;
+            font-weight: 700;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: rgba(160, 130, 255, .8);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .gst-modal-eyebrow::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #7a5fff;
+            box-shadow: 0 0 8px rgba(91, 63, 255, .8);
+        }
+
+        .gst-modal-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -.6px;
+            line-height: 1.2;
+        }
+
+        .gst-modal-sub {
+            font-size: 13px;
+            color: rgba(255, 255, 255, .42);
+            margin-top: 6px;
+            line-height: 1.6;
+        }
+
+        .gst-modal-close {
+            position: absolute;
+            top: 22px;
+            right: 22px;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid rgba(255, 255, 255, .08);
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            transition: background .2s;
+        }
+
+        .gst-modal-close:hover {
+            background: rgba(255, 255, 255, .1);
+        }
+
+        .gst-modal-close svg {
+            width: 14px;
+            height: 14px;
+            stroke: rgba(255, 255, 255, .5);
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+        }
+
+        .gst-modal-body {
+            padding: 24px 28px 28px;
+        }
+
+        /* Form fields */
+        .gst-field {
+            margin-bottom: 16px;
+        }
+
+        .gst-label {
+            display: block;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, .5);
+            text-transform: uppercase;
+            letter-spacing: .07em;
+            margin-bottom: 7px;
+        }
+
+        .gst-input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 1.5px solid rgba(91, 63, 255, .25);
+            background: rgba(255, 255, 255, .05);
+            color: #fff;
+            font-family: var(--font);
+            font-size: 14px;
+            outline: none;
+            transition: border-color .2s, background .2s, box-shadow .2s;
+        }
+
+        .gst-input::placeholder {
+            color: rgba(255, 255, 255, .22);
+        }
+
+        .gst-input:focus {
+            border-color: rgba(91, 63, 255, .7);
+            background: rgba(91, 63, 255, .08);
+            box-shadow: 0 0 0 3px rgba(91, 63, 255, .15);
+        }
+
+        .gst-input.error {
+            border-color: rgba(239, 68, 68, .6);
+            background: rgba(239, 68, 68, .05);
+        }
+
+        .gst-input select {
+            color: #fff;
+        }
+
+        .gst-row2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .gst-optional {
+            font-size: 10px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, .25);
+            margin-left: 5px;
+            letter-spacing: 0;
+            text-transform: none;
+        }
+
+        .gst-field-err {
+            font-size: 11px;
+            color: #f87171;
+            margin-top: 5px;
+            display: none;
+            font-weight: 600;
+        }
+
+        .gst-submit {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, #7a5fff 0%, #5b3fff 100%);
+            color: white;
+            font-size: 14.5px;
+            font-weight: 700;
+            font-family: var(--font);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 8px 28px rgba(91, 63, 255, .45);
+            transition: all .25s cubic-bezier(.34, 1.3, .64, 1);
+            margin-top: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gst-submit::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, .1), transparent);
+        }
+
+        .gst-submit:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 14px 36px rgba(91, 63, 255, .55);
+        }
+
+        .gst-submit:disabled {
+            opacity: .65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .gst-submit svg {
+            width: 15px;
+            height: 15px;
+            stroke: white;
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Success state */
+        .gst-success {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 16px 0 8px;
+            gap: 12px;
+        }
+
+        .gst-success-ic {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(5, 122, 85, .3), rgba(6, 78, 59, .2));
+            border: 2px solid rgba(110, 231, 199, .4);
+            display: grid;
+            place-items: center;
+            box-shadow: 0 0 32px rgba(5, 122, 85, .2);
+            animation: popIn .5s cubic-bezier(.34, 1.56, .64, 1) both;
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(.4);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .gst-success-ic svg {
+            width: 28px;
+            height: 28px;
+            stroke: #4ade80;
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .gst-success-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -.4px;
+        }
+
+        .gst-success-sub {
+            font-size: 13px;
+            color: rgba(255, 255, 255, .42);
+            line-height: 1.6;
+            max-width: 340px;
+        }
+
+        .gst-success-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 4px;
+        }
+
+        .gst-success-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 99px;
+            background: rgba(91, 63, 255, .15);
+            border: 1px solid rgba(91, 63, 255, .25);
+            font-size: 12px;
+            color: rgba(160, 130, 255, .9);
+            font-weight: 600;
+        }
+
+        .gst-success-pill svg {
+            width: 11px;
+            height: 11px;
+            stroke: rgba(160, 130, 255, .8);
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .gst-done-btn {
+            width: 100%;
+            padding: 13px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, #7a5fff 0%, #5b3fff 100%);
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: var(--font);
+            cursor: pointer;
+            box-shadow: 0 8px 28px rgba(91, 63, 255, .4);
+            transition: all .2s;
+            margin-top: 8px;
+        }
+
+        .gst-done-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 12px 32px rgba(91, 63, 255, .5);
+        }
+
+        /* Skeleton spinner */
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .gst-spin {
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, .3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
+        }
+
+        /* ── Tax Reports page ── */
+        #tax-reports-page .tax-card {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: var(--r);
+            padding: 28px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tax-kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        .tax-kpi {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: var(--r);
+            padding: 20px 22px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tax-kpi-label {
+            font-size: 12px;
+            color: var(--t3);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .tax-kpi-val {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--t1);
+            letter-spacing: -1.2px;
+        }
+
+        .tax-kpi-sub {
+            font-size: 11.5px;
+            color: var(--t3);
+            margin-top: 4px;
+        }
+
+        .gst-num-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 3px 12px 3px 8px;
+            background: rgba(91, 63, 255, .08);
+            border: 1px solid rgba(91, 63, 255, .18);
+            border-radius: 99px;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--brand);
+            font-family: var(--mono);
+            letter-spacing: .04em;
+        }
+
+        .gst-num-badge svg {
+            width: 12px;
+            height: 12px;
+            stroke: var(--brand);
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* ═══ GREEN IMPACT PAGE — PREMIUM ANIMATIONS ═══ */
+
+        /* Confetti canvas */
+        #gi-confetti {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Floating tree */
+        @keyframes giFloat {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(-1deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(1deg);
+            }
+        }
+
+        @keyframes giGlow {
+
+            0%,
+            100% {
+                text-shadow: 0 0 0px rgba(16, 185, 129, 0);
+            }
+
+            50% {
+                text-shadow: 0 0 24px rgba(16, 185, 129, .5);
+            }
+        }
+
+        .gi-float {
+            animation: giFloat 4s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        /* Gradient background drift on education card */
+        @keyframes giGradDrift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .gi-edu-card {
+            background-size: 200% 200%;
+            animation: giGradDrift 8s ease infinite;
+        }
+
+        /* Progress bar shimmer */
+        @keyframes giShimmer {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 200%;
+            }
+        }
+
+        .gi-bar-wrap {
+            width: 100%;
+            height: 14px;
+            background: #f0eeff;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .gi-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #059669);
+            border-radius: 8px;
+            width: 0%;
+            transition: width 1.2s cubic-bezier(.34, 1.56, .64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gi-bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            bottom: 0;
+            width: 60%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .6), transparent);
+            animation: giShimmer 2s ease-in-out infinite;
+        }
+
+        /* Claim button — locked breathing glow */
+        @keyframes giBreath {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(91, 63, 255, .0);
+            }
+
+            50% {
+                box-shadow: 0 0 0 6px rgba(91, 63, 255, .12);
+            }
+        }
+
+        @keyframes giShine {
+            0% {
+                left: -120%;
+            }
+
+            100% {
+                left: 120%;
+            }
+        }
+
+        .gi-claim-locked {
+            animation: giBreath 2.5s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gi-claim-ready {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gi-claim-ready::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -120%;
+            bottom: 0;
+            width: 60%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .25), transparent);
+            animation: giShine 2.2s ease-in-out infinite;
+        }
+
+        /* Reward item hover */
+        .gi-reward-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: var(--surface);
+            box-shadow: var(--shadow-sm);
+            transition: transform .22s cubic-bezier(.2, .8, .4, 1), box-shadow .22s ease, border-color .22s ease;
+            cursor: default;
+        }
+
+        .gi-reward-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(91, 63, 255, .10);
+            border-color: rgba(91, 63, 255, .2);
+        }
+
+        .gi-reward-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: transform .3s cubic-bezier(.34, 1.56, .64, 1);
+        }
+
+        .gi-reward-item:hover .gi-reward-icon {
+            transform: scale(1.18) rotate(-4deg);
+        }
+
+        /* Milestone row animation */
+        @keyframes giRowIn {
+            from {
+                opacity: 0;
+                transform: translateX(-12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .gi-milestone-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--line);
+            opacity: 0;
+            animation: giRowIn .4s ease forwards;
+        }
+
+        .gi-milestone-row:last-child {
+            border-bottom: none;
+        }
+
+        /* Claimed milestone pulse */
+        @keyframes giPulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(5, 150, 105, .3);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(5, 150, 105, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(5, 150, 105, 0);
+            }
+        }
+
+        .gi-milestone-claimed-badge {
+            animation: giPulse 1.4s ease 0.3s;
+        }
+
+        /* Smart message chip */
+        .gi-smart-msg {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--green);
+            background: var(--green-bg);
+            border: 1px solid var(--green-border);
+            border-radius: 99px;
+            padding: 6px 14px;
+            width: fit-content;
+        }
+
+        /* Tooltip */
+        [data-tip] {
+            position: relative;
+        }
+
+        [data-tip]::after {
+            content: attr(data-tip);
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%) scale(0.95);
+            background: #0f0a2e;
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 5px 10px;
+            border-radius: 6px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .2s ease, transform .2s ease;
+        }
+
+        [data-tip]:hover::after {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+    
+        /* Premium Text Logo Styles */
+        .brand-wrapper { display: flex; align-items: center; gap: 8px; }
+        .brand-icon { height: 42px; width: auto; object-fit: contain; flex-shrink: 0; display: block; }
+        .brand-text-col { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+        .brand-logo-text { font-size: 26px; font-weight: 800; letter-spacing: -0.8px; line-height: 1; font-family: var(--font, 'Inter', system-ui, sans-serif); color: var(--ink, #0a0a0f); }
+        .left-logo .brand-logo-text { color: #ffffff; }
+        .brand-bill { color: inherit; }
+        .brand-sathi { background: linear-gradient(135deg, #5b3fff, #a855f7); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .brand-tagline { font-size: 7.5px; font-weight: 700; letter-spacing: 1.2px; color: #8888a0; text-transform: uppercase; margin-top: 3px; line-height: 1; font-family: var(--font, 'Inter', system-ui, sans-serif); }
+
+        .sb-logo .brand-icon { height: 34px; }
+        .sb-logo .brand-logo-text { font-size: 21px; }
+        .sb-logo .brand-tagline { font-size: 6.5px; }
+
+        @media (max-width: 768px) {
+            .brand-icon { height: 34px; }
+            .brand-logo-text { font-size: 21px; }
+            .brand-tagline { font-size: 6.5px; }
+        }
+
+    </style>
+    <link rel="stylesheet" href="css/theme.css" />
+</head>
+
+<body>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"><span class="t-pip"></span><span id="t-msg"></span></div>
+
+    <div class="shell">
+
+        <!-- ══════════ SIDEBAR ══════════ -->
+        <aside class="sb">
+            <div class="sb-logo" onclick="switchPage('dashboard-page')" style="cursor:pointer;">
+                <div class="brand-wrapper">
+    <img src="assets/favicon.png" alt="BillSathi Icon" class="brand-icon" />
+    <div class="brand-text-col">
+        <div class="brand-logo-text"><span class="brand-bill">Bill</span><span class="brand-sathi">sathi</span></div>
+        <div class="brand-tagline">SMART BILLING. STRONG BUSINESS.</div>
+    </div>
+</div>
+            </div>
+
+            <div class="sb-body">
+
+                <div class="sb-sect">
+                    <div class="sb-sect-label">Overview</div>
+                    <button class="sb-link active" onclick="switchPage('dashboard-page', event)">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="7" height="7" rx="1.5" />
+                            <rect x="14" y="3" width="7" height="7" rx="1.5" />
+                            <rect x="3" y="14" width="7" height="7" rx="1.5" />
+                            <rect x="14" y="14" width="7" height="7" rx="1.5" />
+                        </svg>
+                        Dashboard
+                    </button>
+                    <button class="sb-link" onclick="switchPage('analytics-page', event)">
+                        <svg viewBox="0 0 24 24">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                        </svg>
+                        Analytics
+                    </button>
+                </div>
+
+                <div class="sb-sect">
+                    <div class="sb-sect-label">Invoicing</div>
+                    <!-- Tax Reports — shown only when GST verified -->
+                    <button class="sb-link gst-only" onclick="switchPage('tax-reports-page', event)"
+                        id="sb-tax-reports">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                            <polyline points="14 2 14 8 20 8" />
+                            <line x1="8" y1="13" x2="16" y2="13" />
+                            <line x1="8" y1="17" x2="14" y2="17" />
+                        </svg>
+                        Tax Reports
+                    </button>
+                    <!-- Verify GST CTA in sidebar — hidden when verified -->
+                    <button class="sb-link" onclick="goToGstPage()" id="sb-gst-cta" style="margin-top:2px;">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M9 12l2 2 4-4" />
+                            <path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z" />
+                        </svg>
+                        Verify GST
+                        <span class="sb-gst-badge">UNLOCK</span>
+                    </button>
+                </div>
+
+                <div class="sb-sect">
+                    <div class="sb-sect-label">Clients</div>
+                    <button class="sb-link" id="sb-clients" onclick="switchPage('clients-page', event)">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                        </svg>
+                        All Clients
+                    </button>
+                </div>
+
+                <div class="sb-sect">
+                    <div class="sb-sect-label">Account</div>
+                    <button class="sb-link" onclick="switchPage('billing-page', event)">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="1" y="4" width="22" height="16" rx="2" />
+                            <line x1="1" y1="10" x2="23" y2="10" />
+                        </svg>
+                        Billing
+                    </button>
+                    <button class="sb-link" onclick="switchPage('settings-page', event)">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="3" />
+                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14" />
+                        </svg>
+                        Settings
+                    </button>
+                    <button class="sb-link" onclick="signOut()">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                            <polyline points="16 17 21 12 16 7" />
+                            <line x1="21" y1="12" x2="9" y2="12" />
+                        </svg>
+                        Sign out
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="sb-foot">
+                <div class="sb-user" onclick="tip('Profile settings coming soon')">
+                    <div class="sb-av">AJ</div>
+                    <div class="sb-uinfo">
+                        <div class="uname">Alex Johnson</div>
+                        <div class="urole">Pro Plan</div>
+                    </div>
+                    <div class="sb-user-icon">
+                        <svg viewBox="0 0 24 24">
+                            <polyline points="9 18 15 12 9 6" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ══════════ MAIN ══════════ -->
+        <div class="main">
+
+            <!-- TOPBAR -->
+            <header class="topbar">
+                <div class="tb-trail">
+                    <span class="tb-trail-home">BillSathi</span>
+                    <span class="tb-trail-sep">/</span>
+                    <span class="tb-trail-cur">Dashboard</span>
+                </div>
+                <div class="tb-actions">
+                    <div class="tb-search-box" id="search-box">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg>
+                        <input id="search-input" type="text" placeholder="Search invoices…"
+                            oninput="handleSearch(this.value)" autocomplete="off" />
+                    </div>
+                    <div class="tb-icon" onclick="tip('No new notifications')">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                        </svg>
+                        <span class="tb-pip"></span>
+                    </div>
+                    <div class="tb-av" onclick="tip('Profile settings coming soon')">AJ</div>
+                </div>
+            </header>
+
+            <!-- PAGE -->
+            <!-- DASHBOARD PAGE -->
+            <div id="dashboard-page" class="page active">
+
+                <!-- GST Verification Banner (hidden once verified) -->
+                <div class="gst-banner" id="gst-banner">
+                    <div class="gst-banner-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            <polyline points="9 12 11 14 15 10" />
+                        </svg>
+                    </div>
+                    <div class="gst-banner-text">
+                        <strong>Unlock Advanced GST Billing</strong>
+                        <span>Verify your GST number to enable tax invoices, CGST/SGST/IGST calculations, and tax
+                            reports.</span>
+                    </div>
+                    <button class="gst-banner-btn" onclick="goToGstPage()">
+                        Verify Now
+                        <svg viewBox="0 0 24 24">
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                            <polyline points="12 5 19 12 12 19" />
+                        </svg>
+                    </button>
+                    <button class="gst-banner-dismiss" onclick="dismissGstBanner()" title="Dismiss">
+                        <svg viewBox="0 0 24 24">
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Header -->
+                <div class="pg-hdr rev">
+                    <div>
+                        <h1>Dashboard</h1>
+                        <p class="sub">Welcome back, Alex. Here's your business overview.</p>
+                    </div>
+                    <div class="pg-hdr-right">
+                        <!-- Verified badge shown when GST is verified -->
+                        <div class="gst-verified-badge" id="gst-verified-badge">
+                            <svg viewBox="0 0 24 24">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                            GST Verified
+                        </div>
+                        <div class="date-pill">
+                            <svg viewBox="0 0 24 24">
+                                <rect x="3" y="4" width="18" height="18" rx="2" />
+                                <line x1="16" y1="2" x2="16" y2="6" />
+                                <line x1="8" y1="2" x2="8" y2="6" />
+                                <line x1="3" y1="10" x2="21" y2="10" />
+                            </svg>
+                            March 17, 2026
+                        </div>
+                        <button class="btn btn-outline" onclick="exportCSV()">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                <polyline points="7 10 12 15 17 10" />
+                                <line x1="12" y1="15" x2="12" y2="3" />
+                            </svg>
+                            Export
+                        </button>
+
+                    </div>
+                </div>
+
+                <!-- KPI Row -->
+                <div class="kpi-grid">
+                    <div class="kpi rev d1">
+                        <div class="kpi-top">
+                            <span class="kpi-label">Total Invoices</span>
+                            <span class="kpi-ic blue">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                    <polyline points="14 2 14 8 20 8" />
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="kpi-val">—</div>
+                        <div class="kpi-foot">
+                            <span class="kpi-foot-txt">No data yet</span>
+                        </div>
+                    </div>
+
+                    <div class="kpi rev d2">
+                        <div class="kpi-top">
+                            <span class="kpi-label">Paid</span>
+                            <span class="kpi-ic green">
+                                <svg viewBox="0 0 24 24">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="kpi-val">—</div>
+                        <div class="kpi-foot">
+                            <span class="kpi-foot-txt">No data yet</span>
+                        </div>
+                    </div>
+
+                    <div class="kpi rev d3">
+                        <div class="kpi-top">
+                            <span class="kpi-label">Pending</span>
+                            <span class="kpi-ic amber">
+                                <svg viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <line x1="12" y1="8" x2="12" y2="12" />
+                                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="kpi-val">—</div>
+                        <div class="kpi-foot">
+                            <span class="kpi-foot-txt">No data yet</span>
+                        </div>
+                    </div>
+
+                    <div class="kpi rev d4">
+                        <div class="kpi-top">
+                            <span class="kpi-label">Revenue</span>
+                            <span class="kpi-ic purple">
+                                <svg viewBox="0 0 24 24">
+                                    <line x1="12" y1="1" x2="12" y2="23" />
+                                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="kpi-val">—</div>
+                        <div class="kpi-foot">
+                            <span class="kpi-foot-txt">No data yet</span>
+                        </div>
+                    </div>
+
+                    <!-- Green Impact KPI — 5th card -->
+                    <div class="kpi rev d5" id="green-kpi-card"
+                        style="display: flex; flex-direction: column; cursor: pointer; transition: transform .22s cubic-bezier(.2, .8, .4, 1), box-shadow .22s ease;"
+                        onclick="switchPage('green-impact-page'); window.location.hash='green-impact'"
+                        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='var(--shadow)'"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='var(--shadow-sm)'">
+                        <div class="kpi-top" style="margin-bottom: 8px;">
+                            <span class="kpi-label" style="color: var(--green); font-weight: 700;">Green Impact</span>
+                            <span class="kpi-ic green">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12 22c-6-3-9-7-9-12a9 9 0 0 1 18 0c0 5-3 9-9 12z" />
+                                    <path d="M12 6v4M10 8h4" />
+                                </svg>
+                            </span>
+                        </div>
+                        <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 6px;">
+                            <div class="kpi-green-row">
+                                <span>📄 Receipts Saved</span>
+                                <strong id="gi-receipts">0</strong>
+                            </div>
+                            <div class="kpi-green-row">
+                                <span>🌳 Trees Saved</span>
+                                <strong id="gi-trees">0.00</strong>
+                            </div>
+                            <div class="kpi-green-row">
+                                <span>♻️ Paperless Invs</span>
+                                <strong id="gi-paperless">0</strong>
+                            </div>
+                        </div>
+                        <div class="kpi-tree-est">1 tree ≈ 8,000 receipts</div>
+                    </div>
+                </div>
+
+                <!-- Row 2 -->
+                <div class="row row-main rev d1">
+
+                    <!-- Invoice Table -->
+                    <div class="card">
+                        <div class="card-hd">
+                            <div class="card-hd-left">
+                                <h3>Recent Invoices</h3>
+                                <p>Your latest transactions</p>
+                            </div>
+                            <button class="card-action" onclick="switchPage('all-invoices-page')">View all →</button>
+                        </div>
+                        <table class="tbl">
+                            <thead>
+                                <tr>
+                                    <th>Invoice</th>
+                                    <th>Client</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl-body"></tbody>
+                        </table>
+                    </div>
+
+                    <!-- Activity -->
+                    <div class="card rev d2">
+                        <div class="card-hd">
+                            <div class="card-hd-left">
+                                <h3>Activity</h3>
+                                <p>Latest events</p>
+                            </div>
+                        </div>
+                        <div class="feed" id="feed"></div>
+                    </div>
+
+                </div>
+
+                <!-- Row 3 -->
+                <div class="row row-bottom rev d2">
+
+                    <!-- Chart -->
+                    <div class="card">
+                        <div class="card-hd">
+                            <div class="card-hd-left">
+                                <h3>Revenue</h3>
+                                <p>Monthly · 2026</p>
+                            </div>
+                        </div>
+                        <div class="chart-inner">
+                            <div class="chart-kpi">
+                                <div class="chart-num" style="color:var(--t3);font-size:18px;font-weight:600;">No
+                                    revenue data yet</div>
+                                <div class="chart-desc">Add invoices to start tracking revenue</div>
+                            </div>
+                            <div class="bars" id="bars"></div>
+                        </div>
+                    </div>
+
+                    <!-- Top Clients -->
+                    <div class="card rev d3">
+                        <div class="card-hd">
+                            <div class="card-hd-left">
+                                <h3>Top Clients</h3>
+                                <p>By revenue</p>
+                            </div>
+                        </div>
+                        <div class="client-list" id="cl-list"></div>
+                    </div>
+
+                </div>
+
+            </div><!-- /dashboard-page -->
+
+            <!-- ANALYTICS PAGE -->
+            <div id="analytics-page" class="page">
+                <div class="pg-hdr rev">
+                    <div>
+                        <h1>Analytics</h1>
+                        <p class="sub">Deep insights into your revenue and growth.</p>
+                    </div>
+                </div>
+
+                <div class="kpi-grid" style="margin-bottom: 24px;">
+                    <div class="kpi rev d1">
+                        <div class="kpi-box">
+                            <div class="kpi-ic c1"><svg viewBox="0 0 24 24">
+                                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                                </svg></div>
+                            <div>
+                                <div class="kpi-lbl">MRR Growth</div>
+                                <div class="kpi-val">+24.5%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kpi rev d2">
+                        <div class="kpi-box">
+                            <div class="kpi-ic c2"><svg viewBox="0 0 24 24">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                    <circle cx="9" cy="7" r="4" />
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                                </svg></div>
+                            <div>
+                                <div class="kpi-lbl">Active Clients</div>
+                                <div class="kpi-val">12</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card rev">
+                    <div class="card-hd">
+                        <h3>Revenue Overview</h3>
+                    </div>
+                    <!-- Reuse the bars rendering logic here by giving it a generic id or duplicating -->
+                    <div class="bars" id="analytics-bars"></div>
+                </div>
+            </div><!-- /analytics-page -->
+
+            <!-- NEW INVOICE PAGE -->
+            <div id="new-invoice-page" class="page">
+                <div class="pg-hdr rev">
+                    <div>
+                        <h1>New Invoice</h1>
+                        <p class="sub">Create and send a professional voice in seconds.</p>
+                    </div>
+                    <div class="pg-hdr-right">
+                        <button class="btn btn-fill" onclick="saveInvoice()">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                                <polyline points="7 3 7 8 15 8"></polyline>
+                            </svg>
+                            Save Invoice
+                        </button>
+                    </div>
+                </div>
+                <div class="card"
+                    style="padding: 24px; max-width: 800px; margin: 0 auto; min-height: 400px; display: flex; flex-direction: column; gap: 20px;">
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <label
+                            style="font-size: 11px; font-weight: 700; color: var(--t3); text-transform: uppercase;">Client
+                            Name</label>
+                        <select id="inv-client"
+                            style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--line); font-family: inherit; font-size: 14px; background: var(--bg-solid);">
+                            <option value="">Select a client...</option>
+                            <!-- populated by JS -->
+                        </select>
+                    </div>
+
+                    <table class="tbl" style="margin-top: 10px;">
+                        <thead>
+                            <tr>
+                                <th>Item Description</th>
+                                <th style="width: 100px;">Qty</th>
+                                <th style="width: 140px;">Price</th>
+                                <th style="width: 140px;">Total</th>
+                                <th style="width: 40px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="inv-items">
+                            <!-- Items go here -->
+                        </tbody>
+                    </table>
+
+                    <button class="btn btn-outline" onclick="addInvItem()"
+                        style="align-self: flex-start; margin-top: -10px;">+ Add Item</button>
+
+                    <div
+                        style="margin-top: auto; border-top: 1px solid var(--line); padding-top: 20px; display: flex; justify-content: flex-end;">
+                        <div style="width: 280px; display: flex; flex-direction: column; gap: 10px;">
+                            <div
+                                style="display: flex; justify-content: space-between; font-size: 13px; color: var(--t2);">
+                                <span>Subtotal</span> <span id="inv-subtotal">$0.00</span>
+                            </div>
+                            <!-- GST breakdown — shown only when GST verified -->
+                            <div class="gst-only" id="inv-gst-row-cgst"
+                                style="display:flex; justify-content: space-between; font-size: 12.5px; color: var(--t2);">
+                                <span style="display:flex;align-items:center;gap:5px;">
+                                    <span
+                                        style="background:var(--green-bg);color:var(--green);font-size:10px;font-weight:700;padding:1px 6px;border-radius:4px;border:1px solid var(--green-border);">CGST</span>
+                                    9%
+                                </span>
+                                <span id="inv-cgst">$0.00</span>
+                            </div>
+                            <div class="gst-only" id="inv-gst-row-sgst"
+                                style="display:flex; justify-content: space-between; font-size: 12.5px; color: var(--t2);">
+                                <span style="display:flex;align-items:center;gap:5px;">
+                                    <span
+                                        style="background:var(--amber-bg);color:var(--amber);font-size:10px;font-weight:700;padding:1px 6px;border-radius:4px;border:1px solid var(--amber-border);">SGST</span>
+                                    9%
+                                </span>
+                                <span id="inv-sgst">$0.00</span>
+                            </div>
+                            <!-- Basic GST row for unverified users -->
+                            <div class="gst-basic" id="inv-gst-row-basic"
+                                style="display:flex; justify-content: space-between; font-size: 13px; color: var(--t2); border-bottom: 1px solid var(--line); padding-bottom: 10px;">
+                                <span>Tax (10%)</span> <span id="inv-gst">$0.00</span>
+                            </div>
+                            <div id="inv-gst-row-advanced" class="gst-only"
+                                style="display:flex; justify-content: space-between; font-size: 12.5px; color: var(--t2); border-bottom: 1px solid var(--line); padding-bottom: 10px;">
+                                <span style="display:flex;align-items:center;gap:5px;">
+                                    <span
+                                        style="background:var(--brand-subtle);color:var(--brand);font-size:10px;font-weight:700;padding:1px 6px;border-radius:4px;border:1px solid var(--brand-border);">IGST</span>
+                                    18%
+                                </span>
+                                <span id="inv-igst">$0.00</span>
+                            </div>
+                            <div
+                                style="display: flex; justify-content: space-between; font-size: 16px; font-weight: 800; color: var(--t1);">
+                                <span>Total Amount</span> <span id="inv-total">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /new-invoice-page -->
+
+            <!-- ALL INVOICES PAGE -->
+            <div id="all-invoices-page" class="page">
+                <div class="pg-hdr rev">
+                    <div>
+                        <h1>All Invoices</h1>
+                        <p class="sub">Manage and track your entire invoice history.</p>
+                    </div>
+                    <div class="pg-hdr-right">
+                        <div
+                            style="display: flex; gap: 8px; background: var(--surface); padding: 4px; border-radius: 8px; border: 1px solid var(--line);">
+                            <button class="btn filter-btn" data-filter="all"
+                                style="background: var(--brand-subtle); color: var(--brand); border: none;"
+                                onclick="filterInvoices('all')">All</button>
+                            <button class="btn filter-btn" data-filter="paid"
+                                style="border: none; background: transparent;"
+                                onclick="filterInvoices('paid')">Paid</button>
+                            <button class="btn filter-btn" data-filter="pending"
+                                style="border: none; background: transparent;"
+                                onclick="filterInvoices('pending')">Pending</button>
+                            <button class="btn filter-btn" data-filter="overdue"
+                                style="border: none; background: transparent;"
+                                onclick="filterInvoices('overdue')">Overdue</button>
+                        </div>
+                        <button class="btn btn-fill" onclick="switchPage('new-invoice-page')">+ Create</button>
+                    </div>
+                </div>
+                <div class="card rev">
+                    <table class="tbl">
+                        <thead>
+                            <tr>
+                                <th>Invoice</th>
+                                <th>Client</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="all-invoices-body">
+                            <!-- populated by js reusing renderTable logic -->
+                        </tbody>
+                    </table>
+                </div>
+            </div><!-- /all-invoices-page -->
+
+            <!-- TEMPLATES PAGE -->
+            <div id="templates-page" class="page">
+                <div class="pg-hdr rev">
+                    <div>
+                        <h1>Templates</h1>
+                        <p class="sub">Choose a premium design for your brand.</p>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px;">
+                    <!-- Template 1 -->
+                    <div class="card rev d1"
+                        style="overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: 0.2s;"
+                        onmouseover="this.style.borderColor='var(--brand)'"
+                        onmouseout="this.style.borderColor='transparent'">
+                        <div
+                            style="height: 160px; background: #f8f9fa; border-bottom: 1px solid var(--line); padding: 20px;">
+                            <div
+                                style="width: 100%; height: 100%; border: 1px solid #e9ecef; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-radius: 4px; background: white; padding: 10px;">
+                                <div
+                                    style="height: 10px; width: 40%; background: #dee2e6; margin-bottom: 20px; border-radius: 2px;">
+                                </div>
+                                <div style="height: 60px; width: 100%; background: #f1f3f5; border-radius: 4px;"></div>
+                            </div>
+                        </div>
+                        <div style="padding: 16px;">
+                            <h3 style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">Modern Clean</h3>
+                            <p style="font-size: 12px; color: var(--t3);">Minimalist design perfect for SaaS and
+                                agencies.</p>
+                        </div>
+                    </div>
+
+                    <!-- Template 2 -->
+                    <div class="card rev d2"
+                        style="overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: 0.2s;"
+                        onmouseover="this.style.borderColor='var(--brand)'"
+                        onmouseout="this.style.borderColor='transparent'">
+                        <div
+                            style="height: 160px; background: #fdfbf7; border-bottom: 1px solid var(--line); padding: 20px;">
+                            <div
+                                style="width: 100%; height: 100%; border: 1px solid #e9ecef; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-radius: 4px; background: white; padding: 10px;">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <div style="height: 14px; width: 14px; background: #4a5568; border-radius: 50%;">
+                                    </div>
+                                    <div style="height: 8px; width: 20%; background: #edf2f7; border-radius: 2px;">
+                                    </div>
+                                </div>
+                                <div
+                                    style="height: 40px; width: 100%; background: #fdfbf7; border-radius: 4px; margin-top: 20px; border: 1px solid #e2e8f0;">
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 16px;">
+                            <h3 style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">Classic Corporate</h3>
+                            <p style="font-size: 12px; color: var(--t3);">Traditional layout with structured data
+                                columns.</p>
+                        </div>
+                    </div>
+
+                    <!-- Template 3 -->
+                    <div class="card rev d3"
+                        style="overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: 0.2s;"
+                        onmouseover="this.style.borderColor='var(--brand)'"
+                        onmouseout="this.style.borderColor='transparent'">
+                        <div
+                            style="height: 160px; background: #f0f4fb; border-bottom: 1px solid var(--line); padding: 20px;">
+                            <div
+                                style="width: 100%; height: 100%; border: 1px solid #e9ecef; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-radius: 4px; background: white; padding: 10px;">
+                                <div
+                                    style="height: 40px; width: 100%; background: #e0e7ff; margin-bottom: 10px; border-radius: 4px;">
+                                </div>
+                                <div style="display: flex; gap: 10px;">
+                                    <div style="height: 20px; flex: 1; background: #f1f5f9; border-radius: 2px;"></div>
+                                    <div style="height: 20px; flex: 1; background: #f1f5f9; border-radius: 2px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 16px;">
+                            <h3 style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">Vibrant Startup</h3>
+                            <p style="font-size: 12px; color: var(--t3);">Colorful headers and bold typography.</p>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /templates-page -->
+
+            <!-- TAX REPORTS PAGE (GST-only) -->
+            <div id="tax-reports-page" class="page">
+                <div class="pg-hdr rev">
+                    <div>
+                        <h1>Tax Reports</h1>
+                        <p class="sub">GST filing summary, CGST/SGST/IGST breakdown.</p>
+                    </div>
+                    <div class="pg-hdr-right">
+                        <div class="gst-num-badge" id="tax-gst-num-badge">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M9 12l2 2 4-4" />
+                                <circle cx="12" cy="12" r="10" />
+                            </svg>
+                            <span id="tax-gst-number-display">27AAPFU0939F1ZV</span>
+                        </div>
+                        <button class="btn btn-outline" onclick="tip('Downloading GST report...')">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                <polyline points="7 10 12 15 17 10" />
+                                <line x1="12" y1="15" x2="12" y2="3" />
+                            </svg>
+                            Export GSTR-1
+                        </button>
+                    </div>
+                </div>
+
+                <div class="tax-kpi-grid rev">
+                    <div class="tax-kpi">
+                        <div class="tax-kpi-label">Total Taxable Turnover</div>
+                        <div class="tax-kpi-val">₹8,42,000</div>
+                        <div class="tax-kpi-sub">This financial year</div>
+                    </div>
+                    <div class="tax-kpi">
+                        <div class="tax-kpi-label">Total GST Collected</div>
+                        <div class="tax-kpi-val">₹1,51,560</div>
+                        <div class="tax-kpi-sub">CGST + SGST + IGST</div>
+                    </div>
+                    <div class="tax-kpi">
+                        <div class="tax-kpi-label">Net GST Payable</div>
+                        <div class="tax-kpi-val">₹84,200</div>
+                        <div class="tax-kpi-sub">After input tax credit</div>
+                    </div>
+                </div>
+
+                <div class="card rev" style="margin-bottom:16px;">
+                    <div class="card-hd">
+                        <div class="card-hd-left">
+                            <h3>Monthly GST Summary</h3>
+                            <p>CGST / SGST / IGST breakdown per month</p>
+                        </div>
+                    </div>
+                    <table class="tbl">
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>Taxable Amount</th>
+                                <th>CGST (9%)</th>
+                                <th>SGST (9%)</th>
+                                <th>IGST (18%)</th>
+                                <th>Total Tax</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>March 2026</td>
+                                <td>₹1,24,000</td>
+                                <td>₹11,160</td>
+                                <td>₹11,160</td>
+                                <td>₹22,320</td>
+                                <td>₹44,640</td>
+                                <td><span class="st paid"><span class="st-dot"></span>Filed</span></td>
+                            </tr>
+                            <tr>
+                                <td>February 2026</td>
+                                <td>₹98,500</td>
+                                <td>₹8,865</td>
+                                <td>₹8,865</td>
+                                <td>₹17,730</td>
+                                <td>₹35,460</td>
+                                <td><span class="st paid"><span class="st-dot"></span>Filed</span></td>
+                            </tr>
+                            <tr>
+                                <td>January 2026</td>
+                                <td>₹76,200</td>
+                                <td>₹6,858</td>
+                                <td>₹6,858</td>
+                                <td>₹13,716</td>
+                                <td>₹27,432</td>
+                                <td><span class="st pending"><span class="st-dot"></span>Pending</span></td>
+                            </tr>
+                            <tr>
+                                <td>December 2025</td>
+                                <td>₹1,08,000</td>
+                                <td>₹9,720</td>
+                                <td>₹9,720</td>
+                                <td>₹19,440</td>
+                                <td>₹38,880</td>
+                                <td><span class="st paid"><span class="st-dot"></span>Filed</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div><!-- /tax-reports-page -->
+
+            <!-- CLIENTS PAGE -->
+            <div id="clients-page" class="page">
+                <div class="pg-hdr rev">
+                    <div>
+                        <h1>Clients</h1>
+                        <p class="sub">Your CRM and customer directory.</p>
+                    </div>
+                    <div class="pg-hdr-right">
+                        <button class="btn btn-outline" onclick="exportClients()">Export CSV</button>
+                        <button class="btn btn-fill" onclick="openAddClientModal()">+ Add Client</button>
+                    </div>
+                </div>
+                <div class="card rev" style="max-width: 800px;">
+                    <div class="card-hd">
+                        <h3>Client Directory</h3>
+                    </div>
+                    <div class="client-list" id="clients-list-container">
+                        <!-- Populated by JS renderClientsList() -->
+                    </div>
+                </div>
+            </div><!-- /clients-page -->
+
+            <!-- BILLING PAGE -->
+            <div id="billing-page" class="page">
+                <div class="pg-hdr rev">
+                    <div>
+                        <h1>Billing</h1>
+                        <p class="sub">Manage your BillSathi subscription.</p>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 900px;">
+                    <div class="card rev d1"
+                        style="padding: 30px; border: 2px solid var(--brand); position: relative; overflow: hidden;">
+                        <div
+                            style="position: absolute; top: 12px; right: 12px; background: var(--brand-subtle); color: var(--brand); font-size: 11px; padding: 4px 10px; border-radius: 99px; font-weight: 700;">
+                            CURRENT PLAN</div>
+                        <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 8px;">Pro Plan</h3>
+                        <div style="font-size: 32px; font-weight: 800; color: var(--brand); margin-bottom: 24px;">
+                            $29<span style="font-size: 14px; font-weight: 500; color: var(--t3);">/mo</span></div>
+                        <ul
+                            style="list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px;">
+                            <li style="display: flex; align-items: center; gap: 10px; color: var(--t2);"><svg
+                                    viewBox="0 0 24 24"
+                                    style="width: 16px; height: 16px; stroke: var(--green); stroke-width: 3; fill: none;">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg> Unlimited invoices</li>
+                            <li style="display: flex; align-items: center; gap: 10px; color: var(--t2);"><svg
+                                    viewBox="0 0 24 24"
+                                    style="width: 16px; height: 16px; stroke: var(--green); stroke-width: 3; fill: none;">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg> All premium templates</li>
+                            <li style="display: flex; align-items: center; gap: 10px; color: var(--t2);"><svg
+                                    viewBox="0 0 24 24"
+                                    style="width: 16px; height: 16px; stroke: var(--green); stroke-width: 3; fill: none;">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg> Advanced analytics</li>
+                        </ul>
+                        <button class="btn btn-outline" style="width: 100%; border-color: var(--line-2);"
+                            onclick="tip('Manage subscription')">Manage Plan</button>
+                    </div>
+
+                    <div class="card rev d2" style="padding: 30px; display: flex; flex-direction: column;">
+                        <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 20px;">Payment Method</h3>
+                        <div
+                            style="display: flex; align-items: center; gap: 16px; padding: 16px; border: 1px solid var(--line); border-radius: 8px; margin-bottom: auto;">
+                            <div
+                                style="width: 40px; height: 28px; background: #1a1f36; border-radius: 4px; display: grid; place-items: center;">
+                                <span
+                                    style="color: white; font-weight: 700; font-size: 10px; font-style: italic;">VISA</span>
+                            </div>
+                            <div>
+                                <div style="font-weight: 600; color: var(--t1);">Visa ending in 4242</div>
+                                <div style="font-size: 12px; color: var(--t3);">Expires 12/26</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-fill" style="margin-top: 24px; width: fit-content;"
+                            onclick="tip('Add payment method')">Update Payment</button>
+                    </div>
+                </div>
+            </div><!-- /billing-page -->
+
+            <!-- SETTINGS PAGE -->
+            <div id="settings-page" class="page">
+                <div class="pg-hdr rev">
+                    <div>
+                        <h1>Settings</h1>
+                        <p class="sub">Business profile and default preferences.</p>
+                    </div>
+                    <div class="pg-hdr-right">
+                        <button class="btn btn-fill" onclick="tip('Settings saved successfully!')">Save Changes</button>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 24px; max-width: 900px; align-items: flex-start;">
+                    <div style="width: 220px; display: flex; flex-direction: column; gap: 8px;">
+                        <button
+                            style="padding: 10px 16px; text-align: left; background: var(--brand-subtle); color: var(--brand); font-weight: 600; border: none; border-radius: 6px;">Business
+                            Profile</button>
+                        <button
+                            style="padding: 10px 16px; text-align: left; background: transparent; color: var(--t2); font-weight: 500; border: none; cursor: pointer;">Preferences</button>
+                        <button
+                            style="padding: 10px 16px; text-align: left; background: transparent; color: var(--t2); font-weight: 500; border: none; cursor: pointer;">Notifications</button>
+                    </div>
+
+                    <div class="card rev" style="flex: 1; padding: 30px;">
+                        <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 24px;">Business Details</h3>
+
+                        <div style="display: grid; gap: 20px;">
+                            <div>
+                                <label
+                                    style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 6px; color: var(--t2);">Business
+                                    Name</label>
+                                <input type="text" value="Acme Corp"
+                                    style="width: 100%; padding: 10px; border: 1px solid var(--line); border-radius: 6px; font-family: inherit; font-size: 14px;">
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                                <div>
+                                    <label
+                                        style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 6px; color: var(--t2);">Email
+                                        Address</label>
+                                    <input type="email" value="billing@acme.com"
+                                        style="width: 100%; padding: 10px; border: 1px solid var(--line); border-radius: 6px; font-family: inherit; font-size: 14px;">
+                                </div>
+                                <div id="settings-gst-field" class="gst-only">
+                                    <label
+                                        style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 6px; color: var(--t2);">GST
+                                        Number <span style="font-size:10px;font-weight:500;color:var(--green);">✓
+                                            Verified</span></label>
+                                    <div id="settings-gst-display"
+                                        style="width: 100%; padding: 10px; border: 1px solid var(--green-border); border-radius: 6px; font-family: var(--mono); font-size: 13px; background: var(--green-bg); color: var(--green); font-weight: 700; letter-spacing: .04em;">
+                                        —</div>
+                                </div>
+                                <div id="settings-gst-cta">
+                                    <label
+                                        style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 6px; color: var(--t2);">GST
+                                        Number</label>
+                                    <button onclick="goToGstPage()"
+                                        style="width:100%;padding:10px;border:1.5px dashed var(--line-2);border-radius:6px;font-family:inherit;font-size:13px;color:var(--brand);font-weight:600;background:var(--brand-subtle);cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px;"
+                                        onmouseover="this.style.borderColor='var(--brand)'"
+                                        onmouseout="this.style.borderColor='var(--line-2)'">
+                                        <svg viewBox="0 0 24 24"
+                                            style="width:13px;height:13px;stroke:var(--brand);fill:none;stroke-width:2.5;stroke-linecap:round;">
+                                            <line x1="12" y1="5" x2="12" y2="19" />
+                                            <line x1="5" y1="12" x2="19" y2="12" />
+                                        </svg>
+                                        Click to verify GST
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label
+                                    style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 6px; color: var(--t2);">Business
+                                    Address</label>
+                                <textarea rows="3"
+                                    style="width: 100%; padding: 10px; border: 1px solid var(--line); border-radius: 6px; font-family: inherit; font-size: 14px; resize: none;">123 Startup Way, Innovation Hub&#10;San Francisco, CA 94107</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /settings-page -->
+
+            <!-- GREEN IMPACT PAGE -->
+            <div id="green-impact-page" class="page">
+                <div class="pg-hdr rev">
+                    <div>
+                        <h1>Green Impact 🌱</h1>
+                        <p class="sub">Track your paperless journey and unlock rewards by going digital.</p>
+                    </div>
+                    <div class="pg-hdr-right">
+                        <div id="gi-smart-msg-wrap"></div>
+                    </div>
+                </div>
+
+                <!-- SECTION 1: IMPACT OVERVIEW -->
+                <div class="kpi-grid" id="gi-kpi-grid">
+                    <div class="kpi rev d1" style="background:var(--green-bg); border-color:var(--green-border);"
+                        data-tip="Total digital invoices sent">
+                        <div class="kpi-top">
+                            <span class="kpi-label" style="color:var(--green);">Receipts Saved</span>
+                            <span class="kpi-ic green">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                    <polyline points="14 2 14 8 20 8" />
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="kpi-val" id="gi-page-receipts" style="color:#064e3b;">0</div>
+                    </div>
+                    <div class="kpi rev d2" data-tip="Estimated based on 8,000 receipts per tree">
+                        <div class="kpi-top">
+                            <span class="kpi-label" style="color:var(--green);">Est. Trees Saved</span>
+                            <span class="kpi-ic green">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12 22v-4M10 18h4" />
+                                    <path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="kpi-val" id="gi-page-trees">0.00</div>
+                    </div>
+                    <div class="kpi rev d3" data-tip="Total paperless bills issued">
+                        <div class="kpi-top">
+                            <span class="kpi-label" style="color:var(--green);">Paperless Bills</span>
+                            <span class="kpi-ic green">
+                                <svg viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <path d="M12 8v4l3 3" />
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="kpi-val" id="gi-page-bills">0</div>
+                    </div>
+                    <div class="kpi rev d4" data-tip="Your next reward milestone">
+                        <div class="kpi-top">
+                            <span class="kpi-label" style="color:var(--ink2);">Next Target</span>
+                            <span class="kpi-ic amber">
+                                <svg viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <line x1="12" y1="8" x2="12" y2="12" />
+                                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="kpi-val" id="gi-page-target">8000</div>
+                        <div class="kpi-foot"><span class="kpi-foot-txt">receipts</span></div>
+                    </div>
+                </div>
+
+                <!-- ROW: REWARD PROGRESS & REWARDS -->
+                <div class="row row-main rev d1">
+
+                    <!-- REWARD PROGRESS -->
+                    <div class="card" style="flex:1;">
+                        <div class="card-hd">
+                            <div class="card-hd-left">
+                                <h3>Reward Progress</h3>
+                                <p>Reach the next milestone to unlock a reward.</p>
+                            </div>
+                        </div>
+                        <div style="padding:24px; display:flex; flex-direction:column; gap:18px;">
+                            <div
+                                style="display:flex; justify-content:space-between; font-weight:700; color:var(--ink); align-items:center;">
+                                <span id="gi-progress-text" style="font-size:14px;">0 / 8000 Receipts</span>
+                                <span id="gi-percentage"
+                                    style="color:var(--brand); font-size:18px; font-weight:800; font-feature-settings:'tnum';">0%</span>
+                            </div>
+                            <div class="gi-bar-wrap">
+                                <div id="gi-progress-bar" class="gi-bar-fill"></div>
+                            </div>
+                            <p id="gi-remaining-text"
+                                style="font-size:13.5px; color:var(--ink2); font-weight:500; line-height:1.5;">Only 8000
+                                more receipts to go.</p>
+
+                            <div
+                                style="margin-top:8px; padding-top:24px; border-top:1px solid var(--line); display:flex; flex-direction:column; gap:12px;">
+                                <button id="gi-claim-btn" class="btn btn-fill gi-claim-locked"
+                                    style="width:100%; justify-content:center; opacity:0.6; cursor:not-allowed; display:flex; align-items:center; gap:8px;">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none"
+                                        stroke-width="2">
+                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                    </svg>
+                                    Locked Until 8000
+                                </button>
+                                <p style="font-size:11px; color:var(--t3); text-align:center;">Clicking claim will store
+                                    your lifetime totals and advance your milestone target.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- POSSIBLE REWARDS -->
+                    <div class="card rev d2" style="flex:1;">
+                        <div class="card-hd">
+                            <div class="card-hd-left">
+                                <h3>Possible Rewards</h3>
+                                <p>Rewards may vary based on campaigns and availability.</p>
+                            </div>
+                        </div>
+                        <div style="padding:24px; display:flex; flex-direction:column; gap:10px;">
+                            <div class="gi-reward-item">
+                                <div class="gi-reward-icon" style="background:var(--brand-subtle); color:var(--brand);">
+                                    ⭐</div>
+                                <div>
+                                    <div style="font-size:13.5px; font-weight:700; color:var(--ink);">Premium Features
+                                    </div>
+                                    <div style="font-size:12px; color:var(--ink3);">Unlock exclusive builder tools</div>
+                                </div>
+                            </div>
+                            <div class="gi-reward-item">
+                                <div class="gi-reward-icon" style="background:var(--amber-bg); color:var(--amber);">🎟️
+                                </div>
+                                <div>
+                                    <div style="font-size:13.5px; font-weight:700; color:var(--ink);">Cash Coupon</div>
+                                    <div style="font-size:12px; color:var(--ink3);">Discounts on subscription renewals
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="gi-reward-item">
+                                <div class="gi-reward-icon" style="background:var(--green-bg); color:var(--green);">🎁
+                                </div>
+                                <div>
+                                    <div style="font-size:13.5px; font-weight:700; color:var(--ink);">Special Gifts &
+                                        Giveaways</div>
+                                    <div style="font-size:12px; color:var(--ink3);">Surprise entries and gift drops
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="gi-reward-item">
+                                <div class="gi-reward-icon" style="background:#fff7ed; color:#ea580c;">🚀</div>
+                                <div>
+                                    <div style="font-size:13.5px; font-weight:700; color:var(--ink);">Premium Templates
+                                    </div>
+                                    <div style="font-size:12px; color:var(--ink3);">Exclusive invoice template packs
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ROW 2: HISTORY & EDUCATION -->
+                <div class="row row-bottom rev d3" style="margin-top:24px;">
+
+                    <!-- MILESTONE HISTORY -->
+                    <div class="card" style="flex:1;">
+                        <div class="card-hd">
+                            <div class="card-hd-left">
+                                <h3>Milestone History</h3>
+                                <p>Your paperless achievements over time.</p>
+                            </div>
+                        </div>
+                        <div id="gi-milestone-history" style="padding:24px 24px 16px;"></div>
+                    </div>
+
+                    <!-- EDUCATION CARD -->
+                    <div class="card rev d4 gi-edu-card"
+                        style="flex:1; background:linear-gradient(135deg, #10b981 0%, #059669 40%, #047857 100%); border:none; color:white; display:flex; flex-direction:column; justify-content:center;">
+                        <div style="padding:40px; text-align:center;">
+                            <div class="gi-float" style="font-size:56px; margin-bottom:16px; display:inline-block;">🌳
+                            </div>
+                            <div style="font-size:18px; font-weight:800; margin-bottom:10px; line-height:1.35;">
+                                1 tree ≈ 8,000 paper receipts
+                            </div>
+                            <div style="font-size:13px; opacity:0.75; margin-bottom:16px;">(estimated benchmark)</div>
+                            <p style="font-size:13.5px; opacity:0.9; line-height:1.7; font-weight:500;">
+                                Digital invoices help radically reduce global paper waste.
+                                Going paperless supports forest sustainability for future generations.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /green-impact-page -->
+
+        </div><!-- /main -->
+    </div><!-- /shell -->
+
+    <!-- GST Verification is now a dedicated page: gst-verification.html -->
+
+    <!-- ADD CLIENT MODAL -->
+    <div id="add-client-modal"
+        style="position:fixed;inset:0;background:rgba(10,10,15,.45);backdrop-filter:blur(6px);z-index:9000;display:none;align-items:center;justify-content:center;"
+        onclick="if(event.target===this)closeAddClientModal()">
+        <div
+            style="background:white;border-radius:16px;padding:32px;width:100%;max-width:420px;box-shadow:0 24px 60px rgba(0,0,0,.2);">
+            <h3 style="font-size:18px;font-weight:800;margin-bottom:6px;">Add New Client</h3>
+            <p style="font-size:13px;color:var(--t3);margin-bottom:24px;">Add a client to your directory.</p>
+            <div style="display:flex;flex-direction:column;gap:14px;">
+                <div>
+                    <label
+                        style="display:block;font-size:12px;font-weight:700;color:var(--t2);margin-bottom:6px;">Client
+                        Name</label>
+                    <input id="nc-name" type="text" placeholder="Acme Corp"
+                        style="width:100%;padding:10px 14px;border:1.5px solid var(--line);border-radius:8px;font-family:inherit;font-size:14px;outline:none;transition:border-color .2s;"
+                        onfocus="this.style.borderColor='var(--brand)'" onblur="this.style.borderColor='var(--line)'">
+                </div>
+                <div>
+                    <label style="display:block;font-size:12px;font-weight:700;color:var(--t2);margin-bottom:6px;">Email
+                        Address</label>
+                    <input id="nc-email" type="email" placeholder="billing@acme.com"
+                        style="width:100%;padding:10px 14px;border:1.5px solid var(--line);border-radius:8px;font-family:inherit;font-size:14px;outline:none;transition:border-color .2s;"
+                        onfocus="this.style.borderColor='var(--brand)'" onblur="this.style.borderColor='var(--line)'">
+                </div>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:24px;">
+                <button onclick="closeAddClientModal()"
+                    style="flex:1;padding:11px;border:1.5px solid var(--line);border-radius:8px;background:white;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;color:var(--t2);">Cancel</button>
+                <button onclick="submitAddClient()"
+                    style="flex:1;padding:11px;border:none;border-radius:8px;background:linear-gradient(135deg,#6b4fff,#5032f0);color:white;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(91,63,255,.3);">Add
+                    Client</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- REWARD CLAIM MODAL -->
+    <div id="reward-claim-modal"
+        style="position:fixed;inset:0;background:rgba(10,10,15,.55);backdrop-filter:blur(8px);z-index:9100;display:none;align-items:center;justify-content:center;"
+        onclick="if(event.target===this)closeRewardModal()">
+        <div id="reward-modal-inner"
+            style="background:white;border-radius:20px;padding:0;width:100%;max-width:480px;box-shadow:0 32px 80px rgba(0,0,0,.25);overflow:hidden;transform:translateY(20px) scale(.96);opacity:0;transition:transform .35s cubic-bezier(.34,1.56,.64,1), opacity .3s ease;">
+
+            <!-- STEP 1: Pick Reward -->
+            <div id="reward-step-pick">
+                <!-- Header -->
+                <div style="background:linear-gradient(135deg,#10b981,#059669);padding:32px 32px 24px;color:white;">
+                    <div style="font-size:36px;margin-bottom:10px;">🎉</div>
+                    <div style="font-size:20px;font-weight:800;letter-spacing:-.3px;margin-bottom:6px;">Reward Unlocked!
+                    </div>
+                    <div style="font-size:13.5px;opacity:.85;line-height:1.5;">You've gone paperless with 8,000+
+                        receipts.<br>Choose your reward below.</div>
+                </div>
+                <!-- Reward Options -->
+                <div style="padding:24px;display:flex;flex-direction:column;gap:10px;">
+                    <div id="rc-opt-0" class="rc-option" onclick="selectReward(0)"
+                        style="display:flex;align-items:center;gap:14px;padding:14px 16px;border:2px solid var(--line);border-radius:12px;cursor:pointer;transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;">
+                        <span style="font-size:24px;width:36px;text-align:center;">⭐</span>
+                        <div style="flex:1;">
+                            <div style="font-weight:700;color:var(--ink);font-size:14px;">Premium Templates</div>
+                            <div style="font-size:12px;color:var(--t3);margin-top:2px;">Exclusive invoice design packs
+                            </div>
+                        </div>
+                        <div class="rc-check"
+                            style="width:20px;height:20px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;transition:all .2s;">
+                        </div>
+                    </div>
+                    <div id="rc-opt-1" class="rc-option" onclick="selectReward(1)"
+                        style="display:flex;align-items:center;gap:14px;padding:14px 16px;border:2px solid var(--line);border-radius:12px;cursor:pointer;transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;">
+                        <span style="font-size:24px;width:36px;text-align:center;">🚀</span>
+                        <div style="flex:1;">
+                            <div style="font-weight:700;color:var(--ink);font-size:14px;">Premium Features</div>
+                            <div style="font-size:12px;color:var(--t3);margin-top:2px;">Unlock advanced builder tools
+                            </div>
+                        </div>
+                        <div class="rc-check"
+                            style="width:20px;height:20px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;transition:all .2s;">
+                        </div>
+                    </div>
+                    <div id="rc-opt-2" class="rc-option" onclick="selectReward(2)"
+                        style="display:flex;align-items:center;gap:14px;padding:14px 16px;border:2px solid var(--line);border-radius:12px;cursor:pointer;transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;">
+                        <span style="font-size:24px;width:36px;text-align:center;">🎟️</span>
+                        <div style="flex:1;">
+                            <div style="font-weight:700;color:var(--ink);font-size:14px;">Discount Coupon</div>
+                            <div style="font-size:12px;color:var(--t3);margin-top:2px;">Save on your next subscription
+                                renewal</div>
+                        </div>
+                        <div class="rc-check"
+                            style="width:20px;height:20px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;transition:all .2s;">
+                        </div>
+                    </div>
+                    <div id="rc-opt-3" class="rc-option" onclick="selectReward(3)"
+                        style="display:flex;align-items:center;gap:14px;padding:14px 16px;border:2px solid var(--line);border-radius:12px;cursor:pointer;transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;">
+                        <span style="font-size:24px;width:36px;text-align:center;">🎁</span>
+                        <div style="flex:1;">
+                            <div style="font-weight:700;color:var(--ink);font-size:14px;">Giveaway Entry</div>
+                            <div style="font-size:12px;color:var(--t3);margin-top:2px;">Enter our monthly mystery prize
+                                draw</div>
+                        </div>
+                        <div class="rc-check"
+                            style="width:20px;height:20px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;transition:all .2s;">
+                        </div>
+                    </div>
+                </div>
+                <div style="padding:0 24px 24px;display:flex;gap:10px;">
+                    <button onclick="closeRewardModal()"
+                        style="flex:1;padding:12px;border:1.5px solid var(--line);border-radius:10px;background:white;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;color:var(--t2);">Cancel</button>
+                    <button id="rc-confirm-btn" onclick="confirmRewardClaim()" disabled
+                        style="flex:2;padding:12px;border:none;border-radius:10px;background:linear-gradient(135deg,#10b981,#059669);color:white;font-family:inherit;font-size:14px;font-weight:700;cursor:not-allowed;opacity:.5;transition:opacity .2s;box-shadow:0 4px 14px rgba(5,150,105,.3);">Choose
+                        a Reward</button>
+                </div>
+            </div>
+
+            <!-- STEP 2: Success State -->
+            <div id="reward-step-success" style="display:none;padding:48px 32px;text-align:center;">
+                <div
+                    style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#10b981,#059669);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 8px 28px rgba(5,150,105,.35);animation:popIn .5s cubic-bezier(.34,1.56,.64,1) both;">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                </div>
+                <div style="font-size:22px;font-weight:800;color:var(--ink);letter-spacing:-.4px;margin-bottom:8px;">
+                    Reward Claimed!</div>
+                <div id="rc-chosen-name" style="font-size:15px;color:var(--green);font-weight:700;margin-bottom:6px;">
+                </div>
+                <p style="font-size:13px;color:var(--t3);line-height:1.6;margin-bottom:24px;">Your reward is saved. Keep
+                    going paperless to unlock your next milestone reward.</p>
+                <div id="rc-next-target-text"
+                    style="font-size:13px;font-weight:600;color:var(--ink2);background:var(--brand-subtle);border:1px solid rgba(91,63,255,.15);border-radius:8px;padding:10px 16px;margin-bottom:24px;">
+                </div>
+                <button onclick="closeRewardModal()"
+                    style="width:100%;padding:13px;border:none;border-radius:10px;background:linear-gradient(135deg,#6b4fff,#5032f0);color:white;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(91,63,255,.3);">Done
+                    ✓</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ── NAVIGATION ───────────────────────────────────────── */
+
+        // Navigate to templates page (external file)
+        function goToTemplates() {
+            window.location.href = 'templates.html';
+        }
+
+        /* ── SPA LOGIC ────────────────────────────────────────── */
+        function switchPage(pageId, event) {
+            // hide all pages
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+
+            // show selected page
+            const targetPage = document.getElementById(pageId);
+            if (!targetPage) return;
+            targetPage.classList.add('active');
+
+            // active link highlight — find the sidebar button that navigates to this page
+            document.querySelectorAll('.sb-link').forEach(btn => {
+                btn.classList.remove('active');
+                const oc = btn.getAttribute('onclick') || '';
+                if (oc.includes(pageId)) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // additional: if called from an event target, mark that one active too
+            if (event && event.currentTarget) {
+                event.currentTarget.classList.add('active');
+            }
+
+            // update breadcrumbs
+            const title = targetPage.querySelector('h1');
+            if (title) {
+                document.querySelector('.tb-trail-cur').textContent = title.textContent;
+            }
+
+            // clear search when switching away from invoice pages
+            const si = document.getElementById('search-input');
+            if (si) si.value = '';
+            renderTable(); // ensure table shows all items after search clear
+
+            // re-run reveal animations on new page
+            targetPage.querySelectorAll('.rev').forEach(el => {
+                el.classList.remove('in');
+                setTimeout(() => el.classList.add('in'), 30);
+            });
+
+            // Specific page renders
+            if (pageId === 'green-impact-page') renderGreenImpactPage();
+
+            // scroll main content to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        /* ── DATA ────────────────────────────────────────── */
+        // Use localStorage if available, otherwise fallback to defaults
+        // Clear any stale dummy data from localStorage
+        (function purgeLegacyDummyData() {
+            const storedInv = JSON.parse(localStorage.getItem('invoicepro_inv'));
+            const legacyIds = ['INV-0048', 'INV-0047', 'INV-0046', 'INV-0045', 'INV-0044', 'INV-0043', 'INV-0042'];
+            if (storedInv && storedInv.some(r => legacyIds.includes(r.id))) {
+                localStorage.removeItem('invoicepro_inv');
+                localStorage.removeItem('invoicepro_act');
+                localStorage.removeItem('invoicepro_cli');
+            }
+        })();
+
+        let INV = JSON.parse(localStorage.getItem('invoicepro_inv')) || [];
+        let ACTIVITY = JSON.parse(localStorage.getItem('invoicepro_act')) || [];
+        let CLIENTS = JSON.parse(localStorage.getItem('invoicepro_cli')) || [];
+
+        function saveData() {
+            localStorage.setItem('invoicepro_inv', JSON.stringify(INV));
+            localStorage.setItem('invoicepro_act', JSON.stringify(ACTIVITY));
+            localStorage.setItem('invoicepro_cli', JSON.stringify(CLIENTS));
+        }
+
+        const BARS = [];
+
+        const $$ = n => '$' + n.toLocaleString();
+
+        /* ── RENDERS ─────────────────────────────────────── */
+        function renderTable() {
+            const tableHtml = INV.map(r => `
+    <tr onclick="tip('Invoice #${r.id} — ${$$(r.amt)}')">
+      <td class="cell-id">#${r.id}</td>
+      <td><div class="cell-client">
+        <div class="client-dot" style="background:${r.clr}">${r.client[0]}</div>
+        <div>
+          <div class="client-name">${r.client}</div>
+          <div class="client-email">${r.email}</div>
+        </div>
+      </div></td>
+      <td class="cell-amount">${$$(r.amt)}</td>
+      <td><span class="st ${r.status}"><span class="st-dot"></span>${r.status}</span></td>
+      <td class="cell-date">${r.date}</td>
+      <td>
+        <button class="tbl-action" onclick="event.stopPropagation();tip('Options for #${r.id}')">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+        </button>
+      </td>
+    </tr>`).join('');
+
+            const emptyState = `<tr><td colspan="6" style="text-align:center;padding:48px 24px;">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:10px;">
+                    <svg viewBox="0 0 24 24" style="width:36px;height:36px;stroke:var(--t3);fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    <div style="font-size:13.5px;font-weight:600;color:var(--t2);">No invoices yet</div>
+                    <div style="font-size:12px;color:var(--t3);">Invoices you create will appear here</div>
+                </div>
+            </td></tr>`;
+            const dashBody = document.getElementById('tbl-body');
+            const allBody = document.getElementById('all-invoices-body');
+            const html = INV.length ? tableHtml : emptyState;
+            if (dashBody) dashBody.innerHTML = html;
+            if (allBody) allBody.innerHTML = html;
+        }
+
+        function renderFeed() {
+            const feedEl = document.getElementById('feed');
+            if (!feedEl) return;
+            if (!ACTIVITY.length) {
+                feedEl.innerHTML = `<div style="text-align:center;padding:48px 24px;display:flex;flex-direction:column;align-items:center;gap:10px;">
+                    <svg viewBox="0 0 24 24" style="width:36px;height:36px;stroke:var(--t3);fill:none;stroke-width:1.4;stroke-linecap:round;"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    <div style="font-size:13.5px;font-weight:600;color:var(--t2);">No activity yet</div>
+                    <div style="font-size:12px;color:var(--t3);">Events will appear here as you work</div>
+                </div>`;
+                return;
+            }
+            feedEl.innerHTML = ACTIVITY.map(a => `
+    <div class="feed-item">
+      <div class="feed-spine">
+        <div class="feed-dot" style="background:${a.c}"></div>
+        <div class="feed-wire"></div>
+      </div>
+      <div>
+        <div class="feed-txt">${a.txt}</div>
+        <div class="feed-ago">${a.ago}</div>
+      </div>
+    </div>`).join('');
+        }
+
+        function renderBars() {
+            const emptyBars = `<div style="width:100%;display:flex;align-items:center;justify-content:center;height:90px;">
+                <span style="font-size:12px;color:var(--t3);">No revenue data yet</span>
+            </div>`;
+            const dashBars = document.getElementById('bars');
+            const analyticBars = document.getElementById('analytics-bars');
+            if (dashBars) dashBars.innerHTML = emptyBars;
+            if (analyticBars) analyticBars.innerHTML = emptyBars;
+        }
+
+        function renderClients() {
+            const clList = document.getElementById('cl-list');
+            if (!clList) return;
+            if (!CLIENTS.length) {
+                clList.innerHTML = `<div style="text-align:center;padding:48px 24px;display:flex;flex-direction:column;align-items:center;gap:10px;">
+                    <svg viewBox="0 0 24 24" style="width:36px;height:36px;stroke:var(--t3);fill:none;stroke-width:1.4;stroke-linecap:round;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    <div style="font-size:13.5px;font-weight:600;color:var(--t2);">No clients yet</div>
+                    <div style="font-size:12px;color:var(--t3);">Top clients will appear here</div>
+                </div>`;
+                return;
+            }
+            clList.innerHTML = CLIENTS.map(c => `
+    <div class="cl-row" onclick="tip('${c.name} — ${$$(c.amt)}')">
+      <div class="cl-av" style="background:${c.clr}">${c.name[0]}</div>
+      <div class="cl-mid">
+        <div class="cl-nm">${c.name}</div>
+        <div class="cl-track">
+          <div class="cl-fill" style="width:0%" data-w="${c.pct}"></div>
+        </div>
+      </div>
+      <div class="cl-right">
+        <div class="cl-amt">${$$(c.amt)}</div>
+        <div class="cl-inv">${c.inv} inv</div>
+      </div>
+    </div>`).join('');
+            setTimeout(() => {
+                document.querySelectorAll('.cl-fill').forEach(el => el.style.width = el.dataset.w + '%');
+            }, 400);
+        }
+
+        function renderClientsList() {
+            const listCard = document.getElementById('clients-list-container');
+            if (listCard) {
+                listCard.innerHTML = CLIENTS.map(c => `
+                <div class="cl-row">
+                    <div class="cl-av" style="background:${c.clr}">${c.name[0]}</div>
+                    <div class="cl-mid">
+                        <div class="cl-nm">${c.name}</div>
+                    </div>
+                    <div class="cl-right">
+                        <div class="cl-amt">${$$(c.amt)}</div>
+                        <div class="cl-inv">${c.inv} inv</div>
+                    </div>
+                </div>`).join('');
+            }
+        }
+
+        /* ── NEW INVOICE LOGIC ───────────────────────────── */
+        let newInvItems = [{ desc: '', qty: 1, price: 0 }];
+
+        function renderNewInvoice() {
+            // Populate clients dropdown
+            const select = document.getElementById('inv-client');
+            if (select && select.options.length <= 1) {
+                CLIENTS.forEach(c => {
+                    const opt = document.createElement('option');
+                    opt.value = c.name;
+                    opt.textContent = c.name;
+                    select.appendChild(opt);
+                });
+            }
+
+            // Render items
+            const tbody = document.getElementById('inv-items');
+            if (tbody) {
+                tbody.innerHTML = newInvItems.map((item, i) => `
+                <tr>
+                    <td><input type="text" value="${item.desc}" oninput="updateInvItem(${i}, 'desc', this.value)" style="width:100%; padding:8px; border:1px solid var(--line); border-radius:6px; font-family:inherit; font-size:13px;" placeholder="Item description"></td>
+                    <td><input type="number" min="1" value="${item.qty}" oninput="updateInvItem(${i}, 'qty', this.value)" style="width:100%; padding:8px; border:1px solid var(--line); border-radius:6px; font-family:inherit; font-size:13px;"></td>
+                    <td><input type="number" min="0" value="${item.price}" oninput="updateInvItem(${i}, 'price', this.value)" style="width:100%; padding:8px; border:1px solid var(--line); border-radius:6px; font-family:inherit; font-size:13px;"></td>
+                    <td style="font-weight: 600; color: var(--t1);">$${(item.qty * item.price).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                    <td><button onclick="removeInvItem(${i})" style="background:none; border:none; color:var(--red); cursor:pointer;"><svg viewBox="0 0 24 24" style="width:14px; height:14px; stroke:currentColor; stroke-width:2;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></td>
+                </tr>`).join('');
+            }
+            calcInvTotal();
+        }
+
+        function updateInvItem(index, field, val) {
+            newInvItems[index][field] = field === 'desc' ? val : Number(val);
+            calcInvTotal();
+            // Optional: re-render specific row total, for now re-render all to show calculated total changes
+            renderNewInvoice();
+        }
+
+        function addInvItem() {
+            newInvItems.push({ desc: '', qty: 1, price: 0 });
+            renderNewInvoice();
+        }
+
+        function removeInvItem(index) {
+            newInvItems.splice(index, 1);
+            if (newInvItems.length === 0) newInvItems.push({ desc: '', qty: 1, price: 0 });
+            renderNewInvoice();
+        }
+
+        function calcInvTotal() {
+            const sub = newInvItems.reduce((acc, item) => acc + (item.qty * item.price), 0);
+            const isGstVerified = document.body.classList.contains('gst-verified');
+
+            let tax, tot;
+            if (isGstVerified) {
+                // GST verified: CGST 9% + SGST 9% + IGST 18% (interstate)
+                const cgst = sub * 0.09;
+                const sgst = sub * 0.09;
+                const igst = sub * 0.18;
+                tax = cgst + sgst; // intra-state default; IGST shown separately
+                tot = sub + cgst + sgst;
+
+                const cgstEl = document.getElementById('inv-cgst');
+                const sgstEl = document.getElementById('inv-sgst');
+                const igstEl = document.getElementById('inv-igst');
+                if (cgstEl) cgstEl.textContent = '$' + cgst.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                if (sgstEl) sgstEl.textContent = '$' + sgst.toLocaleString(undefined, { minimumFractionDigits: 2 });
+                if (igstEl) igstEl.textContent = '$' + igst.toLocaleString(undefined, { minimumFractionDigits: 2 });
+            } else {
+                tax = sub * 0.10;
+                tot = sub + tax;
+            }
+
+            const sb = document.getElementById('inv-subtotal');
+            const gs = document.getElementById('inv-gst');
+            const to = document.getElementById('inv-total');
+            if (sb) sb.textContent = '$' + sub.toLocaleString(undefined, { minimumFractionDigits: 2 });
+            if (gs) gs.textContent = '$' + tax.toLocaleString(undefined, { minimumFractionDigits: 2 });
+            if (to) to.textContent = '$' + tot.toLocaleString(undefined, { minimumFractionDigits: 2 });
+        }
+
+        function saveInvoice() {
+            const client = document.getElementById('inv-client').value;
+            if (!client) return tip('Please select a client');
+            const sub = newInvItems.reduce((acc, item) => acc + (item.qty * item.price), 0);
+            if (sub <= 0) return tip('Total must be greater than $0');
+
+            const total = sub * 1.10;
+
+            // Generate a random ID logic
+            const newId = 'INV-00' + (49 + Math.floor(Math.random() * 50));
+
+            INV.unshift({
+                id: newId,
+                client: client,
+                email: 'billing@' + client.toLowerCase().replace(' ', '') + '.com',
+                amt: total,
+                status: 'pending',
+                date: 'Just now',
+                clr: '#5b3fff'
+            });
+
+            ACTIVITY.unshift({
+                c: '#5b3fff',
+                txt: `Invoice <b>#${newId}</b> created for ${client}`,
+                ago: 'just now'
+            });
+
+            // Update client stats
+            const cObj = CLIENTS.find(c => c.name === client);
+            if (cObj) {
+                cObj.amt += total;
+                cObj.inv += 1;
+            }
+
+            saveData();
+
+            tip(`Draft saved for ${client} (${$$((total))})`);
+
+            // Re-render dashboard things
+            renderTable();
+            renderFeed();
+
+            // Reset form and switch to dashboard
+            newInvItems = [{ desc: '', qty: 1, price: 0 }];
+            document.getElementById('inv-client').value = "";
+            renderNewInvoice();
+
+            setTimeout(() => switchPage('dashboard-page'), 1500);
+        }
+
+        /* ── SEARCH ──────────────────────────────────────── */
+        function handleSearch(query) {
+            const q = query.toLowerCase().trim();
+            const filtered = q ? INV.filter(r =>
+                r.id.toLowerCase().includes(q) ||
+                r.client.toLowerCase().includes(q) ||
+                r.email.toLowerCase().includes(q) ||
+                r.status.toLowerCase().includes(q)
+            ) : INV;
+
+            const makeRows = arr => arr.map(r => `
+    <tr onclick="tip('Invoice #${r.id} — ${$$(r.amt)}')"> 
+      <td class="cell-id">#${r.id}</td>
+      <td><div class="cell-client">
+        <div class="client-dot" style="background:${r.clr}">${r.client[0]}</div>
+        <div>
+          <div class="client-name">${r.client}</div>
+          <div class="client-email">${r.email}</div>
+        </div>
+      </div></td>
+      <td class="cell-amount">${$$(r.amt)}</td>
+      <td><span class="st ${r.status}"><span class="st-dot"></span>${r.status}</span></td>
+      <td class="cell-date">${r.date}</td>
+      <td>
+        <button class="tbl-action" onclick="event.stopPropagation();tip('Options for #${r.id}')">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+        </button>
+      </td>
+    </tr>`).join('');
+
+            const dashBody = document.getElementById('tbl-body');
+            const allBody = document.getElementById('all-invoices-body');
+            const noResult = filtered.length === 0 ? `<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--t3);">No invoices match "${query}"</td></tr>` : '';
+            if (dashBody) dashBody.innerHTML = noResult || makeRows(filtered.slice(0, 7));
+            if (allBody) allBody.innerHTML = noResult || makeRows(filtered);
+        }
+
+        /* ── EXPORT ──────────────────────────────────────── */
+        function exportCSV() {
+            const headers = ['Invoice ID', 'Client', 'Email', 'Amount', 'Status', 'Date'];
+            const rows = INV.map(r => [r.id, r.client, r.email, '$' + r.amt.toLocaleString(), r.status, r.date]);
+            const csv = [headers, ...rows].map(r => r.map(v => `"${v}"`).join(',')).join('\n');
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = 'invoicepro-export.csv'; a.click();
+            URL.revokeObjectURL(url);
+            tip('Exported ' + INV.length + ' invoices to CSV ✓');
+        }
+
+        function exportClients() {
+            const headers = ['Client', 'Revenue', 'Invoices'];
+            const rows = CLIENTS.map(c => [c.name, '$' + c.amt.toLocaleString(), c.inv]);
+            const csv = [headers, ...rows].map(r => r.map(v => `"${v}"`).join(',')).join('\n');
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = 'invoicepro-clients.csv'; a.click();
+            URL.revokeObjectURL(url);
+            tip('Exported ' + CLIENTS.length + ' clients to CSV ✓');
+        }
+
+        /* ── ADD CLIENT MODAL ────────────────────────────── */
+        function openAddClientModal() {
+            const m = document.getElementById('add-client-modal');
+            m.style.display = 'flex';
+            setTimeout(() => document.getElementById('nc-name').focus(), 100);
+        }
+
+        function closeAddClientModal() {
+            document.getElementById('add-client-modal').style.display = 'none';
+            document.getElementById('nc-name').value = '';
+            document.getElementById('nc-email').value = '';
+        }
+
+        function submitAddClient() {
+            const name = document.getElementById('nc-name').value.trim();
+            const email = document.getElementById('nc-email').value.trim();
+            if (!name) return tip('Please enter a client name');
+            if (!email || !email.includes('@')) return tip('Please enter a valid email');
+            const colors = ['#4285f4', '#635bff', '#374151', '#f24e1e', '#7c3aed', '#059669', '#d97706'];
+            CLIENTS.push({ name, amt: 0, inv: 0, clr: colors[Math.floor(Math.random() * colors.length)], pct: 0 });
+            saveData();
+            renderClientsList();
+            renderNewInvoice(); // refresh client dropdown
+            closeAddClientModal();
+            tip(`Client "${name}" added successfully ✓`);
+        }
+
+        /* ── SIGN OUT ────────────────────────────────────── */
+        function signOut() {
+            localStorage.removeItem('invoicepro_token');
+            tip('Signing out...');
+            setTimeout(() => { window.location.href = 'login.html'; }, 900);
+        }
+
+        /* ── INVOICE FILTER BUTTONS ──────────────────────── */
+        function filterInvoices(status) {
+            const filtered = status === 'all' ? INV : INV.filter(r => r.status === status);
+            const makeRows = arr => arr.map(r => `
+    <tr onclick="tip('Invoice #${r.id} — ${$$(r.amt)}')"> 
+      <td class="cell-id">#${r.id}</td>
+      <td><div class="cell-client">
+        <div class="client-dot" style="background:${r.clr}">${r.client[0]}</div>
+        <div>
+          <div class="client-name">${r.client}</div>
+          <div class="client-email">${r.email}</div>
+        </div>
+      </div></td>
+      <td class="cell-amount">${$$(r.amt)}</td>
+      <td><span class="st ${r.status}"><span class="st-dot"></span>${r.status}</span></td>
+      <td class="cell-date">${r.date}</td>
+      <td>
+        <button class="tbl-action" onclick="event.stopPropagation();tip('Options for #${r.id}')">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+        </button>
+      </td>
+    </tr>`).join('');
+            const allBody = document.getElementById('all-invoices-body');
+            if (allBody) allBody.innerHTML = filtered.length ? makeRows(filtered) : `<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--t3);">No ${status} invoices</td></tr>`;
+            // update filter button styles
+            document.querySelectorAll('.filter-btn').forEach(b => {
+                const isActive = b.dataset.filter === status;
+                b.style.background = isActive ? 'var(--brand-subtle)' : 'transparent';
+                b.style.color = isActive ? 'var(--brand)' : 'var(--t2)';
+            });
+        }
+
+        /* ── GST STATE ENGINE ─────────────────────────────── */
+        const GST_KEY = 'invoicepro_gst';
+        let gstData = JSON.parse(localStorage.getItem(GST_KEY)) || {
+            verified: false, dismissed: false, bizName: '', gstNumber: '', state: ''
+        };
+
+        /* Navigate to the full-page verification flow */
+        function goToGstPage() {
+            window.location.href = 'gst-verification.html';
+        }
+
+        function applyGstState() {
+            const body = document.body;
+            if (gstData.verified) {
+                body.classList.add('gst-verified');
+                const cta = document.getElementById('sb-gst-cta');
+                if (cta) cta.style.display = 'none';
+                const settingsCta = document.getElementById('settings-gst-cta');
+                if (settingsCta) settingsCta.style.display = 'none';
+                const disp = document.getElementById('settings-gst-display');
+                if (disp) disp.textContent = gstData.gstNumber;
+                const taxNum = document.getElementById('tax-gst-number-display');
+                if (taxNum) taxNum.textContent = gstData.gstNumber;
+                const basic = document.getElementById('inv-gst-row-basic');
+                if (basic) basic.style.display = 'none';
+                // If we just returned from verification, show toast
+                if (sessionStorage.getItem('gst_just_verified')) {
+                    sessionStorage.removeItem('gst_just_verified');
+                    ACTIVITY.unshift({ c: '#059669', txt: `<b>${gstData.bizName}</b> GST verification completed`, ago: 'just now' });
+                    renderFeed();
+                    tip('GST Verified! Advanced tax features unlocked ✓', 3500);
+                }
+            } else {
+                body.classList.remove('gst-verified');
+                const banner = document.getElementById('gst-banner');
+                if (banner) banner.style.display = gstData.dismissed ? 'none' : '';
+                const cta = document.getElementById('sb-gst-cta');
+                if (cta) cta.style.display = '';
+                const settingsCta = document.getElementById('settings-gst-cta');
+                if (settingsCta) settingsCta.style.display = '';
+                const basic = document.getElementById('inv-gst-row-basic');
+                if (basic) basic.style.display = '';
+            }
+        }
+
+        function dismissGstBanner() {
+            const banner = document.getElementById('gst-banner');
+            if (banner) banner.style.display = 'none';
+            gstData.dismissed = true;
+            localStorage.setItem(GST_KEY, JSON.stringify(gstData));
+        }
+
+        /* ── INIT ────────────────────────────────────────── */
+        window.onload = () => {
+            renderTable();
+            renderFeed();
+            renderBars();
+            renderClients();
+            renderClientsList();
+            renderNewInvoice();
+            applyGstState(); /* Apply GST state on load */
+        };
+
+        /* ── TOAST ───────────────────────────────────────── */
+        let _t;
+        function tip(msg, dur = 2800) {
+            const el = document.getElementById('toast');
+            document.getElementById('t-msg').textContent = msg;
+            el.classList.add('show');
+            clearTimeout(_t);
+            _t = setTimeout(() => el.classList.remove('show'), dur);
+        }
+
+        /* ── COUNTERS ────────────────────────────────────── */
+        function runCounters() {
+            document.querySelectorAll('.kpi-val[data-target]').forEach(el => {
+                const target = +el.dataset.target;
+                const prefix = el.dataset.prefix || '';
+                const comma = el.dataset.comma;
+                const dur = 950, t0 = performance.now();
+                const tick = now => {
+                    const p = Math.min((now - t0) / dur, 1);
+                    const ease = 1 - Math.pow(1 - p, 3);
+                    const v = Math.floor(ease * target);
+                    el.textContent = comma ? prefix + v.toLocaleString() : prefix + v;
+                    if (p < 1) requestAnimationFrame(tick);
+                    else el.textContent = comma ? prefix + target.toLocaleString() : prefix + target;
+                };
+                requestAnimationFrame(tick);
+            });
+        }
+
+        /* ── GREEN IMPACT COUNTERS ───────────────────────── */
+        const GREEN_KEY = 'INV_green_impact';
+
+        function loadGreenData() {
+            try {
+                return JSON.parse(localStorage.getItem(GREEN_KEY)) || { receipts: 0, paperless: 0 };
+            } catch (e) { return { receipts: 0, paperless: 0 }; }
+        }
+
+        function animateGreenCounter(el, target, decimals) {
+            if (!el) return;
+            const dur = 1100, t0 = performance.now();
+            const tick = now => {
+                const p = Math.min((now - t0) / dur, 1);
+                const ease = 1 - Math.pow(1 - p, 3);
+                const v = ease * target;
+                el.textContent = decimals ? v.toFixed(2) : Math.floor(v);
+                if (p < 1) requestAnimationFrame(tick);
+                else el.textContent = decimals ? target.toFixed(2) : target;
+            };
+            requestAnimationFrame(tick);
+        }
+
+        function renderGreenKpi() {
+            const d = loadGreenData();
+            const trees = parseFloat((d.receipts / 8000).toFixed(2));
+            setTimeout(() => {
+                animateGreenCounter(document.getElementById('gi-receipts'), d.receipts, false);
+                animateGreenCounter(document.getElementById('gi-trees'), trees, true);
+                animateGreenCounter(document.getElementById('gi-paperless'), d.paperless, false);
+            }, 400);
+        }
+
+        /* ── GREEN IMPACT PAGE — FULL LOGIC ────────────────────── */
+
+        const GI_REWARDS = [
+            'Premium Features', 'Premium Templates', 'Cash Coupon',
+            'Giveaway Entry', 'Surprise Reward', 'Gift Card', 'Special Gift'
+        ];
+
+        function getSmartMessage(receipts, target, remaining) {
+            if (receipts === 0) return { text: 'Send your first invoice to begin! 🌱', emoji: '🌱' };
+            if (remaining <= 0) return { text: 'You unlocked a reward! Claim it now 🎉', emoji: '🎉' };
+            if (remaining <= 50) return { text: `Only ${remaining} receipts left to unlock your reward!`, emoji: '🔥' };
+            if (remaining <= 250) return { text: `Almost there! ${remaining} more to go.`, emoji: '⚡' };
+            if (remaining <= 1000) return { text: `Great progress! Keep sending invoices 🚀`, emoji: '🚀' };
+            const pct = Math.floor((receipts / target) * 100);
+            if (pct >= 50) return { text: `Halfway there! ${pct}% complete.`, emoji: '💪' };
+            return { text: `Great start! Keep going 🌱`, emoji: '🌱' };
+        }
+
+        function renderGreenImpactPage() {
+            const d = loadGreenData();
+            const trees = parseFloat((d.receipts / 8000).toFixed(2));
+            const claimed = d.milestonesClaimed || 0;
+            const target = (claimed + 1) * 8000;
+            const remaining = target - d.receipts;
+            const percent = Math.min(100, Math.floor((d.receipts / target) * 100));
+
+            // Animate KPI counters
+            animateGreenCounter(document.getElementById('gi-page-receipts'), d.receipts, false);
+            animateGreenCounter(document.getElementById('gi-page-trees'), trees, true);
+            animateGreenCounter(document.getElementById('gi-page-bills'), d.paperless, false);
+            document.getElementById('gi-page-target').textContent = target.toLocaleString();
+
+            // Smart message
+            const msg = getSmartMessage(d.receipts, target, remaining);
+            const msgWrap = document.getElementById('gi-smart-msg-wrap');
+            if (msgWrap) msgWrap.innerHTML = `<div class="gi-smart-msg">${msg.emoji} ${msg.text}</div>`;
+
+            // Progress bar
+            document.getElementById('gi-progress-text').textContent =
+                `${d.receipts.toLocaleString()} / ${target.toLocaleString()} Receipts`;
+
+            // Animate percentage with count-up
+            animatePercent(percent);
+
+            // Delay bar fill for entrance feel
+            const bar = document.getElementById('gi-progress-bar');
+            if (bar) { bar.style.width = '0%'; setTimeout(() => { bar.style.width = percent + '%'; }, 200); }
+
+            // Remaining text
+            const remEl = document.getElementById('gi-remaining-text');
+            if (remaining > 0) remEl.textContent = `Only ${remaining.toLocaleString()} more receipts to go.`;
+            else remEl.textContent = `🎉 You've reached the milestone! Claim your reward.`;
+
+            // Claim button
+            const btn = document.getElementById('gi-claim-btn');
+            if (remaining > 0) {
+                btn.innerHTML = `<svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>&nbsp;Locked Until ${target.toLocaleString()}`;
+                btn.style.opacity = '0.6';
+                btn.style.cursor = 'not-allowed';
+                btn.className = 'btn btn-fill gi-claim-locked';
+                btn.onclick = null;
+            } else {
+                btn.innerHTML = `<svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>&nbsp;Claim Reward 🎉`;
+                btn.style.opacity = '1';
+                btn.style.cursor = 'pointer';
+                btn.className = 'btn btn-fill gi-claim-ready';
+                btn.onclick = claimGreenReward;
+            }
+
+            // Milestone History (5 milestones, animated stagger)
+            let histHTML = '';
+            for (let i = 0; i < 5; i++) {
+                const stepTarget = (i + 1) * 8000;
+                const isClaimed = i < claimed;
+                const isCurrent = i === claimed;
+                const isReady = isCurrent && remaining <= 0;
+                let icon, statusText, statusColor;
+
+                if (isClaimed) {
+                    icon = `✅`;
+                    statusText = `Reward Claimed`;
+                    statusColor = `var(--green)`;
+                } else if (isReady) {
+                    icon = `🎁`;
+                    statusText = `Ready to Claim`;
+                    statusColor = `#059669`;
+                } else {
+                    icon = `🔒`;
+                    statusText = d.receipts > 0 && isCurrent ?
+                        `${Math.floor((d.receipts / stepTarget) * 100)}% complete` : `Locked`;
+                    statusColor = `var(--t3)`;
+                }
+
+                histHTML += `<div class="gi-milestone-row" style="animation-delay:${i * 80}ms;">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <span style="font-size:18px;">${icon}</span>
+                        <div>
+                            <div style="font-weight:700; color:var(--ink); font-size:14px;">${stepTarget.toLocaleString()} Receipts</div>
+                            <div style="font-size:11px; color:var(--t3); margin-top:2px;">Milestone ${i + 1}</div>
+                        </div>
+                    </div>
+                    <span class="${isClaimed ? 'gi-milestone-claimed-badge' : ''}" style="font-size:13px; font-weight:600; color:${statusColor}; padding:4px 10px; border-radius:99px; background:${isClaimed ? 'var(--green-bg)' : isReady ? 'rgba(5,150,105,.08)' : 'transparent'};">${statusText}</span>
+                </div>`;
+            }
+            document.getElementById('gi-milestone-history').innerHTML = histHTML;
+        }
+
+        function animatePercent(targetPct) {
+            const el = document.getElementById('gi-percentage');
+            if (!el) return;
+            const dur = 1000, t0 = performance.now();
+            (function tick(now) {
+                const p = Math.min((now - t0) / dur, 1);
+                const ease = 1 - Math.pow(1 - p, 3);
+                el.textContent = Math.round(ease * targetPct) + '%';
+                if (p < 1) requestAnimationFrame(tick);
+                else el.textContent = targetPct + '%';
+            })(t0);
+        }
+
+        /* Lightweight confetti (no library) */
+        function launchConfetti() {
+            const canvas = document.createElement('canvas');
+            canvas.id = 'gi-confetti';
+            canvas.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9999;';
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            document.body.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+            const colors = ['#10b981', '#5b3fff', '#f59e0b', '#ef4444', '#06b6d4', '#a855f7'];
+            const pieces = Array.from({ length: 90 }, () => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * -canvas.height * 0.5,
+                r: Math.random() * 7 + 3,
+                d: Math.random() * 5 + 2,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                tilt: (Math.random() * 20) - 10,
+                tiltSpeed: (Math.random() * 0.08) - 0.04
+            }));
+            let frame = 0;
+            const animate = () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                pieces.forEach(p => {
+                    ctx.beginPath();
+                    ctx.fillStyle = p.color;
+                    ctx.save();
+                    ctx.translate(p.x + 10, p.y + 10);
+                    ctx.rotate((p.tilt * Math.PI) / 180);
+                    ctx.fillRect(-5, -5, p.r, p.r * 0.5);
+                    ctx.restore();
+                    p.y += p.d;
+                    p.x += Math.sin(frame / 20) * 1.2;
+                    p.tilt += p.tiltSpeed;
+                    if (p.y > canvas.height) {
+                        p.y = -10; p.x = Math.random() * canvas.width;
+                    }
+                });
+                frame++;
+                if (frame < 180) requestAnimationFrame(animate);
+                else canvas.remove();
+            };
+            requestAnimationFrame(animate);
+        }
+
+        var _rcSelectedIdx = -1;
+
+        function openRewardModal() {
+            const d = loadGreenData();
+            const claimed = d.milestonesClaimed || 0;
+            const target = (claimed + 1) * 8000;
+            if (d.receipts < target) return;
+
+            // Update header milestone number dynamically
+            _rcSelectedIdx = -1;
+            document.querySelectorAll('.rc-option').forEach(o => {
+                o.style.borderColor = 'var(--line)';
+                o.style.background = 'white';
+                o.style.boxShadow = 'none';
+                o.querySelector('.rc-check').innerHTML = '';
+                o.querySelector('.rc-check').style.background = 'white';
+                o.querySelector('.rc-check').style.borderColor = 'var(--line)';
+            });
+            const confirmBtn = document.getElementById('rc-confirm-btn');
+            confirmBtn.textContent = 'Choose a Reward';
+            confirmBtn.disabled = true;
+            confirmBtn.style.opacity = '0.5';
+            confirmBtn.style.cursor = 'not-allowed';
+
+            document.getElementById('reward-step-pick').style.display = 'block';
+            document.getElementById('reward-step-success').style.display = 'none';
+
+            const modal = document.getElementById('reward-claim-modal');
+            const inner = document.getElementById('reward-modal-inner');
+            modal.style.display = 'flex';
+            // Animate in
+            requestAnimationFrame(() => {
+                inner.style.transform = 'translateY(0) scale(1)';
+                inner.style.opacity = '1';
+            });
+        }
+
+        function closeRewardModal() {
+            const modal = document.getElementById('reward-claim-modal');
+            const inner = document.getElementById('reward-modal-inner');
+            inner.style.transform = 'translateY(20px) scale(.96)';
+            inner.style.opacity = '0';
+            setTimeout(() => { modal.style.display = 'none'; }, 300);
+        }
+
+        function selectReward(idx) {
+            _rcSelectedIdx = idx;
+            document.querySelectorAll('.rc-option').forEach((o, i) => {
+                if (i === idx) {
+                    o.style.borderColor = '#059669';
+                    o.style.background = '#f0fdf4';
+                    o.style.boxShadow = '0 0 0 3px rgba(5,150,105,.12)';
+                    const chk = o.querySelector('.rc-check');
+                    chk.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+                    chk.style.background = '#dcfce7';
+                    chk.style.borderColor = '#059669';
+                } else {
+                    o.style.borderColor = 'var(--line)';
+                    o.style.background = 'white';
+                    o.style.boxShadow = 'none';
+                    const chk = o.querySelector('.rc-check');
+                    chk.innerHTML = '';
+                    chk.style.background = 'white';
+                    chk.style.borderColor = 'var(--line)';
+                }
+            });
+            const confirmBtn = document.getElementById('rc-confirm-btn');
+            confirmBtn.disabled = false;
+            confirmBtn.style.opacity = '1';
+            confirmBtn.style.cursor = 'pointer';
+            const names = ['Premium Templates', 'Premium Features', 'Discount Coupon', 'Giveaway Entry'];
+            confirmBtn.textContent = `Claim "${names[idx]}" →`;
+        }
+
+        function confirmRewardClaim() {
+            if (_rcSelectedIdx < 0) return;
+            const names = ['Premium Templates', 'Premium Features', 'Discount Coupon', 'Giveaway Entry'];
+            const chosen = names[_rcSelectedIdx];
+
+            const d = loadGreenData();
+            if (!d.milestonesClaimed) d.milestonesClaimed = 0;
+            const target = (d.milestonesClaimed + 1) * 8000;
+            if (d.receipts < target) { closeRewardModal(); return; }
+
+            d.milestonesClaimed += 1;
+            if (!d.claimHistory) d.claimHistory = [];
+            d.claimHistory.push({
+                milestone: target,
+                reward: chosen,
+                date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+            });
+            localStorage.setItem(GREEN_KEY, JSON.stringify(d));
+
+            // Show success step
+            document.getElementById('reward-step-pick').style.display = 'none';
+            document.getElementById('reward-step-success').style.display = 'block';
+            document.getElementById('rc-chosen-name').textContent = chosen;
+            const nextT = (d.milestonesClaimed + 1) * 8000;
+            document.getElementById('rc-next-target-text').textContent =
+                `Next milestone: ${nextT.toLocaleString()} receipts → Reward #${d.milestonesClaimed + 1}`;
+
+            // Celebrate
+            launchConfetti();
+            tip(`🎉 "${chosen}" reward claimed! Next target: ${nextT.toLocaleString()} receipts.`, 5000);
+
+            // Refresh page data in background
+            setTimeout(() => renderGreenImpactPage(), 300);
+        }
+
+        function claimGreenReward() {
+            openRewardModal();
+        }
+
+        /* ── SCROLL REVEAL ───────────────────────────────── */
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+            });
+        }, { threshold: 0.06 });
+        document.querySelectorAll('.rev').forEach(el => io.observe(el));
+
+        /* ── BOOT ────────────────────────────────────────── */
+        renderTable();
+        renderFeed();
+        renderBars();
+        renderClients();
+
+        window.addEventListener('load', () => {
+            document.body.classList.add('up');
+            setTimeout(runCounters, 300);
+            renderGreenKpi();
+        });
+    </script>
+</body>
+
+</html>

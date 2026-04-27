@@ -1,0 +1,291 @@
+/* ================================================================
+   INVOICEPRO — GLOBAL VISUAL CONSISTENCY LAYER
+   theme.css — loaded AFTER style.min.css on every page.
+   
+   GOAL: White base background everywhere, premium section
+   transitions instead of the patchy white/gray alternation.
+================================================================ */
+
+/* ── 1. GLOBAL BACKGROUND — clean white base ─────────────────── */
+
+/* Override the page-level CSS variables that cause the gray look */
+:root,
+html body {
+  --bg: #ffffff !important;
+  --surface: #ffffff !important;
+  --bg-solid: #ffffff !important;
+}
+
+body {
+  background: #ffffff !important;
+  background-image: none !important;
+}
+
+/* ── 2. SECTION DEFAULTS — remove random section backgrounds ─── */
+
+/*
+  Kill the .section.alt white override (it was toggling between
+  --bg / white, creating the patchy look). All sections now
+  inherit the white body.
+*/
+.section.alt,
+.sec.alt,
+section.alt {
+  background: transparent !important;
+}
+
+/* Reset common ad-hoc section background patterns */
+.sec {
+  background: transparent;
+}
+
+/* ── 3. PREMIUM SECTION SEPARATOR SYSTEM ─────────────────────── */
+
+/*
+  Any <section>, <div class="section"> or <div class="sec">
+  now gets a subtle top divider + optional accent glow.
+  
+  We use a pseudo-element approach so NOTHING is injected in HTML.
+*/
+
+/* Abstract away the accent colour so it's easy to retheme */
+:root {
+  --sep-accent: rgba(91, 63, 255, 0.12);
+  --sep-line: rgba(91, 63, 255, 0.08);
+  --sep-glow-w: 600px;
+}
+
+/*
+  Default section — gossamer top border + very faint purple glow
+  on the section itself, so each section feels distinct without
+  a coloured background.
+*/
+section:not(.hero):not(nav):not(.announce-bar):not(.stats-strip):not(footer),
+.section:not(.hero),
+.sec:not(.hero) {
+  position: relative;
+  background: transparent;
+}
+
+/* Invisible but present — used as opt-in enhancement hook */
+section:not(.hero):not(nav):not(.announce-bar):not(.stats-strip):not(footer)::before,
+.section:not(.hero):not(.page-hero)::before,
+.sec::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 1200px;
+  height: 1px;
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(91, 63, 255, 0.14) 30%,
+      rgba(91, 63, 255, 0.14) 70%,
+      transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── 4. HIGHLIGHTED SECTIONS — premium "tinted card" style ──── */
+
+/*
+  Pages can add class `sec-highlight` to any section to get a
+  premium, very faint purple-tinted background that separates it
+  visually without looking harsh.
+*/
+.sec-highlight,
+.section-highlight {
+  background: linear-gradient(180deg,
+      rgba(91, 63, 255, 0.03) 0%,
+      rgba(91, 63, 255, 0.015) 50%,
+      transparent 100%) !important;
+  position: relative;
+}
+
+.sec-highlight::before,
+.section-highlight::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: var(--sep-glow-w);
+  height: 200px;
+  background: radial-gradient(ellipse at 50% 0%,
+      rgba(91, 63, 255, 0.07) 0%,
+      transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── 5. PAGE-SPECIFIC BACKGROUND OVERRIDES ───────────────────── */
+
+/* -- Home / Marketing pages -- */
+/* The --bg variable was #f8f7ff. We already reset it above.
+   Also neutralise the inline `background: var(--bg)` on body. */
+
+/* Fix any section that had background: #f8f7ff or similar inline */
+[style*="background: #f8f7ff"],
+[style*="background:#f8f7ff"],
+[style*="background: #f7f6ff"],
+[style*="background:#f7f6ff"],
+[style*="background: #f5f3ff"],
+[style*="background:#f5f3ff"],
+[style*="background: #faf9ff"],
+[style*="background:#faf9ff"] {
+  background: transparent !important;
+}
+
+/* Dashboard — fix the noisy gradient bg */
+/* (dashboard uses its own token system; we only touch outer bg) */
+body:has(.shell) {
+  background: #f8f8fc !important;
+  /* very subtle cool white for dashboard */
+  background-image: none !important;
+}
+
+/* -- Dashboard sidebar stays white -- */
+.sb {
+  background: #ffffff !important;
+}
+
+/* -- Dashboard topbar stays white -- */
+.topbar {
+  background: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* ── 6. NAVBAR OVERRIDES — light mode nav background ────────── */
+
+/* Marketing pages have nav with rgba(248,247,255, 0.92) — keep
+   it crisp white instead */
+nav:not(.sb):not(.sb-body) {
+  background: rgba(255, 255, 255, 0.94) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border-bottom: 1px solid rgba(91, 63, 255, 0.09) !important;
+  box-shadow: 0 1px 0 rgba(91, 63, 255, 0.06) !important;
+}
+
+nav:not(.sb):not(.sb-body):hover,
+nav.scrolled {
+  background: rgba(255, 255, 255, 0.98) !important;
+}
+
+/* ── 7. ACCENT-SOFT BACKGROUNDS — keep only as badge/chip bg ── */
+
+/*
+  .accent-soft was used both for section backgrounds AND small
+  badges. We keep it for badges but remove section-level use.
+*/
+/* Badge-level elements (.section-eyebrow, .sec-pill, .section-badge, .step-tag,
+   .sf, .tracker-tab, .faq-icon, .check-list .ck, .plan-feature .check.yes)
+   intentionally keep their accent-soft background — no override applied here. */
+
+/* Remove accent-soft when applied directly to section containers */
+.section[style*="background: var(--accent-soft)"],
+.section[style*="background:var(--accent-soft)"],
+section[style*="background: var(--accent-soft)"],
+section[style*="background:var(--accent-soft)"] {
+  background: transparent !important;
+}
+
+/* ── 8. CONTENT CARD SURFACES — stay white with subtle shadow ── */
+
+/*
+  Cards that were white already get a refined shadow so they
+  "pop" off the new white background cleanly.
+*/
+.step-card,
+.tracker-panel,
+.compare-table,
+.faq-item,
+.tracker-tab {
+  box-shadow: 0 2px 16px rgba(91, 63, 255, 0.07),
+    0 1px 4px rgba(91, 63, 255, 0.04) !important;
+}
+
+.step-card:hover,
+.tracker-panel:hover,
+.faq-item.open {
+  box-shadow: 0 8px 32px rgba(91, 63, 255, 0.11),
+    0 2px 8px rgba(91, 63, 255, 0.06) !important;
+}
+
+/* ── 9. CTA / HERO sections — keep their special styling ─────── */
+
+/* Hero sections are intentionally white and may have glows */
+.hero {
+  background: #ffffff !important;
+}
+
+/* Stats strip (purple full-width band) — intentionally left untouched for rhythm */
+
+/* CTA sections with gradient borders — intentionally left untouched */
+
+/* ── 10. FOOTER ─────────────────────────────────────────────── */
+
+footer,
+.footer {
+  background: #ffffff !important;
+  border-top: 1px solid rgba(91, 63, 255, 0.1) !important;
+}
+
+/* ── 11. SECTION WAVE DIVIDER — optional decorative class ────── */
+
+/*
+  Add class `wave-top` to any section to get a soft SVG-like
+  curve divider via CSS clip-path illusion.
+*/
+.wave-divider {
+  width: 100%;
+  height: 64px;
+  background: linear-gradient(180deg,
+      rgba(91, 63, 255, 0.04) 0%,
+      transparent 100%);
+  clip-path: ellipse(55% 100% at 50% 0%);
+  pointer-events: none;
+  margin-bottom: -1px;
+}
+
+/* ── 12. SCROLLBAR — match light theme ───────────────────────── */
+
+::-webkit-scrollbar-track {
+  background: #f0effa !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(91, 63, 255, 0.25) !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(91, 63, 255, 0.45) !important;
+}
+
+/* ── 13. PAGE TRANSITION OVERLAY — stay consistent ───────────── */
+
+.page-transition-overlay {
+  background: #ffffff !important;
+}
+
+/* ── 14. ANNOUNCEMENT BAR — intentionally left untouched; it's the purple marquee band */
+
+/* ── 15. LOGOS STRIP fade masks — match white bg ─────────────── */
+
+.logos-strip::before {
+  background: linear-gradient(to right, #ffffff, transparent) !important;
+}
+
+.logos-strip::after {
+  background: linear-gradient(to left, #ffffff, transparent) !important;
+}
+
+/* ── 16. RESPONSIVE ──────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  :root {
+    --sep-glow-w: 320px;
+  }
+}

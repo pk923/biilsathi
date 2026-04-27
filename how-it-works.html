@@ -1,0 +1,2183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"></noscript>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>How It Works — BillSathi</title>
+    <link rel="stylesheet" href="css/style.min.css" />
+  <link rel="stylesheet" href="css/theme.css" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --ink: #0a0a0f;
+            --ink2: #3d3d52;
+            --ink3: #8888a0;
+            --bg: #f8f7ff;
+            --surface: #fff;
+            --accent: #5b3fff;
+            --accent2: #7c5fff;
+            --accent-soft: #ede9ff;
+            --green: #5b3fff;
+            --green-soft: #ede9ff;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            overflow-x: hidden;
+        }
+
+        /* NAV */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            padding: 0 32px;
+            height: 66px;
+            background: rgba(248, 247, 255, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(91, 63, 255, 0.1);
+            transform: translateZ(0);
+            will-change: backdrop-filter, background;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            text-decoration: none;
+        }
+
+        .logo-img { height: 60px; width: auto; max-width: none; max-height: none; object-fit: contain; display: block; background: transparent; border: none; box-shadow: none; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; }
+    @media (max-width: 768px) { .logo-img { height: 50px; } }
+.logo em {
+            color: var(--accent);
+            font-style: normal;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--ink2);
+            text-decoration: none;
+            transition: color .2s;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+            opacity: 1;
+            filter: none;
+        }
+
+        .nav-links a.active {
+            color: #111;
+            font-weight: 600;
+            opacity: 1;
+            filter: none;
+        }
+
+        .nav-right {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-g {
+            padding: 9px 18px;
+            border: none;
+            background: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--ink2);
+            cursor: pointer;
+            border-radius: 10px;
+            transition: background .2s;
+            font-family: inherit;
+            text-decoration: none;
+        }
+
+        .btn-g:hover {
+            background: var(--accent-soft);
+            color: var(--accent);
+        }
+
+        .btn-p {
+            padding: 10px 22px;
+            background: var(--accent);
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform .15s, background .2s;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn-p:hover {
+            background: var(--accent2);
+            transform: translateY(-1px);
+        }
+
+        /* ANNOUNCE */
+        .announce-bar {
+            background: linear-gradient(90deg, var(--accent), #a855f7, var(--accent));
+            padding: 10px 0;
+            overflow: hidden;
+        }
+
+        .announce-inner {
+            display: flex;
+            gap: 0;
+            white-space: nowrap;
+            animation: marquee 28s linear infinite;
+        }
+
+        .announce-text {
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, .85);
+            padding: 0 16px;
+        }
+
+        .announce-sep {
+            color: rgba(255, 255, 255, .4);
+        }
+
+        .announce-dot {
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, .6);
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0)
+            }
+
+            100% {
+                transform: translateX(-50%)
+            }
+        }
+
+        /* HERO */
+        .hero {
+            padding: 90px 48px 70px;
+            text-align: center;
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 900px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(91, 63, 255, .07) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .sec-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: white;
+            background: var(--accent);
+            padding: 8px 20px;
+            border-radius: 999px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 16px rgba(91, 63, 255, .35);
+        }
+
+        .hero h1 {
+            font-size: clamp(38px, 5.5vw, 68px);
+            font-weight: 800;
+            letter-spacing: -2.5px;
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        .grad {
+            background: linear-gradient(135deg, #5b3fff 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--ink2);
+            max-width: 540px;
+            margin: 0 auto 48px;
+            line-height: 1.7;
+        }
+
+        .hero-cta {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .cta-a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 32px;
+            background: var(--accent);
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 14px;
+            text-decoration: none;
+            box-shadow: 0 8px 28px rgba(91, 63, 255, .4);
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .cta-a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 40px rgba(91, 63, 255, .5);
+        }
+
+        .cta-b {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 32px;
+            background: white;
+            color: var(--accent);
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 14px;
+            text-decoration: none;
+            border: 1.5px solid rgba(91, 63, 255, .2);
+            transition: border-color .2s, background .2s;
+        }
+
+        .cta-b:hover {
+            border-color: var(--accent);
+            background: var(--accent-soft);
+        }
+
+        /* STATS */
+        .stats-strip {
+            background: var(--accent);
+            padding: 28px 48px;
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-val {
+            font-size: 32px;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -1px;
+        }
+
+        .stat-lbl {
+            font-size: 12px;
+            color: rgba(255, 255, 255, .7);
+            font-weight: 500;
+            margin-top: 3px;
+        }
+
+        /* SECTIONS */
+        .section {
+            padding: 96px 48px;
+        }
+
+        .section.alt {
+            background: white;
+        }
+
+        .section-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: var(--accent-soft);
+            padding: 6px 14px;
+            border-radius: 999px;
+            margin-bottom: 16px;
+        }
+
+        /* INTERACTIVE TRACKER */
+        .tracker-wrap {
+            max-width: 880px;
+            margin: 0 auto;
+        }
+
+        .tracker-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .tracker-tab {
+            flex: 1;
+            min-width: 110px;
+            padding: 14px 16px;
+            border-radius: 14px;
+            border: 1.5px solid #e8e6f8;
+            background: white;
+            cursor: pointer;
+            font-family: inherit;
+            text-align: left;
+            transition: all .25s cubic-bezier(.34, 1.3, .64, 1);
+        }
+
+        .tracker-tab:hover {
+            border-color: var(--accent);
+            background: var(--accent-soft);
+        }
+
+        .tracker-tab.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(91, 63, 255, .3);
+        }
+
+        .tab-step {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--ink3);
+            margin-bottom: 4px;
+        }
+
+        .tracker-tab.active .tab-step {
+            color: rgba(255, 255, 255, .65);
+        }
+
+        .tab-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .tracker-tab.active .tab-label {
+            color: white;
+        }
+
+        .tracker-panel {
+            display: none;
+            background: white;
+            border-radius: 24px;
+            border: 1.5px solid #e8e6f8;
+            padding: 40px;
+            box-shadow: 0 8px 40px rgba(91, 63, 255, .08);
+        }
+
+        .tracker-panel.active {
+            display: block;
+            animation: fadeUp .4s cubic-bezier(.34, 1.3, .64, 1);
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .panel-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 36px;
+            align-items: center;
+        }
+
+        .panel-text .eyebrow {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .panel-text h3 {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.8px;
+            margin-bottom: 12px;
+            color: var(--ink);
+            line-height: 1.2;
+        }
+
+        .panel-text p {
+            font-size: 14px;
+            color: var(--ink2);
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .check-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .check-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 14px;
+            color: var(--ink2);
+        }
+
+        .ck {
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            background: var(--green-soft);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .ck svg {
+            width: 10px;
+            height: 10px;
+            stroke: var(--green);
+            fill: none;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .panel-visual {
+            background: var(--bg);
+            border-radius: 18px;
+            padding: 24px;
+            border: 1px solid #e8e6f8;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* TIMELINE STEPS */
+        .steps-wrap {
+            position: relative;
+            max-width: 860px;
+            margin: 0 auto;
+            padding-left: 0;
+        }
+
+        .steps-line {
+            position: absolute;
+            left: 35px;
+            top: 35px;
+            bottom: 35px;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent), #a855f7, var(--green), transparent);
+            border-radius: 2px;
+        }
+
+        .step {
+            display: flex;
+            gap: 28px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-num {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .12);
+            transition: transform .3s, box-shadow .3s;
+        }
+
+        .step:hover .step-num {
+            transform: scale(1.08) rotate(-3deg);
+        }
+
+        .step-num svg {
+            width: 28px;
+            height: 28px;
+            stroke: white;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .s1 {
+            background: linear-gradient(135deg, #5b3fff, #7c3aed);
+            box-shadow: 0 8px 24px rgba(91, 63, 255, .35);
+        }
+
+        .s2 {
+            background: linear-gradient(135deg, #0284c7, #0ea5e9);
+            box-shadow: 0 8px 24px rgba(2, 132, 199, .35);
+        }
+
+        .s3 {
+            background: linear-gradient(135deg, #a855f7, #d946ef);
+            box-shadow: 0 8px 24px rgba(168, 85, 247, .35);
+        }
+
+        .s4 {
+            background: linear-gradient(135deg, #5b3fff, #7c5fff);
+            box-shadow: 0 8px 24px rgba(91, 63, 255, .35);
+        }
+
+        .s5 {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            box-shadow: 0 8px 24px rgba(245, 158, 11, .35);
+        }
+
+        .step-card {
+            background: white;
+            border-radius: 20px;
+            border: 1.5px solid #e8e6f8;
+            padding: 28px 32px;
+            flex: 1;
+            transition: box-shadow .3s, border-color .3s, transform .3s;
+        }
+
+        .step:hover .step-card {
+            box-shadow: 0 16px 48px rgba(91, 63, 255, .1);
+            border-color: rgba(91, 63, 255, .25);
+            transform: translateX(4px);
+        }
+
+        .step-tag {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: var(--accent-soft);
+            padding: 4px 10px;
+            border-radius: 999px;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .step-card h3 {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: var(--ink);
+        }
+
+        .step-card p {
+            font-size: 14px;
+            color: var(--ink2);
+            line-height: 1.75;
+        }
+
+        .step-features {
+            margin-top: 16px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .sf {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--ink2);
+            background: var(--bg);
+            padding: 5px 12px;
+            border-radius: 8px;
+            border: 1px solid #e8e6f8;
+        }
+
+        .sf svg {
+            width: 11px;
+            height: 11px;
+            stroke: var(--green);
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+        }
+
+        /* COMPARE */
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(91, 63, 255, .07);
+        }
+
+        .compare-table th {
+            padding: 18px 24px;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: left;
+            background: var(--ink);
+            color: white;
+        }
+
+        .compare-table th.ah {
+            background: var(--accent);
+        }
+
+        .compare-table td {
+            padding: 14px 24px;
+            font-size: 14px;
+            border-bottom: 1px solid #f0eeff;
+            color: var(--ink2);
+        }
+
+        .compare-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .compare-table tr:nth-child(even) td {
+            background: #faf9ff;
+        }
+
+        .compare-table td.ah {
+            background: rgba(91, 63, 255, .04);
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .yes {
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .no {
+            color: #ef4444;
+        }
+
+        /* FAQ */
+        .faq-wrap {
+            max-width: 760px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 16px;
+            border: 1.5px solid #e8e6f8;
+            overflow: hidden;
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        .faq-item.open {
+            border-color: rgba(91, 63, 255, .3);
+            box-shadow: 0 8px 24px rgba(91, 63, 255, .08);
+        }
+
+        .faq-q {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 700;
+            user-select: none;
+            transition: color .2s;
+            gap: 16px;
+        }
+
+        .faq-q:hover {
+            color: var(--accent);
+        }
+
+        .faq-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: var(--accent-soft);
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            transition: background .2s, transform .3s;
+        }
+
+        .faq-icon svg {
+            width: 14px;
+            height: 14px;
+            stroke: var(--accent);
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+        }
+
+        .faq-item.open .faq-icon {
+            background: var(--accent);
+            transform: rotate(45deg);
+        }
+
+        .faq-item.open .faq-icon svg {
+            stroke: white;
+        }
+
+        .faq-a {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .4s ease;
+        }
+
+        .faq-item.open .faq-a {
+            max-height: 300px;
+        }
+
+        .faq-a-inner {
+            padding: 0 24px 22px;
+            font-size: 14px;
+            color: var(--ink2);
+            line-height: 1.8;
+            border-top: 1px solid #f0eeff;
+            padding-top: 16px;
+        }
+
+        /* TRUST */
+        .trust-strip {
+            background: white;
+            padding: 48px 0;
+            border-top: 1px solid #f0eeff;
+            border-bottom: 1px solid #f0eeff;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .trust-strip h4 {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--ink3);
+            margin-bottom: 28px;
+        }
+
+        .marquee-outer {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .marquee-outer::before,
+        .marquee-outer::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 120px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .marquee-outer::before {
+            left: 0;
+            background: linear-gradient(90deg, white 0%, transparent 100%);
+        }
+
+        .marquee-outer::after {
+            right: 0;
+            background: linear-gradient(270deg, white 0%, transparent 100%);
+        }
+
+        .marquee-track {
+            display: flex;
+            align-items: center;
+            gap: 56px;
+            width: max-content;
+            animation: trust-scroll 22s linear infinite;
+        }
+
+        .marquee-track:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes trust-scroll {
+            0% {
+                transform: translateX(0)
+            }
+
+            100% {
+                transform: translateX(-50%)
+            }
+        }
+
+        .trust-logo {
+            font-size: 22px;
+            font-weight: 800;
+            white-space: nowrap;
+            transition: opacity .25s;
+            cursor: default;
+            opacity: 0.35;
+        }
+
+        .trust-logo:hover {
+            opacity: 0.75;
+        }
+
+        /* CTA BAND */
+        .cta-band {
+            background: linear-gradient(135deg, #3b1fa8, var(--accent), #7c3aed);
+            padding: 80px 48px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-band::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 255, 255, .08), transparent 60%);
+            pointer-events: none;
+        }
+
+        .cta-band .eyebrow {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, .6);
+            margin-bottom: 14px;
+        }
+
+        .cta-band h2 {
+            font-size: clamp(28px, 4vw, 52px);
+            font-weight: 800;
+            color: white;
+            letter-spacing: -2px;
+            margin-bottom: 16px;
+        }
+
+        .cta-band p {
+            font-size: 17px;
+            color: rgba(255, 255, 255, .75);
+            max-width: 480px;
+            margin: 0 auto 36px;
+            line-height: 1.7;
+        }
+
+        .cta-btns {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .cta-white {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 15px 32px;
+            background: white;
+            color: var(--accent);
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 14px;
+            text-decoration: none;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, .2);
+            transition: transform .2s;
+        }
+
+        .cta-white:hover {
+            transform: translateY(-3px);
+        }
+
+        .cta-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 15px 32px;
+            background: rgba(255, 255, 255, .12);
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 14px;
+            text-decoration: none;
+            border: 1.5px solid rgba(255, 255, 255, .25);
+            transition: background .2s;
+        }
+
+        .cta-ghost:hover {
+            background: rgba(255, 255, 255, .2);
+        }
+
+        /* FOOTER */
+        footer {
+            background: white;
+            border-top: 1px solid #eeeef4;
+            padding: 60px 48px 32px;
+        }
+
+        .fg {
+            display: grid;
+            grid-template-columns: 1.8fr 1fr 1fr 1fr;
+            gap: 36px;
+            max-width: 1080px;
+            margin: 0 auto 48px;
+        }
+
+        .fl .logo {
+            margin-bottom: 12px;
+            display: inline-flex;
+        }
+
+        .fl .logo em {
+            color: var(--accent);
+        }
+
+        .footer-desc {
+            font-size: 13.5px;
+            color: var(--ink3);
+            margin-top: 14px;
+            line-height: 1.7;
+            max-width: 220px;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .social-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--bg);
+            border: 1.5px solid #e0e0ea;
+            display: grid;
+            place-items: center;
+            color: var(--ink2);
+            cursor: pointer;
+            text-decoration: none;
+            transition: background .2s, border-color .2s, color .2s;
+        }
+
+        .social-btn:hover {
+            background: var(--accent-soft);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .fl h4 {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--ink);
+            margin-bottom: 18px;
+        }
+
+        .fl a {
+            display: flex;
+            align-items: center;
+            font-size: 13.5px;
+            color: var(--ink3);
+            text-decoration: none;
+            margin-bottom: 11px;
+            padding: 5px 8px;
+            border-radius: 8px;
+            transition: background .18s, color .18s;
+        }
+
+        .fl a:not(.logo):hover {
+            background: var(--accent-soft);
+            color: var(--accent);
+        }
+
+        .fb {
+            text-align: center;
+            padding-top: 24px;
+            border-top: 1px solid #eeeef4;
+            font-size: 13px;
+            color: var(--ink3);
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+
+        /* REVEAL */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity .6s ease, transform .6s ease;
+        }
+
+        .reveal.in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes pulse-dot {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1)
+            }
+
+            50% {
+                opacity: .4;
+                transform: scale(1.6)
+            }
+        }
+
+        @media(max-width:768px) {
+            nav {
+                padding: 0 20px;
+                gap: 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero,
+            .section,
+            .cta-band {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+
+            .stats-strip {
+                gap: 32px;
+                padding: 24px;
+            }
+
+            .panel-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tracker-tab {
+                min-width: 80px;
+            }
+
+            .fg {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    
+        /* Premium Text Logo Styles */
+        .brand-wrapper { display: flex; align-items: center; gap: 8px; }
+        .brand-icon { height: 42px; width: auto; object-fit: contain; flex-shrink: 0; display: block; }
+        .brand-text-col { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+        .brand-logo-text { font-size: 26px; font-weight: 800; letter-spacing: -0.8px; line-height: 1; font-family: var(--font, 'Inter', system-ui, sans-serif); color: var(--ink, #0a0a0f); }
+        .left-logo .brand-logo-text { color: #ffffff; }
+        .brand-bill { color: inherit; }
+        .brand-sathi { background: linear-gradient(135deg, #5b3fff, #a855f7); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .brand-tagline { font-size: 7.5px; font-weight: 700; letter-spacing: 1.2px; color: #8888a0; text-transform: uppercase; margin-top: 3px; line-height: 1; font-family: var(--font, 'Inter', system-ui, sans-serif); }
+
+        .sb-logo .brand-icon { height: 34px; }
+        .sb-logo .brand-logo-text { font-size: 21px; }
+        .sb-logo .brand-tagline { font-size: 6.5px; }
+
+        @media (max-width: 768px) {
+            .brand-icon { height: 34px; }
+            .brand-logo-text { font-size: 21px; }
+            .brand-tagline { font-size: 6.5px; }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav id="navbar">
+  <a href="index.html" class="logo">
+    <div class="brand-wrapper">
+    <img src="assets/favicon.png" alt="BillSathi Icon" class="brand-icon" />
+    <div class="brand-text-col">
+        <div class="brand-logo-text"><span class="brand-bill">Bill</span><span class="brand-sathi">sathi</span></div>
+        <div class="brand-tagline">SMART BILLING. STRONG BUSINESS.</div>
+    </div>
+</div>
+  </a>
+
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="features.html">Features</a>
+    <a href="templates.html">Templates</a>
+    <a href="how-it-works.html" class="active">How It Works</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="dashboard.html">Dashboard</a>
+  </div>
+
+  <div class="nav-right">
+    <a href="login.html" class="btn-g" style="text-decoration: none; display: inline-flex; align-items: center;">Login</a>
+    <a href="signup.html" class="btn-p" style="text-decoration: none; display: inline-flex; align-items: center;">Get Started</a>
+  </div>
+</nav>
+
+    <!-- ANNOUNCE BAR -->
+    <div class="announce-bar">
+        <div class="announce-inner">
+            <span class="announce-dot"></span><span class="announce-text">Invoice in 60 Seconds</span><span
+                class="announce-sep"> · </span>
+            <span class="announce-text">Auto GST Calculation</span><span class="announce-sep"> · </span>
+            <span class="announce-text">QR Code on Every Invoice</span><span class="announce-sep"> · </span>
+            <span class="announce-text">Live Payment Tracking</span><span class="announce-sep"> · </span>
+            <span class="announce-text">Draw or Upload Signature</span><span class="announce-sep"> · </span>
+            <span class="announce-text">Invoice in 60 Seconds</span><span class="announce-sep"> · </span>
+            <span class="announce-text">Auto GST Calculation</span><span class="announce-sep"> · </span>
+            <span class="announce-text">QR Code on Every Invoice</span><span class="announce-sep"> · </span>
+            <span class="announce-text">Live Payment Tracking</span><span class="announce-sep"> · </span>
+            <span class="announce-text">Draw or Upload Signature</span><span class="announce-sep"> · </span>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="sec-pill">How It Works</div>
+        <h1>From Zero to <span class="grad">Paid Invoice</span> in 2 Minutes</h1>
+        <p>No accounting knowledge needed. Just pick a template, fill it in, and send — BillSathi handles everything
+            else.</p>
+        <div class="hero-cta">
+            <a href="signup.html" class="cta-a">Start Free — It's 2 Minutes <svg viewBox="0 0 24 24" width="16"
+                    height="16" stroke="white" fill="none" stroke-width="2.5" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                </svg></a>
+            <a href="templates.html" class="cta-b">Browse Templates</a>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats-strip">
+        <div class="stat">
+            <div class="stat-val"><span class="count-up" data-target="60">0</span>s</div>
+            <div class="stat-lbl">To first invoice</div>
+        </div>
+        <div class="stat">
+            <div class="stat-val"><span class="count-up" data-target="1200" data-suffix="K+">0</span></div>
+            <div class="stat-lbl">Active businesses</div>
+        </div>
+        <div class="stat">
+            <div class="stat-val"><span class="count-up" data-target="48" data-suffix="K+">0</span></div>
+            <div class="stat-lbl">Invoices generated</div>
+        </div>
+        <div class="stat">
+            <div class="stat-val"><span class="count-up" data-target="999" data-suffix="%">0</span></div>
+            <div class="stat-lbl">Uptime guaranteed</div>
+        </div>
+    </div>
+
+    <!-- ══ SECTION 1: INTERACTIVE TRACKER ══ -->
+    <section class="section alt">
+        <div class="section-inner">
+            <div style="text-align:center;margin-bottom:48px" class="reveal">
+                <div class="section-eyebrow">Step by Step</div>
+                <h2
+                    style="font-size:clamp(28px,4vw,46px);font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-bottom:0">
+                    From Signup to <span class="grad">First Payment</span></h2>
+            </div>
+
+            <div class="tracker-wrap reveal">
+                <div class="tracker-tabs">
+                    <button class="tracker-tab active" onclick="switchTab(0,this)">
+                        <div class="tab-step">Step 01</div>
+                        <div class="tab-label">Sign Up</div>
+                    </button>
+                    <button class="tracker-tab" onclick="switchTab(1,this)">
+                        <div class="tab-step">Step 02</div>
+                        <div class="tab-label">Pick Template</div>
+                    </button>
+                    <button class="tracker-tab" onclick="switchTab(2,this)">
+                        <div class="tab-step">Step 03</div>
+                        <div class="tab-label">Fill Details</div>
+                    </button>
+                    <button class="tracker-tab" onclick="switchTab(3,this)">
+                        <div class="tab-step">Step 04</div>
+                        <div class="tab-label">Send Invoice</div>
+                    </button>
+                    <button class="tracker-tab" onclick="switchTab(4,this)">
+                        <div class="tab-step">Step 05</div>
+                        <div class="tab-label">Get Paid</div>
+                    </button>
+                </div>
+
+                <!-- Panel 0 -->
+                <div class="tracker-panel active" id="panel-0">
+                    <div class="panel-grid">
+                        <div class="panel-text">
+                            <div class="eyebrow">Step 01</div>
+                            <h3>Create Your Free Account</h3>
+                            <p>Jump in with just your email — your dashboard is live in seconds. No forms to fill, no
+                                setup headaches. BillSathi gets you invoice-ready before your coffee gets cold.</p>
+                            <ul class="check-list">
+                                <li><span class="ck"><svg viewBox="0 0 12 12">
+                                            <polyline points="2 6 5 9 10 3" />
+                                        </svg></span>Zero setup — dashboard ready instantly</li>
+                                <li><span class="ck"><svg viewBox="0 0 12 12">
+                                            <polyline points="2 6 5 9 10 3" />
+                                        </svg></span>Free to start, no credit card needed</li>
+                                <li><span class="ck"><svg viewBox="0 0 12 12">
+                                            <polyline points="2 6 5 9 10 3" />
+                                        </svg></span>Your first invoice in under 2 minutes</li>
+                            </ul>
+                        </div>
+                        <div class="panel-visual">
+                            <div style="width:100%;max-width:260px">
+                                <div
+                                    style="background:white;border-radius:16px;padding:22px;border:1.5px solid #e8e6f8;box-shadow:0 8px 24px rgba(91,63,255,.08)">
+                                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
+                                        <div
+                                            style="width:36px;height:36px;background:var(--accent);border-radius:10px;display:grid;place-items:center;flex-shrink:0">
+                                            <svg viewBox="0 0 24 24" width="16" height="16" fill="white">
+                                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                                            </svg>
+                                        </div>
+                                        <div style="font-size:15px;font-weight:800;color:var(--ink)">BillSathi</div>
+                                    </div>
+                                    <div style="height:10px;background:#f0eeff;border-radius:5px;margin-bottom:10px">
+                                    </div>
+                                    <div
+                                        style="height:10px;background:#f0eeff;border-radius:5px;width:70%;margin-bottom:20px">
+                                    </div>
+                                    <div
+                                        style="height:42px;background:var(--accent);border-radius:12px;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px">
+                                        <div style="width:16px;height:16px;background:white;border-radius:50%"></div>
+                                        <span style="font-size:13px;font-weight:700;color:white">Continue with
+                                            Google</span>
+                                    </div>
+                                    <div style="text-align:center;font-size:11px;color:var(--ink3)">No credit card
+                                        required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel 1 -->
+                <div class="tracker-panel" id="panel-1">
+                    <div class="panel-grid">
+                        <div class="panel-text">
+                            <div class="eyebrow">Step 02</div>
+                            <h3>Choose Your Template</h3>
+                            <p>Every business is different — so we built templates that actually match how you work.
+                                Pick the one that fits your business type and it already has the right columns, layout
+                                and structure built in.</p>
+                            <ul class="check-list">
+                                <li><span class="ck"><svg viewBox="0 0 12 12">
+                                            <polyline points="2 6 5 9 10 3" />
+                                        </svg></span>15 professionally designed templates</li>
+                                <li><span class="ck"><svg viewBox="0 0 12 12">
+                                            <polyline points="2 6 5 9 10 3" />
+                                        </svg></span>Live preview before selecting</li>
+                                <li><span class="ck"><svg viewBox="0 0 12 12">
+                                            <polyline points="2 6 5 9 10 3" />
+                                        </svg></span>GST, Freelancer, Gym variants</li>
+                            </ul>
+                        </div>
+                        <div class="panel-visual">
+                            <div style="width:100%;max-width:260px;display:flex;flex-direction:column;gap:8px">
+                                <div
+                                    style="background:white;border-radius:12px;padding:14px;border:2px solid var(--accent);box-shadow:0 4px 16px rgba(91,63,255,.15);display:flex;align-items:center;gap:10px">
+                                    <div
+                                        style="width:38px;height:38px;background:var(--accent-soft);border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px">
+                                        🛍️</div>
+                                    <div style="flex:1">
+                                        <div
+                                            style="height:8px;background:#e8e6f8;border-radius:3px;width:90px;margin-bottom:5px">
+                                        </div>
+                                        <div
+                                            style="height:6px;background:var(--accent-soft);border-radius:3px;width:65px">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="width:20px;height:20px;background:var(--accent);border-radius:50%;display:grid;place-items:center;flex-shrink:0">
+                                        <svg viewBox="0 0 12 12" width="9" height="9" stroke="white" fill="none"
+                                            stroke-width="3" stroke-linecap="round">
+                                            <polyline points="2 6 5 9 10 3" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div
+                                    style="background:white;border-radius:12px;padding:14px;border:1.5px solid #e8e6f8;display:flex;align-items:center;gap:10px">
+                                    <div
+                                        style="width:38px;height:38px;background:#f0f9ff;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px">
+                                        💼</div>
+                                    <div style="flex:1">
+                                        <div
+                                            style="height:8px;background:#e8e6f8;border-radius:3px;width:80px;margin-bottom:5px">
+                                        </div>
+                                        <div style="height:6px;background:#f0f9ff;border-radius:3px;width:55px"></div>
+                                    </div>
+                                </div>
+                                <div
+                                    style="background:white;border-radius:12px;padding:14px;border:1.5px solid #e8e6f8;display:flex;align-items:center;gap:10px">
+                                    <div
+                                        style="width:38px;height:38px;background:#f5f3ff;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:16px">
+                                        🔄</div>
+                                    <div style="flex:1">
+                                        <div
+                                            style="height:8px;background:#e8e6f8;border-radius:3px;width:100px;margin-bottom:5px">
+                                        </div>
+                                        <div style="height:6px;background:#f5f3ff;border-radius:3px;width:70px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel 2 -->
+                <div class="tracker-panel" id="panel-2">
+                    <div class="panel-grid">
+                        <div class="panel-text">
+                            <div class="eyebrow">Step 03</div>
+                            <h3>Fill Details — Preview Live</h3>
+                            <p>Upload your logo, add client info and line items. The invoice preview updates on every
+                                keystroke. Draw or upload your signature. What you see is what your client gets.</p>
+                            <ul class="check-list">
+                                <li><span class="ck"><svg viewBox="0 0 12 12">
+                                            <polyline points="2 6 5 9 10 3" />
+                                        </svg></span>Upload business logo</li>
+                                <li><span class="ck"><svg viewBox="0 0 12 12">
+                                            <polyline points="2 6 5 9 10 3" />
+                                        </svg></span>Auto GST / tax calculation</li>
+                                <li><span class="ck"><svg viewBox="0 0 12 12">
+                                            <polyline points="2 6 5 9 10 3" />
+                                        </svg></span>Draw or upload signature</li>
+                            </ul>
+                        </div>
+                        <div class="panel-visual" style="padding:0;overflow:hidden;background:white;border-radius:18px">
+                            <div style="position:relative;width:100%">
+                                <!-- browser chrome bar -->
+                                <div
+                                    style="background:#f1f0f5;padding:10px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #e8e6f8">
+                                    <div style="display:flex;gap:5px">
+                                        <div style="width:10px;height:10px;border-radius:50%;background:#ff5f57"></div>
+                                        <div style="width:10px;height:10px;border-radius:50%;background:#febc2e"></div>
+                                        <div style="width:10px;height:10px;border-radius:50%;background:#28c840"></div>
+                                    </div>
+                                    <div
+                                        style="flex:1;background:white;border-radius:6px;padding:4px 10px;font-size:10px;color:var(--ink3);border:1px solid #e8e6f8">
+                                        invoicepro.io · builder</div>
+                                    <div
+                                        style="width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(99, 102, 241,.2)">
+                                    </div>
+                                </div>
+                                <!-- two-column layout -->
+                                <div style="display:grid;grid-template-columns:1fr 1fr;min-height:180px">
+                                    <!-- form side -->
+                                    <div style="padding:14px;border-right:1px solid #f0eeff;background:#faf9ff">
+                                        <div
+                                            style="font-size:9px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">
+                                            Form</div>
+                                        <div
+                                            style="height:7px;background:#e8e6f8;border-radius:3px;margin-bottom:6px;width:80%">
+                                        </div>
+                                        <div
+                                            style="height:22px;background:white;border:1px solid #e0dfea;border-radius:5px;margin-bottom:6px;padding:0 8px;display:flex;align-items:center">
+                                            <div style="height:5px;background:#c4b8ff;border-radius:2px;width:60%">
+                                            </div>
+                                        </div>
+                                        <div
+                                            style="height:7px;background:#e8e6f8;border-radius:3px;margin-bottom:6px;width:65%">
+                                        </div>
+                                        <div
+                                            style="height:22px;background:white;border:1px solid #e0dfea;border-radius:5px;margin-bottom:10px;padding:0 8px;display:flex;align-items:center">
+                                            <div style="height:5px;background:#c4b8ff;border-radius:2px;width:40%">
+                                            </div>
+                                        </div>
+                                        <div
+                                            style="height:7px;background:#e8e6f8;border-radius:3px;margin-bottom:6px;width:55%">
+                                        </div>
+                                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px">
+                                            <div
+                                                style="height:22px;background:white;border:1px solid #e0dfea;border-radius:5px;padding:0 6px;display:flex;align-items:center">
+                                                <div style="height:5px;background:#e8e6f8;border-radius:2px;width:70%">
+                                                </div>
+                                            </div>
+                                            <div
+                                                style="height:22px;background:white;border:1px solid #e0dfea;border-radius:5px;padding:0 6px;display:flex;align-items:center">
+                                                <div style="height:5px;background:#e8e6f8;border-radius:2px;width:50%">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- preview side -->
+                                    <div style="padding:14px;background:white">
+                                        <div
+                                            style="font-size:9px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;display:flex;align-items:center;gap:5px">
+                                            <div
+                                                style="width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse-dot 1.5s infinite">
+                                            </div>Live
+                                        </div>
+                                        <!-- mini invoice -->
+                                        <div
+                                            style="background:white;border:1px solid #e8e6f8;border-radius:6px;overflow:hidden">
+                                            <div
+                                                style="background:var(--accent);height:18px;display:flex;align-items:center;padding:0 8px;gap:6px">
+                                                <div
+                                                    style="width:18px;height:8px;background:rgba(255,255,255,.4);border-radius:2px">
+                                                </div>
+                                                <div
+                                                    style="margin-left:auto;width:24px;height:8px;background:rgba(255,255,255,.6);border-radius:2px">
+                                                </div>
+                                            </div>
+                                            <div style="background:#f8f7ff;padding:5px 7px">
+                                                <div
+                                                    style="height:4px;background:#e0dfea;border-radius:2px;width:50%;margin-bottom:3px">
+                                                </div>
+                                                <div style="height:4px;background:#e0dfea;border-radius:2px;width:35%">
+                                                </div>
+                                            </div>
+                                            <div style="padding:5px 7px">
+                                                <div
+                                                    style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:2px;margin-bottom:2px">
+                                                    <div
+                                                        style="height:4px;background:var(--accent-soft);border-radius:1px">
+                                                    </div>
+                                                    <div
+                                                        style="height:4px;background:var(--accent-soft);border-radius:1px">
+                                                    </div>
+                                                    <div
+                                                        style="height:4px;background:var(--accent-soft);border-radius:1px">
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:2px;margin-bottom:2px">
+                                                    <div style="height:4px;background:#f0eeff;border-radius:1px"></div>
+                                                    <div style="height:4px;background:#f0eeff;border-radius:1px"></div>
+                                                    <div style="height:4px;background:#f0eeff;border-radius:1px"></div>
+                                                </div>
+                                                <div style="display:flex;justify-content:flex-end;margin-top:5px">
+                                                    <div
+                                                        style="background:var(--accent);padding:2px 7px;border-radius:3px">
+                                                        <div
+                                                            style="height:4px;width:24px;background:rgba(255,255,255,.6);border-radius:1px">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel 3 -->
+                <div class="tracker-panel" id="panel-3">
+                    <div class="panel-grid">
+                        <div class="panel-text">
+                            <div class="eyebrow">Step 04</div>
+                            <h3>Send — Email, WhatsApp or QR</h3>
+                            <p>Every invoice gets a unique QR code linking to a live web page. Client opens it on any
+                                device — sees full details, checks payment status, downloads PDF. No app needed.</p>
+                            <ul class="check-list">
+                                <li><span class="ck"><svg viewBox="0 0 12 12">
+                                            <polyline points="2 6 5 9 10 3" />
+                                        </svg></span>QR code on every invoice</li>
+                                <li><span class="ck"><svg viewBox="0 0 12 12">
+                                            <polyline points="2 6 5 9 10 3" />
+                                        </svg></span>Live URL: invoicepro.io/invoice/ID</li>
+                                <li><span class="ck"><svg viewBox="0 0 12 12">
+                                            <polyline points="2 6 5 9 10 3" />
+                                        </svg></span>Client can view &amp; pay instantly</li>
+                            </ul>
+                        </div>
+                        <div class="panel-visual">
+                            <div style="text-align:center">
+                                <div
+                                    style="background:white;border-radius:14px;padding:18px;border:1.5px solid #e8e6f8;display:inline-block;margin-bottom:12px">
+                                    <div
+                                        style="font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">
+                                        Scan to View Invoice</div>
+                                    <div style="background:var(--bg);padding:12px;border-radius:10px;border:1px solid #e8e6f8;display:inline-block"
+                                        id="demo-qr"></div>
+
+                                </div>
+                                <div style="display:flex;gap:8px;justify-content:center">
+                                    <div
+                                        style="padding:8px 14px;background:var(--accent);border-radius:9px;font-size:11px;font-weight:700;color:white">
+                                        Email</div>
+                                    <div
+                                        style="padding:8px 14px;background:#f5f3ff;border-radius:9px;font-size:11px;font-weight:700;color:#6366f1;border:1px solid #ede9ff">
+                                        WhatsApp</div>
+                                    <div
+                                        style="padding:8px 14px;background:#eff6ff;border-radius:9px;font-size:11px;font-weight:700;color:#2563eb;border:1px solid #dbeafe">
+                                        Link</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel 4 -->
+                <div class="tracker-panel" id="panel-4">
+                    <div class="panel-grid">
+                        <div class="panel-text">
+                            <div class="eyebrow">Step 05</div>
+                            <h3>Track &amp; Get Paid</h3>
+                            <p>Know the moment your invoice is viewed. See real-time payment status — Pending, Paid, or
+                                Overdue. Get notified instantly when money lands in your account.</p>
+                            <ul class="check-list">
+                                <li><span class="ck"><svg viewBox="0 0 12 12">
+                                            <polyline points="2 6 5 9 10 3" />
+                                        </svg></span>"Viewed" notification in real-time</li>
+                                <li><span class="ck"><svg viewBox="0 0 12 12">
+                                            <polyline points="2 6 5 9 10 3" />
+                                        </svg></span>Paid / Unpaid / Overdue tracking</li>
+                                <li><span class="ck"><svg viewBox="0 0 12 12">
+                                            <polyline points="2 6 5 9 10 3" />
+                                        </svg></span>Payment timeline on live page</li>
+                            </ul>
+                        </div>
+                        <div class="panel-visual">
+                            <div style="width:100%;max-width:240px;display:flex;flex-direction:column;gap:8px">
+                                <div
+                                    style="background:#f5f3ff;border-radius:10px;padding:11px 14px;border:1px solid #ddd6fe;display:flex;align-items:center;gap:10px">
+                                    <div
+                                        style="width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse-dot 1.5s infinite;flex-shrink:0">
+                                    </div>
+                                    <div style="font-size:12px;font-weight:700;color:#3730a3">Payment Received ✓</div>
+                                </div>
+                                <div style="background:white;border-radius:12px;padding:14px;border:1px solid #e8e6f8">
+                                    <div
+                                        style="font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">
+                                        Payment Timeline</div>
+                                    <div style="display:flex;flex-direction:column;gap:10px">
+                                        <div style="display:flex;align-items:center;gap:8px">
+                                            <div
+                                                style="width:18px;height:18px;border-radius:50%;background:var(--green-soft);display:grid;place-items:center;flex-shrink:0">
+                                                <svg viewBox="0 0 12 12" width="9" height="9" stroke="var(--green)"
+                                                    fill="none" stroke-width="3" stroke-linecap="round">
+                                                    <polyline points="2 6 5 9 10 3" />
+                                                </svg>
+                                            </div>
+                                            <div style="font-size:12px;color:var(--ink2)">Invoice Created</div>
+                                        </div>
+                                        <div style="display:flex;align-items:center;gap:8px">
+                                            <div
+                                                style="width:18px;height:18px;border-radius:50%;background:var(--green-soft);display:grid;place-items:center;flex-shrink:0">
+                                                <svg viewBox="0 0 12 12" width="9" height="9" stroke="var(--green)"
+                                                    fill="none" stroke-width="3" stroke-linecap="round">
+                                                    <polyline points="2 6 5 9 10 3" />
+                                                </svg>
+                                            </div>
+                                            <div style="font-size:12px;color:var(--ink2)">Viewed by Client</div>
+                                        </div>
+                                        <div style="display:flex;align-items:center;gap:8px">
+                                            <div
+                                                style="width:18px;height:18px;border-radius:50%;background:var(--green-soft);display:grid;place-items:center;flex-shrink:0">
+                                                <svg viewBox="0 0 12 12" width="9" height="9" stroke="var(--green)"
+                                                    fill="none" stroke-width="3" stroke-linecap="round">
+                                                    <polyline points="2 6 5 9 10 3" />
+                                                </svg>
+                                            </div>
+                                            <div style="font-size:12px;font-weight:700;color:#3730a3">Payment Received
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ SECTION 2: DETAILED STEPS ══ -->
+    <section class="section">
+        <div class="section-inner">
+            <div style="text-align:center;margin-bottom:64px" class="reveal">
+                <div class="section-eyebrow">Deep Dive</div>
+                <h2 style="font-size:clamp(28px,4vw,46px);font-weight:800;letter-spacing:-1.5px;line-height:1.1">Every
+                    Step, <span class="grad">Explained</span></h2>
+            </div>
+            <div class="steps-wrap">
+                <div class="steps-line"></div>
+
+                <div class="step reveal">
+                    <div class="step-num s1"><svg viewBox="0 0 24 24">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                            <circle cx="12" cy="7" r="4" />
+                        </svg></div>
+                    <div class="step-card">
+                        <div class="step-tag">Step 1</div>
+                        <h3>Sign Up &amp; Build Your Profile</h3>
+                        <p>Your account is live in seconds — no lengthy onboarding, no confusing forms. Just sign up and
+                            you're already looking at your first invoice. The whole platform is designed so that anyone,
+                            accountant or not, feels at home from minute one.</p>
+                        <div class="step-features">
+                            <span class="sf"><svg viewBox="0 0 12 12">
+                                    <polyline points="2 6 5 9 10 3" />
+                                </svg>Ready in seconds</span>
+                            <span class="sf"><svg viewBox="0 0 12 12">
+                                    <polyline points="2 6 5 9 10 3" />
+                                </svg>No setup needed</span>
+                            <span class="sf"><svg viewBox="0 0 12 12">
+                                    <polyline points="2 6 5 9 10 3" />
+                                </svg>Free plan available</span>
+                            <span class="sf"><svg viewBox="0 0 12 12">
+                                    <polyline points="2 6 5 9 10 3" />
+                                </svg>Works on any device</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step reveal">
+                    <div class="step-num s2"><svg viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2" />
+                            <path d="M3 9h18M9 21V9" />
+                        </svg></div>
+                    <div class="step-card">
+                        <div class="step-tag">Step 2</div>
+                        <h3>Pick the Right Template</h3>
+                        <p>Choose from 15 templates across 3 categories. Product Business for shops, Service Business
+                            for freelancers and agencies, Subscription for gyms, SaaS, coaching and recurring billing.
+                        </p>
+                        <div class="step-features">
+                            <span class="sf"><svg viewBox="0 0 12 12">
+                                    <polyline points="2 6 5 9 10 3" />
+                                </svg>🛍️ Product templates</span>
+                            <span class="sf"><svg viewBox="0 0 12 12">
+                                    <polyline points="2 6 5 9 10 3" />
+                                </svg>💼 Service templates</span>
+                            <span class="sf"><svg viewBox="0 0 12 12">
+                                    <polyline points="2 6 5 9 10 3" />
+                                </svg>🔄 Subscription billing</span>
+                            <span class="sf"><svg viewBox="0 0 12 12">
+                                    <polyline points="2 6 5 9 10 3" />
+                                </svg>GST compliant</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step reveal">
+                    <div class="step-num s3"><svg viewBox="0 0 24 24">
+                            <path d="M12 20h9" />
+                            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                        </svg></div>
+                    <div class="step-card">
+                        <div class="step-tag">Step 3</div>
+                        <h3>Fill Details — Preview Updates Instantly</h3>
+                        <p>Type your client name, add line items, upload your signature. The invoice preview on the
+                            right updates in real-time with every keystroke. What you see is exactly what your client
+                            gets.</p>
+                        <div class="step-features">
+                            <span class="sf"><svg viewBox="0 0 12 12">
+                                    <polyline points="2 6 5 9 10 3" />
+                                </svg>Real-time preview</span>
+                            <span class="sf"><svg viewBox="0 0 12 12">
+                                    <polyline points="2 6 5 9 10 3" />
+                                </svg>Auto GST calc</span>
+                            <span class="sf"><svg viewBox="0 0 12 12">
+                                    <polyline points="2 6 5 9 10 3" />
+                                </svg>Draw signature</span>
+                            <span class="sf"><svg viewBox="0 0 12 12">
+                                    <polyline points="2 6 5 9 10 3" />
+                                </svg>Upload signature</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step reveal">
+                    <div class="step-num s4"><svg viewBox="0 0 24 24">
+                            <line x1="22" y1="2" x2="11" y2="13" />
+                            <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                        </svg></div>
+                    <div class="step-card">
+                        <div class="step-tag">Step 4</div>
+                        <h3>Send — Email, WhatsApp, or QR Code</h3>
+                        <p>Every invoice gets a unique QR code that links to a live web page. Your client can open it on
+                            any device, see full invoice details, check payment status, and download PDF — no app
+                            needed.</p>
+                        <div class="step-features">
+                            <span class="sf"><svg viewBox="0 0 12 12">
+                                    <polyline points="2 6 5 9 10 3" />
+                                </svg>QR on invoice</span>
+                            <span class="sf"><svg viewBox="0 0 12 12">
+                                    <polyline points="2 6 5 9 10 3" />
+                                </svg>Live invoice URL</span>
+                            <span class="sf"><svg viewBox="0 0 12 12">
+                                    <polyline points="2 6 5 9 10 3" />
+                                </svg>WhatsApp share</span>
+                            <span class="sf"><svg viewBox="0 0 12 12">
+                                    <polyline points="2 6 5 9 10 3" />
+                                </svg>Email delivery</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step reveal">
+                    <div class="step-num s5"><svg viewBox="0 0 24 24">
+                            <polyline points="20 6 9 17 4 12" />
+                        </svg></div>
+                    <div class="step-card">
+                        <div class="step-tag">Step 5</div>
+                        <h3>Track Payments in Real-Time</h3>
+                        <p>See when your invoice is opened, when payment is due, and when money arrives. Your dashboard
+                            shows a live timeline — Created → Sent → Viewed → Paid — for every single invoice.</p>
+                        <div class="step-features">
+                            <span class="sf"><svg viewBox="0 0 12 12">
+                                    <polyline points="2 6 5 9 10 3" />
+                                </svg>Viewed notification</span>
+                            <span class="sf"><svg viewBox="0 0 12 12">
+                                    <polyline points="2 6 5 9 10 3" />
+                                </svg>Paid status live</span>
+                            <span class="sf"><svg viewBox="0 0 12 12">
+                                    <polyline points="2 6 5 9 10 3" />
+                                </svg>Overdue alerts</span>
+                            <span class="sf"><svg viewBox="0 0 12 12">
+                                    <polyline points="2 6 5 9 10 3" />
+                                </svg>Payment history</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ SECTION 3: COMPARISON ══ -->
+    <section class="section alt">
+        <div class="section-inner">
+            <div style="text-align:center;margin-bottom:48px" class="reveal">
+                <div class="section-eyebrow">Why BillSathi</div>
+                <h2 style="font-size:clamp(28px,4vw,46px);font-weight:800;letter-spacing:-1.5px;line-height:1.1">Old Way
+                    vs <span class="grad">BillSathi Way</span></h2>
+            </div>
+            <div style="max-width:760px;margin:0 auto" class="reveal">
+                <table class="compare-table">
+                    <thead>
+                        <tr>
+                            <th>What you need</th>
+                            <th>Old Way</th>
+                            <th class="ah">BillSathi ✦</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Time to create invoice</strong></td>
+                            <td>20–40 minutes</td>
+                            <td class="ah">Under 60 seconds</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GST calculation</strong></td>
+                            <td class="no">Manual, error-prone</td>
+                            <td class="ah yes">Auto-calculated</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Invoice tracking</strong></td>
+                            <td class="no">No visibility</td>
+                            <td class="ah yes">Live timeline</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Client experience</strong></td>
+                            <td>PDF attachment only</td>
+                            <td class="ah">Live page + QR code</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Professional templates</strong></td>
+                            <td class="no">Generic Word/Excel</td>
+                            <td class="ah yes">15 designed templates</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Signature support</strong></td>
+                            <td class="no">Print → sign → scan</td>
+                            <td class="ah yes">Draw or upload</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cost</strong></td>
+                            <td>₹5,000–₹20,000/yr</td>
+                            <td class="ah">Free to ₹29/mo</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ SECTION 4: FAQ ══ -->
+    <section class="section">
+        <div class="section-inner">
+            <div style="text-align:center;margin-bottom:48px" class="reveal">
+                <div class="section-eyebrow">FAQ</div>
+                <h2 style="font-size:clamp(28px,4vw,46px);font-weight:800;letter-spacing:-1.5px">Questions? <span
+                        class="grad">Answered.</span></h2>
+            </div>
+            <div class="faq-wrap">
+
+                <div class="faq-item reveal" onclick="toggleFaq(this)">
+                    <div class="faq-q">Do I need any accounting knowledge?<div class="faq-icon"><svg
+                                viewBox="0 0 24 24">
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg></div>
+                    </div>
+                    <div class="faq-a">
+                        <div class="faq-a-inner">
+                            None whatsoever. BillSathi is built specifically for people who run businesses — not for
+                            accountants. You don't need to know what CGST means, you don't need to understand HSN codes,
+                            and you certainly don't need to do any math. You just type what you sold and how much it
+                            costs. BillSathi handles GST rates, calculates all the tax splits, adds up the total, and
+                            formats everything perfectly. Think of it as your CA — minus the fees and the phone calls.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item reveal" onclick="toggleFaq(this)">
+                    <div class="faq-q">What exactly is the QR code on my invoice?<div class="faq-icon"><svg
+                                viewBox="0 0 24 24">
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg></div>
+                    </div>
+                    <div class="faq-a">
+                        <div class="faq-a-inner">
+                            Every invoice you create gets its own unique QR code printed in the footer. When your client
+                            scans it with any phone camera — no app needed — it opens a clean live invoice page in their
+                            browser. On that page they can read every detail of the invoice, see whether it's been paid
+                            or is still due, and download a PDF copy for their records. It's like turning a static paper
+                            invoice into a living, trackable document. Your client always has the freshest information,
+                            and you always know if they've seen it.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item reveal" onclick="toggleFaq(this)">
+                    <div class="faq-q">How does automatic GST calculation work?<div class="faq-icon"><svg
+                                viewBox="0 0 24 24">
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg></div>
+                    </div>
+                    <div class="faq-a">
+                        <div class="faq-a-inner">
+                            As soon as you add a product or service with a price, BillSathi instantly calculates the
+                            subtotal, splits it into CGST and SGST (9% each for intra-state), and shows the final grand
+                            total — all in real time as you type. No calculator needed, no manual entry. If you're on
+                            the GST Product template, you'll also see a full HSN code column and a CGST/SGST breakup
+                            table, which is exactly what a proper tax invoice requires under GST law. The numbers update
+                            live as you add or remove line items.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item reveal" onclick="toggleFaq(this)">
+                    <div class="faq-q">Can I put my own logo and sign the invoice?<div class="faq-icon"><svg
+                                viewBox="0 0 24 24">
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg></div>
+                    </div>
+                    <div class="faq-a">
+                        <div class="faq-a-inner">
+                            Yes — and it's one of the things that makes BillSathi feel genuinely professional. Upload
+                            your business logo (PNG, JPG or SVG) and it appears in the top-left corner of every invoice,
+                            exactly where a logo belongs. For your signature, you have two options: draw it live on
+                            screen using your mouse or finger on a touchscreen, or upload a photo of your physical
+                            signature. Either way, it appears in the authorised signature box at the bottom of the
+                            invoice — making it look like a document you actually signed and handed over.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item reveal" onclick="toggleFaq(this)">
+                    <div class="faq-q">How will I know when my client opens or pays the invoice?<div class="faq-icon">
+                            <svg viewBox="0 0 24 24">
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="faq-a">
+                        <div class="faq-a-inner">
+                            Every invoice has a live payment timeline that tracks four stages automatically — Created,
+                            Sent, Viewed, and Paid. The moment your client opens the QR link or the invoice URL, it gets
+                            marked as "Viewed" with a timestamp. When payment is confirmed, the status flips to "Paid"
+                            and a green checkmark appears. You can check this from your dashboard anytime, and we'll
+                            notify you so you're never left wondering whether they even saw it. No more "I didn't
+                            receive it" excuses.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item reveal" onclick="toggleFaq(this)">
+                    <div class="faq-q">Is BillSathi free? What are the limits?<div class="faq-icon"><svg
+                                viewBox="0 0 24 24">
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                            </svg></div>
+                    </div>
+                    <div class="faq-a">
+                        <div class="faq-a-inner">
+                            The Starter plan is completely free — no trial period, no expiry. You get access to all
+                            templates, logo upload, signature, QR codes and live invoice pages. The only limit on the
+                            free plan is the number of invoices per month. If your business is growing and you need
+                            unlimited invoices, client management, payment reminders and priority support, paid plans
+                            start at just ₹9 per month — less than the cost of one cup of chai. You can upgrade or
+                            cancel any time with no questions asked.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- TRUST -->
+    <div class="trust-strip">
+        <h4>Trusted by businesses across India</h4>
+        <div class="marquee-outer">
+            <div class="marquee-track">
+                <span class="trust-logo" style="color:#96bf48">Shopify</span>
+                <span class="trust-logo" style="color:#2d6efd">Razorpay</span>
+                <span class="trust-logo" style="color:#000000">Notion</span>
+                <span class="trust-logo" style="color:#14a800">Upwork</span>
+                <span class="trust-logo" style="color:#1dbf73">Fiverr</span>
+                <span class="trust-logo" style="color:#635bff">Stripe</span>
+                <span class="trust-logo" style="color:#003087">PayPal</span>
+                <span class="trust-logo" style="color:#0e73cc">Freelancer</span>
+                <span class="trust-logo" style="color:#4285f4">Google</span>
+                <span class="trust-logo" style="color:#e42527">Zoho</span>
+                <!-- duplicate for seamless loop -->
+                <span class="trust-logo" style="color:#96bf48">Shopify</span>
+                <span class="trust-logo" style="color:#2d6efd">Razorpay</span>
+                <span class="trust-logo" style="color:#000000">Notion</span>
+                <span class="trust-logo" style="color:#14a800">Upwork</span>
+                <span class="trust-logo" style="color:#1dbf73">Fiverr</span>
+                <span class="trust-logo" style="color:#635bff">Stripe</span>
+                <span class="trust-logo" style="color:#003087">PayPal</span>
+                <span class="trust-logo" style="color:#0e73cc">Freelancer</span>
+                <span class="trust-logo" style="color:#4285f4">Google</span>
+                <span class="trust-logo" style="color:#e42527">Zoho</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-band">
+        <div class="eyebrow">Ready to start?</div>
+        <h2>Create Your First Invoice<br>in 60 Seconds</h2>
+        <p>Join 1,200+ businesses who already invoice like professionals. Free to start, no credit card needed.</p>
+        <div class="cta-btns">
+            <a href="signup.html" class="cta-white">Start Free →</a>
+            <a href="templates.html" class="cta-ghost">Browse Templates</a>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="fg">
+            <div class="fl">
+                <a href="index.html" class="logo">
+                    <div class="brand-wrapper">
+    <img src="assets/favicon.png" alt="BillSathi Icon" class="brand-icon" />
+    <div class="brand-text-col">
+        <div class="brand-logo-text"><span class="brand-bill">Bill</span><span class="brand-sathi">sathi</span></div>
+        <div class="brand-tagline">SMART BILLING. STRONG BUSINESS.</div>
+    </div>
+</div>
+                </a>
+                <p class="footer-desc">Professional invoicing backed by a powerful cloud engine.</p>
+                <div class="footer-socials">
+                    <a class="social-btn" href="#"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                            <path
+                                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.742l7.732-8.835L1.254 2.25H8.08l4.259 5.633 5.905-5.633zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                        </svg></a>
+                    <a class="social-btn" href="#"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                            <path
+                                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                        </svg></a>
+                    <a class="social-btn" href="#"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                            <path
+                                d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                        </svg></a>
+                </div>
+            </div>
+            <div class="fl">
+                <h4>Product</h4><a href="templates.html">Templates</a><a href="features.html">Features</a><a
+                    href="pricing.html">Pricing</a><a href="#">API Docs</a>
+            </div>
+            <div class="fl">
+                <h4>Resources</h4><a href="#">Invoice Guide</a><a href="#">Blog</a><a href="#">Support Center</a><a
+                    href="#">Status Page</a>
+            </div>
+            <div class="fl">
+                <h4>Legal</h4><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a
+                    href="cookies.html">Cookie Policy</a><a href="gdpr.html">GDPR</a>
+            </div>
+        </div>
+        <div class="fb">&copy; 2026 BillSathi. All rights reserved.</div>
+    </footer>
+
+    <script>
+        /* SCROLL REVEAL */
+        var ro = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); } });
+        }, { threshold: .12 });
+        document.querySelectorAll('.reveal').forEach(function (el) { ro.observe(el); });
+
+        /* TAB SWITCHER */
+        function switchTab(idx, btn) {
+            document.querySelectorAll('.tracker-tab').forEach(function (t) { t.classList.remove('active'); });
+            document.querySelectorAll('.tracker-panel').forEach(function (p) { p.classList.remove('active'); });
+            btn.classList.add('active');
+            document.getElementById('panel-' + idx).classList.add('active');
+        }
+
+        /* FAQ */
+        function toggleFaq(item) {
+            var isOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item.open').forEach(function (f) { f.classList.remove('open'); });
+            if (!isOpen) item.classList.add('open');
+        }
+
+        /* COUNT UP */
+        function countUp(el) {
+            var target = parseInt(el.getAttribute('data-target'));
+            var suffix = el.getAttribute('data-suffix') || '';
+            var duration = 1400;
+            var steps = 50;
+            var stepTime = duration / steps;
+            var cur = 0;
+            var t = setInterval(function () {
+                cur++;
+                var val = Math.round(target * cur / steps);
+                // format display
+                if (target === 1200) {
+                    el.textContent = (val >= 1000 ? '1.2K' : val) + '+';
+                } else if (target === 48) {
+                    el.textContent = val + 'K+';
+                } else if (target === 999) {
+                    el.textContent = (val / 10).toFixed(1) + '%';
+                } else {
+                    el.textContent = val + suffix;
+                }
+                if (cur >= steps) {
+                    // set final clean value
+                    if (target === 1200) el.textContent = '1.2K+';
+                    else if (target === 48) el.textContent = '48K+';
+                    else if (target === 999) el.textContent = '99.9%';
+                    else el.textContent = target + suffix;
+                    clearInterval(t);
+                }
+            }, stepTime);
+        }
+        var cObs = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) { if (e.isIntersecting) { countUp(e.target); cObs.unobserve(e.target); } });
+        }, { threshold: .5 });
+        document.querySelectorAll('.count-up').forEach(function (el) { cObs.observe(el); });
+
+        /* DEMO QR */
+        (function () {
+            var seed = 'INV-0042'; var n = 0;
+            for (var i = 0; i < seed.length; i++) n += seed.charCodeAt(i);
+            var size = 80; var cell = size / 13; var c = '';
+            for (var r = 0; r < 11; r++) {
+                for (var cl = 0; cl < 11; cl++) {
+                    if (((r * 13 + cl * 7 + n * 3 + (r ^ cl)) % 3) !== 0)
+                        c += '<rect x="' + (cl * cell + cell) + '" y="' + (r * cell + cell) + '" width="' + (cell - 1) + '" height="' + (cell - 1) + '" fill="#1e293b"/>';
+                }
+            }
+            function sq(x, y, s) { return '<rect x="' + x + '" y="' + y + '" width="' + (s * 3) + '" height="' + (s * 3) + '" fill="#1e293b"/><rect x="' + (x + s) + '" y="' + (y + s) + '" width="' + s + '" height="' + s + '" fill="#fff"/>'; }
+            var s = cell;
+            var svg = '<svg viewBox="0 0 ' + size + ' ' + size + '" width="80" height="80" xmlns="http://www.w3.org/2000/svg">' + c + sq(s, s, s) + sq(size - 4 * s, s, s) + sq(s, size - 4 * s, s) + '</svg>';
+            var el = document.getElementById('demo-qr');
+            if (el) el.innerHTML = svg;
+        })();
+    </script>
+
+    <script src="js/app.min.js" defer></script>
+</body>
+
+</html>

@@ -1,0 +1,169 @@
+/* Specific Products Page Styles */
+.page { opacity: 1; display: block; }
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+@media (max-width: 768px) {
+    .form-grid { grid-template-columns: 1fr; }
+}
+.field { margin-bottom: 16px; }
+.field label {
+    display: block;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--t2);
+    margin-bottom: 6px;
+    letter-spacing: .02em;
+}
+.field input, .field select, .field textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+    font-size: 13px;
+    font-family: var(--font);
+    color: var(--t1);
+    background: var(--surface);
+    transition: all .2s ease;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--brand);
+    box-shadow: 0 0 0 3px var(--brand-subtle);
+    outline: none;
+}
+.prod-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+.empty-state {
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--t3);
+}
+.empty-state svg {
+    width: 48px;
+    height: 48px;
+    stroke: var(--line-2);
+    margin: 0 auto 12px;
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-size: 10.5px;
+    font-weight: 600;
+    background: var(--bg-solid);
+    color: var(--t2);
+    border: 1px solid var(--line);
+}
+.badge.hourly { background: #eff6ff; color: #2563eb; border-color: #bfdbfe; }
+.badge.monthly { background: #f0fdf4; color: #16a34a; border-color: #bbf7d0; }
+.badge.fixed { background: #f5f3ff; color: #7c3aed; border-color: #ddd6fe; }
+.badge.quantity { background: #fffbeb; color: #d97706; border-color: #fde68a; }
+
+.action-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--t3);
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+.action-icon:hover {
+    background: var(--bg-solid);
+    color: var(--t1);
+}
+.action-icon.delete:hover {
+    background: var(--red-bg);
+    color: var(--red);
+}
+.action-icon svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 10, 50, 0.4);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+.modal-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+.modal-content {
+    background: var(--surface);
+    border-radius: var(--r);
+    width: 100%;
+    max-width: 600px;
+    box-shadow: var(--shadow-lg);
+    transform: translateY(20px);
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.4, 1);
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+.modal-overlay.open .modal-content {
+    transform: translateY(0);
+}
+.modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.modal-header h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--t1);
+}
+.modal-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--t3);
+    padding: 4px;
+    border-radius: 4px;
+}
+.modal-close:hover {
+    background: var(--bg-solid);
+    color: var(--t1);
+}
+.modal-body {
+    padding: 24px;
+    overflow-y: auto;
+}
+.modal-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    background: var(--surface-2);
+    border-bottom-left-radius: var(--r);
+    border-bottom-right-radius: var(--r);
+}

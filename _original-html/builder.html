@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Builder — InvoicePro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --ink: #0a0a0f; --ink2: #3d3d52; --ink3: #8888a0;
+            --bg: #f8f7ff; --surface: #ffffff;
+            --accent: #5b3fff; --accent2: #7c5fff; --accent-soft: #ede9ff;
+            --green: #10b981; --green-soft: #ecfdf5;
+        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--ink); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+        /* TOPBAR */
+        .topbar { height: 66px; background: white; border-bottom: 1px solid rgba(91, 63, 255, 0.1); display: flex; align-items: center; justify-content: space-between; padding: 0 24px; flex-shrink: 0; z-index: 100; }
+        .top-left { display: flex; align-items: center; gap: 24px; }
+        .logo { display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 800; color: var(--ink); text-decoration: none; }
+        .logo-icon { width: 32px; height: 32px; background: var(--accent); border-radius: 9px; display: grid; place-items: center; }
+        .logo-icon svg { width: 15px; height: 15px; fill: white; }
+        .logo em { color: var(--accent); font-style: normal; }
+        .tpl-info { border-left: 1.5px solid #eee; padding-left: 20px; }
+        .tpl-name { font-size: 14px; font-weight: 700; color: var(--ink); }
+        .tpl-status { font-size: 11px; color: var(--ink3); display: flex; align-items: center; gap: 5px; }
+        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+        .top-right { display: flex; align-items: center; gap: 12px; }
+        .btn-exit { padding: 9px 16px; font-size: 13px; font-weight: 600; color: var(--ink2); text-decoration: none; border-radius: 10px; transition: background .2s; }
+        .btn-exit:hover { background: #f3f3f8; }
+        .btn-save { padding: 10px 20px; background: var(--accent); color: white; font-size: 13px; font-weight: 700; border-radius: 10px; text-decoration: none; box-shadow: 0 4px 12px rgba(91, 63, 255, 0.2); transition: all .2s; border: none; cursor: pointer; font-family: inherit; }
+        .btn-save:hover { background: var(--accent2); transform: translateY(-1px); }
+
+        /* MAIN LAYOUT */
+        .builder-container { flex: 1; display: grid; grid-template-columns: 360px 1fr; overflow: hidden; }
+
+        /* EDITOR SIDE */
+        .editor-side { background: white; border-right: 1px solid #f0eeff; display: flex; flex-direction: column; overflow: hidden; }
+        .editor-content { flex: 1; overflow-y: auto; padding: 24px; }
+        .form-section { margin-bottom: 24px; }
+        .form-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+        .form-section-title::after { content: ''; flex: 1; height: 1px; background: var(--accent-soft); }
+        
+        .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+        .field-row.single { grid-template-columns: 1fr; }
+        .field label { display: block; font-size: 11px; font-weight: 600; color: var(--ink2); margin-bottom: 6px; }
+        .field input, .field textarea, .field select { width: 100%; padding: 10px 14px; border: 1.5px solid #e0e0ea; border-radius: 10px; font-size: 13px; outline: none; transition: all .2s; font-family: inherit; }
+        .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(91, 63, 255, .08); }
+
+        .line-item-card { background: var(--bg); border: 1.5px solid #e8e6f8; border-radius: 12px; padding: 16px; margin-bottom: 12px; position: relative; }
+        .btn-add-line { width: 100%; padding: 12px; background: var(--accent-soft); color: var(--accent); border: 1.5px dashed #c4b8ff; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; transition: background .2s; border: 1.5px dashed #c4b8ff; font-family: inherit; }
+        .btn-add-line:hover { background: #ddd8ff; }
+
+        /* PREVIEW SIDE */
+        .preview-side { background: #f3f2ff; display: flex; align-items: center; justify-content: center; padding: 40px; overflow-y: auto; }
+        .preview-paper { width: 700px; min-height: 900px; background: white; box-shadow: 0 32px 80px rgba(91, 63, 255, 0.15), 0 4px 12px rgba(0,0,0,0.05); border-radius: 4px; overflow: hidden; }
+        #bm-iframe { width: 100%; height: 900px; border: none; display: block; }
+
+        /* TOAST */
+        .toast { position: fixed; bottom: 32px; right: 32px; background: #0f0a2e; color: white; padding: 14px 24px; border-radius: 14px; box-shadow: 0 12px 40px rgba(0,0,0,0.25); transform: translateY(100px); opacity: 0; transition: all .4s cubic-bezier(.34, 1.56, .64, 1); z-index: 1000; }
+        .toast.show { transform: translateY(0); opacity: 1; }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <div class="top-left">
+            <a href="index.html" class="logo">
+                <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg></div>Invoice<em>Pro</em>
+            </a>
+            <div class="tpl-info">
+                <div class="tpl-name" id="display-tpl-name">Loading template...</div>
+                <div class="tpl-status"><div class="status-dot"></div> Live Preview</div>
+            </div>
+        </div>
+        <div class="top-right">
+            <a href="templates.html" class="btn-exit">Back to Templates</a>
+            <button onclick="downloadInvoice()" class="btn-save">Download Invoice</button>
+        </div>
+    </header>
+
+    <div class="builder-container">
+        <aside class="editor-side">
+            <div class="editor-content" id="builderForm">
+                <div class="form-section">
+                    <div class="form-section-title">Branding</div>
+                    <div id="logo-upload-wrap"></div>
+                </div>
+
+                <div id="sig-section-wrap"></div>
+                
+                <div style="margin-top: 40px; padding: 20px; background: #f8f7ff; border-radius: 16px; border: 1px solid #ede9ff;">
+                    <div style="font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 8px;">Finalize Invoice</div>
+                    <p style="font-size: 12px; color: var(--ink3); line-height: 1.5; margin-bottom: 16px;">Review the preview on the right. Your logo and signature will be applied to the template.</p>
+                    <button onclick="downloadInvoice()" class="btn-save" style="width: 100%;">Download Now</button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="preview-side">
+            <div class="preview-paper">
+                <iframe id="bm-iframe" title="Invoice Preview"></iframe>
+            </div>
+        </main>
+    </div>
+
+    <div class="toast" id="toast"><span id="toast-msg">Changes saved! ✓</span></div>
+
+    <script>
+        /* ─── STATE ─── */
+        var uploadedLogo = null;
+        var uploadedSig = null;
+        var currentSigTab = "draw";
+        var builderTpl = null;
+        var lineItems = [];
+
+        /* ─── TEMPLATES DATA ─── */
+        var TEMPLATES = {
+            product: [
+                { id: 'p1', name: 'Modern Retail Invoice', type:'product' },
+                { id: 'p2', name: 'Electronics Shop Invoice', type:'product' },
+                { id: 'p3', name: 'GST Product Invoice', type:'product' },
+                { id: 'p4', name: 'Minimal Store Invoice', type:'product' },
+                { id: 'p5', name: 'Wholesale Invoice', type:'product' }
+            ],
+            service: [
+                { id: 's1', name: 'Freelancer Invoice', type:'service' },
+                { id: 's2', name: 'Agency Invoice', type:'service' },
+                { id: 's3', name: 'Consulting Invoice', type:'service' },
+                { id: 's4', name: 'Project Invoice', type:'service' },
+                { id: 's5', name: 'Creative Service Invoice', type:'service' }
+            ],
+            subscription: [
+                { id: 'sub1', name: 'Membership Invoice', type:'subscription' },
+                { id: 'sub2', name: 'Gym Invoice', type:'subscription' },
+                { id: 'sub3', name: 'Coaching Invoice', type:'subscription' },
+                { id: 'sub4', name: 'SaaS Billing Invoice', type:'subscription' },
+                { id: 'sub5', name: 'Recurring Payment Invoice', type:'subscription' }
+            ]
+        };
+
+        /* ─── HELPERS (EXTRACTED FROM TEMPLATES.HTML) ─── */
+        function fmtINR(n) { return '\u20b9' + (n || 0).toLocaleString('en-IN'); }
+        function qrSVG(seed) {
+            var n = 0; for (var i = 0; i < seed.length; i++) n += seed.charCodeAt(i);
+            var c = ''; for (var r = 0; r < 11; r++) { for (var cl = 0; cl < 11; cl++) { if (((r * 13 + cl * 7 + n * 3 + (r ^ cl)) % 3) !== 0) c += '<rect x="' + (cl * 6) + '" y="' + (r * 6) + '" width="5" height="5" fill="#1e293b"/>'; } }
+            function sq(x, y) { return '<rect x="' + x + '" y="' + y + '" width="19" height="19" fill="#1e293b"/><rect x="' + (x + 2) + '" y="' + (y + 2) + '" width="15" height="15" fill="#fff"/><rect x="' + (x + 4) + '" y="' + (y + 4) + '" width="11" height="11" fill="#1e293b"/>'; }
+            return '<svg viewBox="0 0 66 66" width="60" height="60" xmlns="http://www.w3.org/2000/svg">' + c + sq(0, 0) + sq(42, 0) + sq(0, 42) + '</svg>';
+        }
+        function logoHTML(logo, acc, biz, tag) {
+            var name = '<div style="font-size:15px;font-weight:800;color:#0f172a;margin-top:6px">' + (biz || 'Your Business') + '</div><div style="font-size:10px;color:#94a3b8;margin-top:2px">' + (tag || 'Business Tagline') + '</div>';
+            if (logo) return '<img src="' + logo + '" style="height:52px;max-width:130px;object-fit:contain;display:block"/>' + name;
+            return '<div style="width:52px;height:52px;background:' + acc + ';border-radius:12px;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" width="26" height="26" style="fill:white"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>' + name;
+        }
+        function infoRow(d, bg, border, lbl) {
+            return '<div style="display:flex;background:' + bg + ';border-bottom:1px solid ' + border + '">'
+                + '<div style="flex:1;padding:14px 28px;border-right:1px solid ' + border + '">'
+                + '<div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:' + lbl + ';margin-bottom:7px">From (Seller)</div>'
+                + '<div style="font-size:13px;font-weight:800;color:#0f172a;margin-bottom:3px">' + (d.biz || 'Your Business') + '</div>'
+                + '<div style="font-size:10px;color:#475569;line-height:1.8">' + [d.phone, d.email, d.addr].filter(Boolean).join('<br>') + '</div>'
+                + '</div>'
+                + '<div style="flex:1;padding:14px 28px">'
+                + '<div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:' + lbl + ';margin-bottom:7px">Bill To (Buyer)</div>'
+                + '<div style="font-size:13px;font-weight:800;color:#0f172a;margin-bottom:3px">' + (d.client || 'Client Name') + '</div>'
+                + '<div style="font-size:10px;color:#475569;line-height:1.8">' + [d.bphone, d.bemail, d.baddr].filter(Boolean).join('<br>') + '</div>'
+                + '</div>'
+                + '</div>';
+        }
+        function totalsBox(sub, tax, grand, acc) {
+            var s = '<div style="width:200px;flex-shrink:0">';
+            s += '<div style="display:flex;justify-content:space-between;padding:7px 12px;font-size:11px;background:' + acc + '0a;border-bottom:1px solid ' + acc + '15"><span style="color:#64748b">Subtotal</span><span style="font-weight:600">' + fmtINR(sub) + '</span></div>';
+            s += '<div style="display:flex;justify-content:space-between;padding:7px 12px;font-size:11px;background:' + acc + '0d;border-bottom:1px solid ' + acc + '15"><span style="color:#64748b">Shipping</span><span style="font-weight:600">' + fmtINR(0) + '</span></div>';
+            s += '<div style="display:flex;justify-content:space-between;padding:7px 12px;font-size:11px;background:' + acc + '12;border-bottom:1px solid ' + acc + '15"><span style="color:#64748b">Tax (18% GST)</span><span style="font-weight:600">' + fmtINR(tax) + '</span></div>';
+            s += '<div style="display:flex;justify-content:space-between;padding:7px 12px;font-size:13px;background:' + acc + '"><span style="color:#fff;font-weight:800">Grand Total</span><span style="color:#fff;font-weight:800">' + fmtINR(grand) + '</span></div>';
+            return s + '</div>';
+        }
+        function payBlock(d, col) {
+            col = col || '#475569';
+            var s = '<div style="flex:1"><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:' + col + ';margin-bottom:8px">Payment Info</div>';
+            if (d.accno) s += '<div style="display:flex;gap:6px;margin-bottom:4px;font-size:11px"><span style="color:#94a3b8;min-width:76px">Account No</span><span style="font-weight:600">' + d.accno + '</span></div>';
+            if (d.accname) s += '<div style="display:flex;gap:6px;margin-bottom:4px;font-size:11px"><span style="color:#94a3b8;min-width:76px">Name</span><span style="font-weight:600">' + d.accname + '</span></div>';
+            if (d.bank) s += '<div style="display:flex;gap:6px;margin-bottom:4px;font-size:11px"><span style="color:#94a3b8;min-width:76px">Bank</span><span style="font-weight:600">' + d.bank + '</span></div>';
+            if (!d.accno && !d.bank) s += '<div style="font-size:11px;color:#94a3b8">Add payment info in form</div>';
+            return s + '</div>';
+        }
+        function footerBlock(inv, terms, sigColor) {
+            var sigHTML = '';
+            if (uploadedSig) {
+                sigHTML = '<img src="' + uploadedSig + '" style="max-height:44px;max-width:100%;object-fit:contain;display:block;margin:0 auto 4px"/>';
+            } else {
+                try {
+                    var c = document.getElementById('sig-canvas');
+                    if (c) {
+                        var dataUrl = c.toDataURL('image/png');
+                        var blank = document.createElement('canvas'); blank.width = c.width; blank.height = c.height;
+                        if (dataUrl !== blank.toDataURL('image/png')) sigHTML = '<img src="' + dataUrl + '" style="max-height:44px;max-width:100%;object-fit:contain;display:block;margin:0 auto 4px"/>';
+                    }
+                } catch (e) { }
+            }
+            var sigBox = sigHTML
+                ? '<div style="width:120px;text-align:center;flex-shrink:0;padding-top:4px">' + sigHTML + '<div style="border-bottom:1.5px solid ' + (sigColor || '#1e293b') + ';margin-bottom:4px"></div><div style="font-size:9px;color:#475569;font-weight:600">Authorised Signature</div></div>'
+                : '<div style="width:120px;text-align:center;flex-shrink:0;padding-top:8px"><div style="border-bottom:1.5px solid ' + (sigColor || '#1e293b') + ';height:32px;margin-bottom:4px"></div><div style="font-size:9px;color:#475569;font-weight:600">Authorised Signature</div></div>';
+            
+            var legalNote = '<div style="text-align:center;font-size:9px;color:#94a3b8;margin-top:20px;border-top:1px solid #f1f5f9;padding-top:10px;width:100%;line-height:1.4">'
+                + 'This is a computer-generated invoice and does not require a signature. Please verify all details and report any discrepancy within 3 working days.'
+                + '</div>';
+
+            return '<div style="display:flex;gap:14px;padding:16px 28px;border-top:1px solid #f1f5f9;margin-top:14px;align-items:flex-start;flex-wrap:wrap">'
+                + qrSVG(inv || 'INV')
+                + '<div style="flex:1;font-size:10px;color:#94a3b8;line-height:1.7"><div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#475569;margin-bottom:4px">Terms &amp; Conditions</div>' + (terms || 'Payment due within 14 days.') + '</div>'
+                + sigBox 
+                + legalNote
+                + '</div>';
+        }
+        function waveDiv(acc, acc2) {
+            return '<div style="position:relative;height:68px;overflow:hidden;margin-top:8px"><svg viewBox="0 0 700 68" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="wg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:' + acc + '"/><stop offset="100%" style="stop-color:' + acc2 + '"/></linearGradient></defs><path d="M0 18 C140 0 260 58 420 24 C560 -6 640 52 700 20 L700 68 L0 68 Z" fill="url(#wg)"/><path d="M0 32 C160 12 280 68 460 36 C600 10 660 60 700 38 L700 68 L0 68 Z" fill="' + acc + '" opacity="0.3"/></svg></div>';
+        }
+        function topContactRight(d, acc, inv, date, grand) {
+            var icons = { phone: '<path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.69 19a19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>', email: '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>', web: '<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>', addr: '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>' };
+            var rows = ''; ['phone', 'email', 'web', 'addr'].forEach(function (k) { if (d[k]) rows += '<div style="display:flex;align-items:center;gap:6px;justify-content:flex-end;margin-bottom:4px"><div style="width:16px;height:16px;background:' + acc + '18;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg viewBox="0 0 24 24" width="8" height="8" style="stroke:' + acc + ';fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round">' + icons[k] + '</svg></div><span style="font-size:10px;color:#475569">' + d[k] + '</span></div>'; });
+            return '<div>' + rows + '<div style="text-align:right;margin-top:10px"><h1 style="font-size:34px;font-weight:900;color:#0f172a;letter-spacing:-1.5px">INVOICE</h1><div style="font-size:11px;color:#64748b;margin-top:2px">No: ' + (inv || 'INV-001') + '</div><div style="margin-top:8px;font-size:11px;color:#64748b">Total Due<span style="display:block;font-size:22px;font-weight:800;color:#0f172a">' + fmtINR(grand) + '</span></div><div style="font-size:10px;color:#94a3b8;margin-top:4px">' + (date || '') + '</div></div></div>';
+        }
+        function calcProd(d) {
+            var items = d.items || []; var sub = 0, rows = '';
+            items.forEach(function (it, i) { var amt = (it.qty || 1) * (it.price || 0); sub += amt; rows += '<tr' + (i % 2 ? ' style="background:#fafafa"' : '') + '><td style="padding:9px 12px"><strong>' + (it.name || 'Product') + '</strong></td><td style="padding:9px 12px;text-align:center">' + (it.qty || 1) + '</td><td style="padding:9px 12px;text-align:right">' + fmtINR(it.price || 0) + '</td><td style="padding:9px 12px;text-align:center">' + (it.gst || 18) + '%</td><td style="padding:9px 12px;text-align:right;font-weight:700">' + fmtINR(amt) + '</td></tr>'; });
+            var tax = Math.round(sub * 0.18); return { sub: sub, tax: tax, grand: sub + tax, rows: rows, items: items };
+        }
+        function calcSvc(d) {
+            var items = d.items || []; var sub = 0, rows = '';
+            items.forEach(function (it, i) { var amt = (it.hrs || 1) * (it.rate || 0); sub += amt; rows += '<tr' + (i % 2 ? ' style="background:#fafafa"' : '') + '><td style="padding:9px 12px;vertical-align:top"><strong>' + (it.name || 'Service') + '</strong>' + (it.desc ? '<br><span style="color:#94a3b8;font-size:10px">' + it.desc + '</span>' : '') + '</td><td style="padding:9px 12px;text-align:center">' + (it.hrs || 1) + '</td><td style="padding:9px 12px;text-align:right">' + fmtINR(it.rate || 0) + '</td><td style="padding:9px 12px;text-align:right;font-weight:700">' + fmtINR(amt) + '</td></tr>'; });
+            var tax = Math.round(sub * 0.18); return { sub: sub, tax: tax, grand: sub + tax, rows: rows, items: items };
+        }
+        function calcSub(d) {
+            var items = d.items || []; var sub = 0, rows = '';
+            items.forEach(function (it, i) { sub += (it.price || 0); rows += '<tr' + (i % 2 ? ' style="background:#fafafa"' : '') + '><td style="padding:9px 12px"><strong>' + (it.name || 'Plan') + '</strong></td><td style="padding:9px 12px;text-align:center">' + (it.duration || '1 Month') + '</td><td style="padding:9px 12px;text-align:right">' + fmtINR(it.price || 0) + '</td><td style="padding:9px 12px;text-align:right;font-weight:700">' + fmtINR(it.price || 0) + '</td></tr>'; });
+            var tax = Math.round(sub * 0.18); return { sub: sub, tax: tax, grand: sub + tax, rows: rows };
+        }
+        function baseStyle() { return '<!DOCTYPE html><html><head><meta charset="utf-8"><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:"Segoe UI",system-ui,sans-serif;background:#fff;font-size:12px;color:#1e293b}.page{max-width:700px;margin:0 auto}table{width:100%;border-collapse:collapse}thead th{text-align:left}</style></head><body><div class="page">'; }
+        function endPage() { return '</div></body></html>'; }
+
+        /* ─── 15 UNIQUE TEMPLATES ─── */
+        function tpl_p1(d) { var acc = '#5b3fff', acc2 = '#7c3aed'; var c = calcProd(d); var tHead = '<tr style="background:' + acc + '10;border-bottom:2px solid ' + acc + '30"><th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#475569">Product Description</th><th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#475569;text-align:center">Qty</th><th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#475569;text-align:right">Price</th><th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#475569;text-align:center">GST</th><th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#475569;text-align:right">Total</th></tr>'; return baseStyle() + '<div style="padding:24px 32px 0;display:flex;justify-content:space-between;align-items:flex-start"><div>' + logoHTML(d.logo, acc, d.biz, d.tagline) + '</div>' + topContactRight(d, acc, d.inv, d.date, c.grand) + '</div>' + waveDiv(acc, acc2) + infoRow(d, '#f8f7ff', '#e8e6f8', acc) + '<div style="padding:18px 32px 0"><table><thead>' + tHead + '</thead><tbody>' + c.rows + '</tbody></table></div><div style="display:flex;gap:20px;padding:16px 32px 0">' + payBlock(d, acc) + totalsBox(c.sub, c.tax, c.grand, acc) + '</div>' + footerBlock(d.inv, d.terms, acc) + endPage(); }
+        function tpl_p2(d) { var acc = '#0288d1'; var c = calcProd(d); var hdr = '<div style="background:#0c1a2e;padding:26px 32px;display:flex;justify-content:space-between;align-items:flex-start"><div>' + logoHTML(d.logo, acc, d.biz, d.tagline) + '</div><div style="text-align:right"><div style="font-size:9px;letter-spacing:4px;color:#64748b;font-weight:600;text-transform:uppercase;margin-bottom:5px">Invoice</div><div style="font-size:26px;font-weight:800;color:' + acc + ';letter-spacing:-1px">' + (d.inv || 'INV-001') + '</div><div style="font-size:10px;color:#475569;margin-top:4px">' + (d.date || '') + '</div><div style="font-size:15px;font-weight:800;color:#e2e8f0;margin-top:8px">' + fmtINR(c.grand) + '</div></div></div><div style="height:4px;background:linear-gradient(90deg,#0c1a2e,' + acc + ',#38bdf8,' + acc + ',#0c1a2e)"></div>'; var cbar = '<div style="display:flex;gap:18px;padding:9px 32px;background:' + acc + '0f;border-bottom:1px solid ' + acc + '20;flex-wrap:wrap">' + [d.phone, d.email, d.web, d.addr].filter(Boolean).map(function(x){return '<div style="font-size:10px;color:#475569">'+x+'</div>'}).join('') + '</div>'; var tHead = '<tr style="background:' + acc + '08;border-bottom:2px solid ' + acc + '35"><th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:' + acc + '">Product</th><th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:' + acc + ';text-align:center">Qty</th><th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:' + acc + ';text-align:right">Price</th><th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:' + acc + ';text-align:center">GST</th><th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:' + acc + ';text-align:right">Total</th></tr>'; return baseStyle() + hdr + cbar + infoRow(d, '#f0f9ff', '#bae6fd', acc) + '<div style="padding:18px 32px 0"><table><thead>' + tHead + '</thead><tbody>' + c.rows + '</tbody></table></div><div style="display:flex;gap:16px;padding:14px 32px 0">' + payBlock(d, acc) + totalsBox(c.sub, c.tax, c.grand, acc) + '</div>' + footerBlock(d.inv, d.terms, acc) + endPage(); }
+        function tpl_p3(d) { var acc = '#6366f1'; var c = calcProd(d); var rows3 = ''; c.items.forEach(function (it, i) { var amt = (it.qty || 1) * (it.price || 0); var cgst = Math.round(amt * 0.09); var sgst = Math.round(amt * 0.09); rows3 += '<tr' + (i % 2 ? ' style="background:#f5f3ff"' : '') + '><td style="padding:7px 8px"><strong>' + (it.name || 'Product') + '</strong></td><td style="padding:7px 8px;text-align:center">' + (it.hsn || '998313') + '</td><td style="padding:7px 8px;text-align:center">' + (it.qty || 1) + '</td><td style="padding:7px 8px;text-align:right">' + fmtINR(it.price || 0) + '</td><td style="padding:7px 8px;text-align:right">' + fmtINR(amt) + '</td><td style="padding:7px 8px;text-align:center">' + fmtINR(cgst) + '</td><td style="padding:7px 8px;text-align:center">' + fmtINR(sgst) + '</td><td style="padding:7px 8px;text-align:right;font-weight:700;color:' + acc + '">' + fmtINR(amt + cgst + sgst) + '</td></tr>'; }); var hdr = '<div style="background:#fff;padding:20px 28px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid ' + acc + '"><div>' + logoHTML(d.logo, acc, d.biz, d.tagline) + '</div><div style="text-align:right"><h1 style="font-size:26px;font-weight:900;color:#0f172a;letter-spacing:-1px">TAX INVOICE</h1><div style="font-size:10px;color:#64748b;margin-top:2px">No: ' + (d.inv || 'INV-001') + '</div><div style="font-size:10px;color:#64748b;margin-top:2px">' + (d.date || '') + '</div><div style="font-size:15px;font-weight:800;color:' + acc + ';margin-top:6px">' + fmtINR(c.grand) + '</div></div></div><div style="background:' + acc + '12;border:1px solid ' + acc + '30;padding:8px 28px;display:flex;gap:20px;flex-wrap:wrap;font-size:10px;font-weight:600;color:#312e81"><span>GSTIN: ' + (d.gstin || '27AABCX1234M1Z5') + '</span><span>PAN: ' + (d.pan || 'AABCX1234M') + '</span><span>HSN: 998313</span></div>'; var tHead = '<tr style="background:' + acc + '"><th style="color:#fff;padding:8px;font-size:9px;text-transform:uppercase">Product</th><th style="color:#fff;padding:8px;font-size:9px;text-transform:uppercase;text-align:center">HSN</th><th style="color:#fff;padding:8px;font-size:9px;text-transform:uppercase;text-align:center">Qty</th><th style="color:#fff;padding:8px;font-size:9px;text-transform:uppercase;text-align:right">Rate</th><th style="color:#fff;padding:8px;font-size:9px;text-transform:uppercase;text-align:right">Taxable</th><th style="color:#fff;padding:8px;font-size:9px;text-transform:uppercase;text-align:center">CGST 9%</th><th style="color:#fff;padding:8px;font-size:9px;text-transform:uppercase;text-align:center">SGST 9%</th><th style="color:#fff;padding:8px;font-size:9px;text-transform:uppercase;text-align:right">Total</th></tr>'; var sumBox = '<div style="width:200px;flex-shrink:0;border:1px solid ' + acc + '30;border-radius:8px;overflow:hidden"><div style="display:flex;justify-content:space-between;padding:6px 10px;font-size:11px;background:#f5f3ff;border-bottom:1px solid ' + acc + '15"><span style="color:#64748b">Taxable</span><span style="font-weight:600">' + fmtINR(c.sub) + '</span></div><div style="display:flex;justify-content:space-between;padding:6px 10px;font-size:11px;background:#f5f3ff;border-bottom:1px solid ' + acc + '15"><span style="color:#64748b">CGST 9%</span><span style="font-weight:600">' + fmtINR(Math.round(c.sub * 0.09)) + '</span></div><div style="display:flex;justify-content:space-between;padding:6px 10px;font-size:11px;background:#f5f3ff;border-bottom:1px solid ' + acc + '15"><span style="color:#64748b">SGST 9%</span><span style="font-weight:600">' + fmtINR(Math.round(c.sub * 0.09)) + '</span></div><div style="display:flex;justify-content:space-between;padding:7px 10px;font-size:12px;background:' + acc + '"><span style="color:#fff;font-weight:800">Total</span><span style="color:#fff;font-weight:800">' + fmtINR(c.grand) + '</span></div></div>'; return baseStyle() + hdr + infoRow(d, '#f5f3ff', '#ddd6fe', acc) + '<div style="padding:14px 28px 0"><table style="font-size:10px"><thead>' + tHead + '</thead><tbody>' + rows3 + '</tbody></table></div><div style="display:flex;gap:14px;padding:14px 28px 0">' + payBlock(d, acc) + sumBox + '</div>' + footerBlock(d.inv, d.terms, acc) + endPage(); }
+        function tpl_p4(d) { var acc = '#334155'; var c = calcProd(d); var body = '<div style="padding:36px;font-family:Georgia,serif"><div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px;padding-bottom:22px;border-bottom:2px solid #0f172a"><div>' + logoHTML(d.logo, acc, d.biz, d.tagline) + '</div><div style="text-align:right"><h1 style="font-size:30px;font-weight:400;letter-spacing:6px;text-transform:uppercase;color:#0f172a">Invoice</h1><div style="font-size:10px;color:#94a3b8;margin-top:3px">No: ' + (d.inv || 'INV-001') + ' &bull; ' + (d.date || '') + '</div><div style="font-size:10px;color:#64748b;margin-top:8px">Total Due<span style="display:block;font-size:20px;font-weight:700;color:#0f172a">' + fmtINR(c.grand) + '</span></div></div></div><div style="display:flex;justify-content:space-between;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid #e2e8f0"><div><h4 style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#94a3b8;font-weight:400;margin-bottom:10px;font-family:Segoe UI,sans-serif">From (Seller)</h4><p style="font-size:13px;line-height:1.8;color:#334155"><strong>' + (d.biz || 'Your Store') + '</strong><br>' + [d.phone, d.email, d.addr].filter(Boolean).join('<br>') + '</p></div><div style="text-align:right"><h4 style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#94a3b8;font-weight:400;margin-bottom:10px;font-family:Segoe UI,sans-serif">Bill To (Buyer)</h4><p style="font-size:13px;line-height:1.8;color:#334155"><strong>' + (d.client || 'Client Name') + '</strong><br>' + [d.bphone, d.bemail, d.baddr].filter(Boolean).join('<br>') + '</p></div></div><table style="font-family:Segoe UI,sans-serif;margin-bottom:24px"><thead><tr><th style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;padding:0 0 10px;border-bottom:2px solid #0f172a;color:#0f172a">Item</th><th style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;padding:0 0 10px;border-bottom:2px solid #0f172a;color:#0f172a;text-align:center">Qty</th><th style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;padding:0 0 10px;border-bottom:2px solid #0f172a;color:#0f172a;text-align:right">Rate</th><th style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;padding:0 0 10px;border-bottom:2px solid #0f172a;color:#0f172a;text-align:right">Total</th></tr></thead><tbody>' + c.rows + '</tbody></table><div style="display:flex;justify-content:space-between;align-items:flex-start;font-family:Segoe UI,sans-serif"><div><h4 style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#94a3b8;font-weight:400;margin-bottom:8px">Payment Info</h4><p style="font-size:11px;color:#475569;line-height:1.9">' + (d.accno ? 'Acc: ' + d.accno + '<br>' : '') + (d.bank ? 'Bank: ' + d.bank : 'Add payment details') + '</p></div><div style="display:flex;gap:14px;align-items:flex-end">' + qrSVG(d.inv || 'INV') + '<div style="width:175px"><div style="display:flex;justify-content:space-between;padding:6px 0;font-size:11px;color:#64748b;border-bottom:1px dotted #f1f5f9"><span>Subtotal</span><span>' + fmtINR(c.sub) + '</span></div><div style="display:flex;justify-content:space-between;padding:6px 0;font-size:11px;color:#64748b;border-bottom:1px dotted #f1f5f9"><span>GST 18%</span><span>' + fmtINR(c.tax) + '</span></div><div style="display:flex;justify-content:space-between;padding:10px 0;font-size:14px;font-weight:700;color:#0f172a;border-top:2px solid #0f172a;margin-top:5px"><span>Total</span><span>' + fmtINR(c.grand) + '</span></div></div></div></div><div style="display:flex;justify-content:space-between;margin-top:28px;padding-top:18px;border-top:1px solid #e2e8f0;font-family:Segoe UI,sans-serif"><div><h4 style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#94a3b8;font-weight:400;margin-bottom:6px">Terms &amp; Conditions</h4><p style="font-size:10px;color:#94a3b8;line-height:1.7;max-width:260px">' + (d.terms || 'All items subject to return policy. Payment due within 14 days.') + '</p></div><div style="text-align:center"><div style="width:120px;border-bottom:1px solid #0f172a;height:28px;margin-bottom:4px"></div><div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#64748b">Signature</div></div></div></div>'; return '<!DOCTYPE html><html><head><meta charset="utf-8"><style>*{box-sizing:border-box;margin:0;padding:0}body{background:#fff;font-size:12px;color:#1e293b}.page{max-width:700px;margin:0 auto}table{width:100%;border-collapse:collapse}</style></head><body><div class="page">' + body + '</div></body></html>'; }
+        function tpl_p5(d) { var acc = '#6d28d9'; var c = calcProd(d); var rows5 = ''; c.items.forEach(function (it, i) { var amt = (it.qty || 1) * (it.price || 0); var disc = Math.round(amt * 0.05); rows5 += '<tr' + (i % 2 ? ' style="background:#faf5ff"' : '') + '><td style="padding:9px 10px"><strong>' + (it.name || 'Product') + '</strong></td><td style="padding:9px 10px;text-align:center">' + (it.qty || 1) + '</td><td style="padding:9px 10px;text-align:right">' + fmtINR(it.price || 0) + '</td><td style="padding:9px 10px;text-align:right;color:#6366f1">-' + fmtINR(disc) + '</td><td style="padding:9px 10px;text-align:right;font-weight:700;color:' + acc + '">' + fmtINR(amt - disc) + '</td></tr>'; }); var discT = Math.round(c.sub * 0.05); var afterD = c.sub - discT; var taxA = Math.round(afterD * 0.18); var finalG = afterD + taxA; var inner = '<div style="flex:1;min-width:0"><div style="padding:22px 26px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid #ede9fe"><div>' + logoHTML(d.logo, acc, d.biz, d.tagline) + '</div><div style="text-align:right"><h1 style="font-size:22px;font-weight:900;color:#0f172a">WHOLESALE INVOICE</h1><div style="font-size:10px;color:#64748b">No: ' + (d.inv || 'INV-001') + ' &bull; ' + (d.date || '') + '</div><div style="font-size:16px;font-weight:800;color:' + acc + ';margin-top:6px">' + fmtINR(finalG) + '</div></div></div>' + infoRow(d, acc + '05', acc + '18', acc) + '<div style="padding:14px 26px 0"><table><thead><tr style="background:' + acc + '"><th style="padding:9px 10px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fff">Product</th><th style="padding:9px 10px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fff;text-align:center">Qty</th><th style="padding:9px 10px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fff;text-align:right">Rate</th><th style="padding:9px 10px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fff;text-align:right">Disc 5%</th><th style="padding:9px 10px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fff;text-align:right">Total</th></tr></thead><tbody>' + rows5 + '</tbody></table></div><div style="display:flex;gap:16px;padding:14px 26px 0">' + payBlock(d, acc) + '<div style="width:210px;flex-shrink:0"><div style="display:flex;justify-content:space-between;padding:7px 12px;font-size:11px;background:' + acc + '06;border-bottom:1px solid ' + acc + '12"><span style="color:#64748b">Subtotal</span><span style="font-weight:600">' + fmtINR(c.sub) + '</span></div><div style="display:flex;justify-content:space-between;padding:7px 12px;font-size:11px;background:' + acc + '06;border-bottom:1px solid ' + acc + '12"><span style="color:#6366f1">Discount 5%</span><span style="color:#6366f1;font-weight:600">-' + fmtINR(discT) + '</span></div><div style="display:flex;justify-content:space-between;padding:7px 12px;font-size:11px;background:' + acc + '06;border-bottom:1px solid ' + acc + '12"><span style="color:#64748b">GST 18%</span><span style="font-weight:600">' + fmtINR(taxA) + '</span></div><div style="display:flex;justify-content:space-between;padding:7px 12px;font-size:13px;background:' + acc + '"><span style="color:#fff;font-weight:800">Grand Total</span><span style="color:#fff;font-weight:800">' + fmtINR(finalG) + '</span></div></div></div>' + footerBlock(d.inv, d.terms, acc) + '</div>'; return '<!DOCTYPE html><html><head><meta charset="utf-8"><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:"Segoe UI",sans-serif;background:#fff;font-size:12px;color:#1e293b}.page{max-width:700px;margin:0 auto;display:flex}table{width:100%;border-collapse:collapse}</style></head><body><div class="page"><div style="width:8px;background:linear-gradient(180deg,' + acc + ',#a855f7,' + acc + ');flex-shrink:0"></div>' + inner + '</div></body></html>'; }
+        function tpl_s1(d) { var acc = '#5b3fff'; var c = calcSvc(d); var hdr = '<div style="background:#0f172a;padding:26px 32px;display:flex;justify-content:space-between;align-items:flex-end"><div>' + logoHTML(d.logo, acc, d.biz, d.tagline) + '</div><div style="text-align:right"><div style="font-size:9px;letter-spacing:3px;color:#475569;font-weight:400;text-transform:uppercase;margin-bottom:5px">Invoice</div><div style="font-size:26px;font-weight:300;color:' + acc + ';letter-spacing:-0.5px">' + (d.inv || 'INV-001') + '</div><div style="font-size:10px;color:#475569;margin-top:4px">' + (d.date || '') + '</div><div style="font-size:14px;font-weight:800;color:' + acc + ';margin-top:8px">' + fmtINR(c.grand) + '</div></div></div><div style="height:4px;background:linear-gradient(90deg,' + acc + ',#a855f7)"></div>'; var cbar = '<div style="display:flex;gap:18px;padding:9px 32px;background:' + acc + '08;border-bottom:1px solid ' + acc + '18;flex-wrap:wrap">' + [d.phone, d.email, d.addr].filter(Boolean).map(function(x){return '<div style="font-size:10px;color:#475569">'+x+'</div>'}).join('') + '</div>'; var tHead = '<tr><th style="font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:700;padding:0 0 10px;border-bottom:2px solid ' + acc + ';color:' + acc + '">Service</th><th style="font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:700;padding:0 0 10px;border-bottom:2px solid ' + acc + ';color:' + acc + ';text-align:center">Hours</th><th style="font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:700;padding:0 0 10px;border-bottom:2px solid ' + acc + ';color:' + acc + ';text-align:right">Rate/hr</th><th style="font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:700;padding:0 0 10px;border-bottom:2px solid ' + acc + ';color:' + acc + ';text-align:right">Total</th></tr>'; return baseStyle() + hdr + cbar + infoRow(d, '#f8f7ff', '#e8e6f8', acc) + '<div style="padding:18px 32px 0"><table><thead>' + tHead + '</thead><tbody>' + c.rows + '</tbody></table></div><div style="display:flex;gap:20px;padding:16px 32px 0">' + payBlock(d, acc) + totalsBox(c.sub, c.tax, c.grand, acc) + '</div>' + footerBlock(d.inv, d.terms, acc) + endPage(); }
+        function tpl_s2(d) { var acc = '#0284c7'; var c = calcSvc(d); var hdr = '<div style="padding:22px 32px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #0f172a"><div>' + logoHTML(d.logo, acc, d.biz, d.tagline) + '</div><div style="text-align:right"><h1 style="font-size:11px;letter-spacing:5px;font-weight:700;text-transform:uppercase;color:#94a3b8;margin-bottom:5px">Invoice</h1><div style="font-size:24px;font-weight:800;color:#0f172a;letter-spacing:-0.5px">' + (d.inv || 'INV-001') + '</div><div style="font-size:10px;color:#94a3b8;margin-top:3px">' + (d.date || '') + '</div><div style="font-size:17px;font-weight:800;color:' + acc + ';margin-top:8px">' + fmtINR(c.grand) + '</div></div></div><div style="height:4px;background:linear-gradient(90deg,' + acc + ',#38bdf8,#0ea5e9,' + acc + ')"></div>'; var tHead = '<tr style="background:#0c4a6e"><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#7dd3fc">Service</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#7dd3fc;text-align:center">Hours</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#7dd3fc;text-align:right">Rate/hr</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#7dd3fc;text-align:right">Total</th></tr>'; var cbar = '<div style="display:flex;gap:18px;padding:9px 32px;background:' + acc + '0f;border-bottom:1px solid #bae6fd;flex-wrap:wrap">' + [d.phone, d.email, d.addr].filter(Boolean).map(function(x){return '<div style="font-size:10px;color:#0c4a6e">'+x+'</div>'}).join('') + '</div>'; return baseStyle() + hdr + cbar + infoRow(d, '#f0f9ff', '#bae6fd', acc) + '<div style="padding:16px 32px 0"><table><thead>' + tHead + '</thead><tbody>' + c.rows + '</tbody></table></div><div style="display:flex;gap:16px;padding:14px 32px 0">' + payBlock(d, '#0c4a6e') + totalsBox(c.sub, c.tax, c.grand, acc) + '</div>' + footerBlock(d.inv, d.terms, acc) + endPage(); }
+        function tpl_s3(d) { var acc = '#334155'; var c = calcSvc(d); var body = '<div style="padding:36px"><div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px"><div style="font-family:Georgia,serif">' + logoHTML(d.logo, acc, d.biz, d.tagline) + '</div><div style="text-align:right;font-family:Segoe UI,sans-serif"><h1 style="font-size:12px;letter-spacing:5px;font-weight:400;text-transform:uppercase;color:#94a3b8">Invoice</h1><div style="font-size:22px;font-weight:700;color:#0f172a;letter-spacing:-1px;margin-top:3px">' + (d.inv || 'INV-001') + '</div><div style="font-size:10px;color:#64748b;margin-top:2px">' + (d.date || '') + '</div><div style="font-size:15px;font-weight:700;color:' + acc + ';margin-top:7px">' + fmtINR(c.grand) + '</div></div></div><div style="height:2px;background:linear-gradient(90deg,#334155,#94a3b8,transparent);margin-bottom:22px"></div><div style="display:flex;justify-content:space-between;margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid #e2e8f0"><div><h4 style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#94a3b8;font-weight:400;margin-bottom:10px;font-family:Segoe UI,sans-serif">From (Seller)</h4><p style="font-size:13px;line-height:1.8"><strong>' + (d.biz || 'Consulting Firm') + '</strong><br>' + [d.phone, d.email, d.addr].filter(Boolean).join('<br>') + '</p></div><div style="text-align:right"><h4 style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#94a3b8;font-weight:400;margin-bottom:10px;font-family:Segoe UI,sans-serif">Bill To (Buyer)</h4><p style="font-size:13px;line-height:1.8"><strong>' + (d.client || 'Client Name') + '</strong><br>' + [d.bphone, d.bemail, d.baddr].filter(Boolean).join('<br>') + '</p></div></div><table style="font-family:Segoe UI,sans-serif;margin-bottom:22px"><thead><tr><th style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;padding:0 0 10px;border-bottom:2px solid #0f172a;color:#0f172a">Service</th><th style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;padding:0 0 10px;border-bottom:2px solid #0f172a;color:#0f172a;text-align:center">Hours</th><th style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;padding:0 0 10px;border-bottom:2px solid #0f172a;color:#0f172a;text-align:right">Rate/hr</th><th style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;padding:0 0 10px;border-bottom:2px solid #0f172a;color:#0f172a;text-align:right">Amount</th></tr></thead><tbody>' + c.rows + '</tbody></table><div style="display:flex;justify-content:space-between;align-items:flex-start;font-family:Segoe UI,sans-serif"><div><h4 style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#94a3b8;font-weight:400;margin-bottom:8px">Payment Info</h4><p style="font-size:11px;color:#475569;line-height:1.9">' + (d.accno ? 'Account: ' + d.accno + '<br>' : '') + (d.bank ? 'Bank: ' + d.bank : 'Add payment details') + '</p></div><div style="width:175px"><div style="display:flex;justify-content:space-between;padding:6px 0;font-size:11px;color:#64748b;border-bottom:1px dashed #f1f5f9"><span>Subtotal</span><span>' + fmtINR(c.sub) + '</span></div><div style="display:flex;justify-content:space-between;padding:6px 0;font-size:11px;color:#64748b;border-bottom:1px dashed #f1f5f9"><span>GST 18%</span><span>' + fmtINR(c.tax) + '</span></div><div style="display:flex;justify-content:space-between;padding:10px 0;font-size:14px;font-weight:700;color:#0f172a;border-top:2px solid #0f172a;margin-top:5px"><span>Total</span><span>' + fmtINR(c.grand) + '</span></div></div></div><div style="display:flex;justify-content:space-between;margin-top:26px;padding-top:18px;border-top:1px solid #e2e8f0;font-family:Segoe UI,sans-serif"><div style="display:flex;gap:14px;align-items:center">' + qrSVG(d.inv || 'INV') + '<div><h4 style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#94a3b8;font-weight:400;margin-bottom:6px">Terms &amp; Conditions</h4><p style="font-size:10px;color:#94a3b8;line-height:1.7;max-width:240px">' + (d.terms || 'Payment due within 14 days. Retainer fees non-refundable.') + '</p></div></div><div style="text-align:center;padding-top:8px"><div style="width:120px;border-bottom:1px solid #0f172a;height:28px;margin-bottom:4px"></div><div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#64748b">Signature</div></div></div></div>'; return '<!DOCTYPE html><html><head><meta charset="utf-8"><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:Georgia,serif;background:#fff;font-size:12px;color:#1e293b}.page{max-width:700px;margin:0 auto}table{width:100%;border-collapse:collapse}</style></head><body><div class="page">' + body + '</div></body></html>'; }
+        function tpl_s4(d) { var acc = '#7c3aed'; var c = calcSvc(d); var rows4 = ''; c.items.forEach(function (it, i) { var amt = (it.hrs || 1) * (it.rate || 0); rows4 += '<tr' + (i % 2 ? ' style="background:#faf5ff"' : '') + '><td style="padding:10px 12px;vertical-align:top"><strong>' + (it.name || 'Milestone') + '</strong>' + (it.desc ? '<br><span style="color:#94a3b8;font-size:10px">' + it.desc + '</span>' : '') + '</td><td style="padding:10px 12px;text-align:center">' + (it.hrs || 1) + ' hrs</td><td style="padding:10px 12px;text-align:right">' + fmtINR(it.rate || 0) + '</td><td style="padding:10px 12px;text-align:center"><span style="background:#f5f3ff;color:#6366f1;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:700">Delivered</span></td><td style="padding:10px 12px;text-align:right;font-weight:700;color:' + acc + '">' + fmtINR(amt) + '</td></tr>'; }); var hdr = '<div style="background:linear-gradient(135deg,#4c1d95,' + acc + ');padding:26px 32px;display:flex;justify-content:space-between;align-items:flex-start"><div>' + logoHTML(d.logo, acc, d.biz, d.tagline) + '</div><div style="text-align:right"><div style="font-size:9px;letter-spacing:3px;color:#c4b5fd;font-weight:700;text-transform:uppercase;margin-bottom:5px">Project Invoice</div><div style="font-size:22px;font-weight:800;color:#fff;letter-spacing:-0.5px">' + (d.inv || 'INV-001') + '</div><div style="font-size:10px;color:#c4b5fd;margin-top:4px">' + (d.date || '') + '</div><div style="font-size:17px;font-weight:800;color:#e9d5ff;margin-top:8px">' + fmtINR(c.grand) + '</div></div></div>'; var cbar = '<div style="display:flex;gap:18px;padding:9px 32px;background:#f5f3ff;border-bottom:1px solid #ddd6fe;flex-wrap:wrap">' + [d.phone, d.email, d.addr].filter(Boolean).map(function(x){return '<div style="font-size:10px;color:#4c1d95">'+x+'</div>'}).join('') + '</div>'; var tHead = '<tr style="background:linear-gradient(135deg,#4c1d95,' + acc + ')"><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#ddd6fe">Milestone / Service</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#ddd6fe;text-align:center">Hours</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#ddd6fe;text-align:right">Rate</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#ddd6fe;text-align:center">Status</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#ddd6fe;text-align:right">Amount</th></tr>'; return baseStyle() + hdr + cbar + infoRow(d, '#f5f3ff', '#ddd6fe', acc) + '<div style="padding:16px 28px 0"><table><thead>' + tHead + '</thead><tbody>' + rows4 + '</tbody></table></div><div style="display:flex;gap:16px;padding:14px 28px 0">' + payBlock(d, acc) + totalsBox(c.sub, c.tax, c.grand, acc) + '</div>' + footerBlock(d.inv, d.terms, acc) + endPage(); }
+        function tpl_s5(d) { var acc = '#db2777'; var c = calcSvc(d); var hdr = '<div style="background:#1c0a14;padding:26px 32px;display:flex;justify-content:space-between;align-items:flex-end"><div>' + logoHTML(d.logo, acc, d.biz, d.tagline) + '</div><div style="text-align:right"><div style="font-size:9px;letter-spacing:4px;color:#9d174d;font-weight:700;text-transform:uppercase;margin-bottom:5px">Invoice</div><div style="font-size:24px;font-weight:800;color:#fce7f3;letter-spacing:-0.5px">' + (d.inv || 'INV-001') + '</div><div style="font-size:10px;color:#94a3b8;margin-top:4px">' + (d.date || '') + ' &bull; ' + fmtINR(c.grand) + '</div></div></div><div style="height:4px;background:linear-gradient(90deg,' + acc + ',#ec4899,#f9a8d4,#ec4899,' + acc + ')"></div>'; var cbar = '<div style="display:flex;gap:18px;padding:9px 32px;background:#fff1f2;border-bottom:1px solid #fecdd3;flex-wrap:wrap">' + [d.phone, d.email, d.addr].filter(Boolean).map(function(x){return '<div style="font-size:10px;color:#881337">'+x+'</div>'}).join('') + '</div>'; var tHead = '<tr style="background:' + acc + '"><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fce7f3">Creative Service</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fce7f3;text-align:center">Hours</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fce7f3;text-align:right">Rate/hr</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fce7f3;text-align:right">Total</th></tr>'; return baseStyle() + hdr + cbar + infoRow(d, '#fff1f2', '#fecdd3', acc) + '<div style="padding:16px 28px 0"><table><thead>' + tHead + '</thead><tbody>' + c.rows + '</tbody></table></div><div style="display:flex;gap:16px;padding:14px 28px 0">' + payBlock(d, acc) + totalsBox(c.sub, c.tax, c.grand, acc) + '</div>' + footerBlock(d.inv, d.terms, acc) + endPage(); }
+        function tpl_sub1(d) { var acc = '#4f46e5'; var c = calcSub(d); var hdr = '<div style="background:linear-gradient(135deg,#3730a3,' + acc + ');padding:26px 32px;display:flex;justify-content:space-between;align-items:flex-start"><div>' + logoHTML(d.logo, acc, d.biz, d.tagline) + '</div><div style="text-align:right"><div style="font-size:9px;letter-spacing:3px;color:#a5b4fc;font-weight:700;text-transform:uppercase;margin-bottom:5px">Invoice</div><div style="font-size:22px;font-weight:800;color:#fff;letter-spacing:-0.5px">' + (d.inv || 'INV-001') + '</div><div style="font-size:10px;color:#a5b4fc;margin-top:4px">' + (d.date || '') + '</div><div style="font-size:18px;font-weight:800;color:#ede9ff;margin-top:8px">' + fmtINR(c.grand) + '</div></div></div><div style="height:3px;background:rgba(255,255,255,.3)"></div>'; var cbar = '<div style="display:flex;gap:18px;padding:9px 32px;background:#f5f3ff;border-bottom:1px solid #ddd6fe;flex-wrap:wrap">' + [d.phone, d.email, d.addr].filter(Boolean).map(function(x){return '<div style="font-size:10px;color:#3730a3">'+x+'</div>'}).join('') + '</div>'; var tHead = '<tr style="background:' + acc + '"><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fff">Plan / Service</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fff;text-align:center">Duration</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fff;text-align:right">Price</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fff;text-align:right">Amount</th></tr>'; return baseStyle() + hdr + cbar + infoRow(d, '#f5f3ff', '#ddd6fe', acc) + '<div style="padding:16px 28px 0"><table><thead>' + tHead + '</thead><tbody>' + c.rows + '</tbody></table></div><div style="display:flex;gap:16px;padding:14px 28px 0">' + payBlock(d, acc) + totalsBox(c.sub, c.tax, c.grand, acc) + '</div>' + footerBlock(d.inv, d.terms, acc) + endPage(); }
+        function tpl_sub2(d) { var acc = '#dc2626'; var c = calcSub(d); var hdr = '<div style="border-top:5px solid ' + acc + ';padding:20px 28px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #7f1d1d"><div>' + logoHTML(d.logo, acc, d.biz, d.tagline) + '</div><div style="text-align:right"><h2 style="font-size:20px;font-weight:900;color:#7f1d1d;letter-spacing:2px">INVOICE</h2><div style="font-size:13px;font-weight:700;color:' + acc + ';margin-top:3px">' + (d.inv || 'INV-001') + '</div><div style="font-size:10px;color:#94a3b8;margin-top:2px">' + (d.date || '') + '</div></div></div>'; var infoBar = '<div style="background:#7f1d1d;padding:8px 28px;display:flex;gap:20px;font-size:10px;color:#fca5a5;font-weight:600;text-transform:uppercase;flex-wrap:wrap"><span>&#128170; ' + (d.biz || 'Gym') + '</span>' + (d.phone ? '<span>' + d.phone + '</span>' : '') + (d.email ? '<span>' + d.email + '</span>' : '') + '</div>'; var memberCard = '<div style="background:#fef2f2;border:1.5px solid #fecaca;border-radius:12px;padding:14px 28px;margin:14px 28px;display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:' + acc + ';margin-bottom:5px">Member</div><div style="font-size:14px;font-weight:700;color:#0f172a">' + (d.client || 'Member Name') + '</div><div style="font-size:10px;color:#475569;margin-top:2px">' + [d.bphone, d.bemail].filter(Boolean).join(' &bull; ') + '</div></div><div style="text-align:right"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:' + acc + ';margin-bottom:5px">Total Due</div><div style="font-size:20px;font-weight:800;color:' + acc + '">' + fmtINR(c.grand) + '</div></div></div>'; var tHead = '<tr style="background:#7f1d1d"><th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fca5a5">Package / Plan</th><th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fca5a5;text-align:center">Duration</th><th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fca5a5;text-align:right">Price</th><th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fca5a5;text-align:right">Amount</th></tr>'; return baseStyle() + hdr + infoBar + memberCard + '<div style="padding:0 28px"><table><thead>' + tHead + '</thead><tbody>' + c.rows + '</tbody></table></div><div style="display:flex;gap:16px;padding:14px 28px 0">' + payBlock(d, '#7f1d1d') + totalsBox(c.sub, c.tax, c.grand, acc) + '</div>' + footerBlock(d.inv, d.terms, acc) + endPage(); }
+        function tpl_sub3(d) { var acc = '#d97706'; var c = calcSub(d); var hdr = '<div style="background:#78350f;padding:22px 28px;display:flex;justify-content:space-between;align-items:flex-start"><div>' + logoHTML(d.logo, acc, d.biz, d.tagline) + '</div><div style="text-align:right"><div style="font-size:9px;letter-spacing:3px;color:#fb923c;font-weight:700;text-transform:uppercase;margin-bottom:5px">Invoice</div><div style="font-size:22px;font-weight:800;color:#fff;letter-spacing:-0.5px">' + (d.inv || 'INV-001') + '</div><div style="font-size:10px;color:#fb923c;margin-top:4px">' + (d.date || '') + '</div><div style="font-size:17px;font-weight:800;color:#fed7aa;margin-top:8px">' + fmtINR(c.grand) + '</div></div></div><div style="height:4px;background:linear-gradient(90deg,#92400e,' + acc + ',#fbbf24,' + acc + ',#92400e)"></div>'; var cbar = '<div style="display:flex;gap:18px;padding:9px 28px;background:#fffbeb;border-bottom:1px solid #fde68a;flex-wrap:wrap">' + [d.phone, d.email, d.addr].filter(Boolean).map(function(x){return '<div style="font-size:10px;color:#78350f;font-weight:500">'+x+'</div>'}).join('') + '</div>'; var tHead = '<tr style="background:#78350f"><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fed7aa">Course / Batch</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fed7aa;text-align:center">Duration</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fed7aa;text-align:right">Fee</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fed7aa;text-align:right">Amount</th></tr>'; return baseStyle() + hdr + cbar + infoRow(d, '#fffbeb', '#fde68a', acc) + '<div style="padding:16px 28px 0"><table><thead>' + tHead + '</thead><tbody>' + c.rows + '</tbody></table></div><div style="display:flex;gap:16px;padding:14px 28px 0">' + payBlock(d, '#78350f') + totalsBox(c.sub, c.tax, c.grand, acc) + '</div>' + footerBlock(d.inv, d.terms, acc) + endPage(); }
+        function tpl_sub4(d) { var acc = '#2563eb'; var c = calcSub(d); var hdr = '<div style="background:#0f172a;padding:24px 32px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid ' + acc + '"><div>' + logoHTML(d.logo, acc, d.biz, d.tagline) + '</div><div style="text-align:right"><div style="font-size:9px;letter-spacing:3px;color:#475569;font-weight:400;text-transform:uppercase;margin-bottom:5px">Invoice</div><div style="font-size:22px;font-weight:800;color:' + acc + ';letter-spacing:-0.5px">' + (d.inv || 'INV-001') + '</div><div style="font-size:10px;color:#475569;margin-top:4px">' + (d.date || '') + '</div><div style="font-size:15px;font-weight:800;color:#e2e8f0;margin-top:8px">' + fmtINR(c.grand) + '</div></div></div><div style="height:3px;background:linear-gradient(90deg,#1e3a8a,' + acc + ',#60a5fa,' + acc + ',#1e3a8a)"></div>'; var cbar = '<div style="display:flex;gap:18px;padding:9px 32px;background:#eff6ff;border-bottom:1px solid #dbeafe;flex-wrap:wrap">' + [d.phone, d.email, d.web, d.addr].filter(Boolean).map(function(x){return '<div style="font-size:10px;color:#1e3a8a;font-weight:500">'+x+'</div>'}).join('') + '</div>'; var tHead = '<tr style="background:#1e3a8a"><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#93c5fd">Plan</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#93c5fd;text-align:center">Duration</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#93c5fd;text-align:right">Price</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#93c5fd;text-align:right">Amount</th></tr>'; return baseStyle() + hdr + cbar + infoRow(d, '#eff6ff', '#dbeafe', acc) + '<div style="padding:16px 32px 0"><table><thead>' + tHead + '</thead><tbody>' + c.rows + '</tbody></table></div><div style="display:flex;gap:16px;padding:14px 28px 0">' + payBlock(d, '#1e3a8a') + totalsBox(c.sub, c.tax, c.grand, acc) + '</div>' + footerBlock(d.inv, d.terms, acc) + endPage(); }
+        function tpl_sub5(d) { var acc = '#4f46e5'; var c = calcSub(d); var hdr = '<div style="background:linear-gradient(135deg,#312e81,' + acc + ');padding:24px 32px;display:flex;justify-content:space-between;align-items:flex-start"><div>' + logoHTML(d.logo, acc, d.biz, d.tagline) + '</div><div style="text-align:right"><div style="font-size:9px;letter-spacing:3px;color:#a5b4fc;font-weight:700;text-transform:uppercase;margin-bottom:5px">Recurring Invoice</div><div style="font-size:20px;font-weight:800;color:#fff;letter-spacing:-0.5px">' + (d.inv || 'INV-001') + '</div><div style="font-size:10px;color:#a5b4fc;margin-top:4px">' + (d.date || '') + '</div><div style="font-size:17px;font-weight:800;color:#c7d2fe;margin-top:8px">' + fmtINR(c.grand) + '</div></div></div><div style="height:4px;background:linear-gradient(90deg,#312e81,' + acc + ',#818cf8,' + acc + ',#312e81)"></div>'; var cbar = '<div style="display:flex;gap:18px;padding:9px 32px;background:#eef2ff;border-bottom:1px solid #c7d2fe;flex-wrap:wrap">' + [d.phone, d.email, d.addr].filter(Boolean).map(function(x){return '<div style="font-size:10px;color:#3730a3;font-weight:500">'+x+'</div>'}).join('') + '</div>'; var tHead = '<tr style="background:linear-gradient(135deg,#312e81,' + acc + ')"><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#c7d2fe">Service / Plan</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#c7d2fe;text-align:center">Frequency</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#c7d2fe;text-align:right">Price</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#c7d2fe;text-align:right">Total</th></tr>'; return baseStyle() + hdr + cbar + infoRow(d, '#eef2ff', '#c7d2fe', acc) + '<div style="padding:16px 28px 0"><table><thead>' + tHead + '</thead><tbody>' + c.rows + '</tbody></table></div><div style="display:flex;gap:16px;padding:14px 28px 0">' + payBlock(d, acc) + totalsBox(c.sub, c.tax, c.grand, acc) + '</div>' + footerBlock(d.inv, d.terms, acc) + endPage(); }
+
+        var TPL_MAP = { p1: tpl_p1, p2: tpl_p2, p3: tpl_p3, p4: tpl_p4, p5: tpl_p5, s1: tpl_s1, s2: tpl_s2, s3: tpl_s3, s4: tpl_s4, s5: tpl_s5, sub1: tpl_sub1, sub2: tpl_sub2, sub3: tpl_sub3, sub4: tpl_sub4, sub5: tpl_sub5 };
+
+        /* ─── BUILDER LOGIC ─── */
+        function init() {
+            var params = new URLSearchParams(window.location.search);
+            var id = params.get('template') || 'p1';
+            
+            for (var cat in TEMPLATES) {
+                var found = TEMPLATES[cat].find(t => t.id === id);
+                if (found) { builderTpl = found; break; }
+            }
+            if (!builderTpl) builderTpl = TEMPLATES.product[0];
+
+            document.getElementById('display-tpl-name').textContent = builderTpl.name;
+
+            renderLogoSection();
+            renderSignatureSection();
+            updatePreview();
+        }
+
+        function renderLogoSection() {
+            var wrap = document.getElementById('logo-upload-wrap');
+            wrap.innerHTML = '<div style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--bg);border-radius:12px;border:1.5px dashed #c4b8ff">'
+                + '<div style="width:60px;height:60px;background:var(--accent-soft);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;border:1.5px solid #ddd6fe">'
+                + (uploadedLogo ? '<img src="' + uploadedLogo + '" style="width:100%;height:100%;object-fit:contain"/>' : '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5b3fff" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>')
+                + '</div>'
+                + '<div style="flex:1">'
+                + '<div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px">Business Logo</div>'
+                + '<div style="display:flex;gap:8px;align-items:center">'
+                + '<label style="display:inline-flex;align-items:center;gap:6px;padding:9px 18px;background:var(--accent);color:white;font-size:13px;font-weight:700;border-radius:10px;cursor:pointer">\u2191 Upload Logo<input type="file" accept="image/*" style="display:none" onchange="handleLogoUpload(this)"/></label>'
+                + (uploadedLogo ? '<button onclick="removeLogo()" style="padding:9px 14px;background:#fee2e2;color:#ef4444;border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">Remove</button>' : '')
+                + '</div></div></div>';
+        }
+
+        function handleLogoUpload(input) {
+            var file = input.files[0]; if (!file) return;
+            var reader = new FileReader();
+            reader.onload = function (e) { uploadedLogo = e.target.result; renderLogoSection(); updatePreview(); showToast('Logo uploaded! ✓'); };
+            reader.readAsDataURL(file);
+        }
+        function removeLogo() { uploadedLogo = null; renderLogoSection(); updatePreview(); }
+
+        function renderSignatureSection() {
+            var wrap = document.getElementById('sig-section-wrap');
+            wrap.innerHTML = '<div class="form-section"><div class="form-section-title">Signature</div>'
+                + '<div style="display:flex;gap:0;background:#f0eeff;border-radius:10px;padding:4px;margin-bottom:12px">'
+                + '<button id="sig-tab-draw" onclick="switchSigTab(\'draw\')" style="flex:1;padding:8px;border:none;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;background:' + (currentSigTab==='draw'?'var(--accent)':'transparent') + ';color:' + (currentSigTab==='draw'?'white':'var(--ink3)') + ';transition:all .2s">&#9998; Draw</button>'
+                + '<button id="sig-tab-upload" onclick="switchSigTab(\'upload\')" style="flex:1;padding:8px;border:none;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;background:' + (currentSigTab==='upload'?'var(--accent)':'transparent') + ';color:' + (currentSigTab==='upload'?'white':'var(--ink3)') + ';transition:all .2s">&#8679; Upload</button></div>'
+                + '<div id="sig-draw-panel" style="display:' + (currentSigTab==='draw'?'block':'none') + '"><canvas id="sig-canvas" width="320" height="90" style="display:block;background:white;border-radius:8px;border:1.5px solid #e0e0ea;cursor:crosshair;touch-action:none;width:100%"></canvas>'
+                + '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px"><div style="font-size:11px;color:var(--ink3)">Draw signature</div><button onclick="clearSignature()" style="padding:5px 12px;background:#fee2e2;color:#ef4444;border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">Clear</button></div></div>'
+                + '<div id="sig-upload-panel" style="display:' + (currentSigTab==='upload'?'block':'none') + '"><div style="background:white;border-radius:8px;border:1.5px dashed #c4b8ff;padding:16px;text-align:center;min-height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">'
+                + (uploadedSig ? '<img src="' + uploadedSig + '" style="max-height:70px;max-width:100%;object-fit:contain"/>' : '<div style="font-size:11px;color:var(--ink3)">Upload signature image</div>')
+                + '</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px"><label style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:var(--accent);color:white;font-size:12px;font-weight:700;border-radius:8px;cursor:pointer">&#8679; Choose Image<input type="file" accept="image/*" style="display:none" onchange="handleSigUpload(this)"/></label>'
+                + (uploadedSig ? '<button onclick="removeSig()" style="padding:7px 12px;background:#fee2e2;color:#ef4444;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">Remove</button>' : '')
+                + '</div></div></div>';
+            if (currentSigTab === 'draw') initSignaturePad();
+        }
+
+        function switchSigTab(tab) {
+            currentSigTab = tab;
+            renderSignatureSection();
+        }
+
+        function handleSigUpload(input) {
+            var file = input.files[0]; if (!file) return;
+            var reader = new FileReader();
+            reader.onload = function (e) { uploadedSig = e.target.result; renderSignatureSection(); updatePreview(); showToast('Signature uploaded! ✓'); };
+            reader.readAsDataURL(file);
+        }
+        function removeSig() { uploadedSig = null; renderSignatureSection(); updatePreview(); }
+
+        var sigCanvas, sigCtx, sigDrawing = false;
+        function initSignaturePad() {
+            sigCanvas = document.getElementById('sig-canvas'); if (!sigCanvas) return;
+            sigCtx = sigCanvas.getContext('2d'); sigCtx.strokeStyle = '#1e293b'; sigCtx.lineWidth = 2; sigCtx.lineCap = 'round';
+            function getPos(e) { var r = sigCanvas.getBoundingClientRect(); var scX = sigCanvas.width / r.width, scY = sigCanvas.height / r.height; if (e.touches) return { x: (e.touches[0].clientX - r.left) * scX, y: (e.touches[0].clientY - r.top) * scY }; return { x: (e.clientX - r.left) * scX, y: (e.clientY - r.top) * scY }; }
+            function startDraw(e) { e.preventDefault(); sigDrawing = true; var p = getPos(e); sigCtx.beginPath(); sigCtx.moveTo(p.x, p.y); }
+            function draw(e) { e.preventDefault(); if (!sigDrawing) return; var p = getPos(e); sigCtx.lineTo(p.x, p.y); sigCtx.stroke(); }
+            function stopDraw() { sigDrawing = false; updatePreview(); }
+            sigCanvas.addEventListener('mousedown', startDraw); sigCanvas.addEventListener('mousemove', draw); sigCanvas.addEventListener('mouseup', stopDraw);
+            sigCanvas.addEventListener('touchstart', startDraw, { passive: false }); sigCanvas.addEventListener('touchmove', draw, { passive: false }); sigCanvas.addEventListener('touchend', stopDraw);
+        }
+        function clearSignature() { if (sigCtx && sigCanvas) { sigCtx.clearRect(0, 0, sigCanvas.width, sigCanvas.height); updatePreview(); } }
+
+        function updatePreview() {
+            if (!builderTpl) return;
+            var type = builderTpl.id[0] === 'p' ? 'product' : builderTpl.id.indexOf('sub') === 0 ? 'subscription' : 'service';
+            
+            // Provide default data for all removed fields
+            var d = { 
+                biz: 'Your Business Name', 
+                tagline: 'Business Tagline Here', 
+                email: 'hello@yourbusiness.com', 
+                phone: '+91 98765 43210', 
+                web: 'www.yourbusiness.com', 
+                gstin: '27AABCX1234M1Z5',
+                addr: '123 Business Street, City, State, 400001', 
+                client: 'Valued Client', 
+                bemail: 'client@email.com', 
+                bphone: '+91 00000 00000', 
+                baddr: 'Client Office Address, Sector 15, City', 
+                inv: 'INV-2026-001', 
+                date: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }), 
+                accno: '0000123456789', 
+                accname: 'Business Account Name', 
+                bank: 'HDFC Bank', 
+                terms: '1. Please pay within 15 days. \n2. Goods once sold will not be taken back.', 
+                items: type === 'product' ? [{ name: 'Sample Product 1', qty: 2, price: 500, gst: 18 }] : type === 'service' ? [{ name: 'Professional Service', desc: 'Detailed service description here', hrs: 10, rate: 1200 }] : [{ name: 'Monthly Pro Plan', duration: '1 Month', price: 2999 }], 
+                logo: uploadedLogo 
+            };
+            var html = TPL_MAP[builderTpl.id](d);
+            var iframe = document.getElementById('bm-iframe');
+            try { var doc = iframe.contentDocument || iframe.contentWindow.document; doc.open(); doc.write(html); doc.close(); } catch (e) { }
+        }
+
+        function showToast(msg) { var t = document.getElementById('toast'); document.getElementById('toast-msg').textContent = msg; t.classList.add('show'); setTimeout(function () { t.classList.remove('show'); }, 3000); }
+        function downloadInvoice() { showToast('Redirecting to signup to download! ✓'); setTimeout(function () { window.location.href = 'signup.html'; }, 1500); }
+
+        window.onload = init;
+    </script>
+</body>
+</html>

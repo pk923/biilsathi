@@ -1,0 +1,2279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"></noscript>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up — BillSathi</title>
+    <link rel="stylesheet" href="css/style.min.css">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --ink: #0a0a0f;
+            --ink2: #3d3d52;
+            --ink3: #8888a0;
+            --bg: #f8f7ff;
+            --surface: #fff;
+            --accent: #5b3fff;
+            --accent2: #7c5fff;
+            --soft: #ede9ff;
+            --green: #5b3fff;
+            --green-soft: #ede9ff;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            overflow: hidden;
+        }
+
+        .page {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100vh;
+        }
+
+        /* ── LEFT ── */
+        .left {
+            background: linear-gradient(145deg, #0a0a0f 0%, #1a0d4e 45%, #0f0a2e 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 40px 48px;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+        }
+
+        .orb1 {
+            width: 420px;
+            height: 420px;
+            background: rgba(91, 63, 255, .4);
+            top: -120px;
+            right: -80px;
+            animation: float1 9s ease-in-out infinite;
+        }
+
+        .orb2 {
+            width: 280px;
+            height: 280px;
+            background: rgba(124, 95, 255, .3);
+            bottom: 80px;
+            left: -40px;
+            animation: float1 11s ease-in-out infinite reverse;
+        }
+
+        .orb3 {
+            width: 180px;
+            height: 180px;
+            background: rgba(91, 63, 255, .12);
+            top: 55%;
+            left: 40%;
+            animation: float1 13s ease-in-out infinite 3s;
+        }
+
+        @keyframes float1 {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1)
+            }
+
+            50% {
+                transform: translateY(-28px) scale(1.07)
+            }
+        }
+
+        .grid-bg {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(255, 255, 255, .03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .03) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none;
+        }
+
+        .left-logo {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            text-decoration: none;
+            position: relative;
+            z-index: 2;
+        }
+        .left-logo-img { height: 60px; width: auto; max-width: none; max-height: none; object-fit: contain; display: block; background: transparent; border: none; box-shadow: none; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; }
+    @media (max-width: 768px) { .left-logo-img { height: 50px; } }
+
+        .left-center {
+            position: relative;
+            z-index: 2;
+        }
+
+        .eyebrow {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: rgba(160, 130, 255, .8);
+            margin-bottom: 16px;
+        }
+
+        .left-center h2 {
+            font-size: clamp(28px, 3.2vw, 42px);
+            font-weight: 800;
+            color: white;
+            letter-spacing: -1.8px;
+            line-height: 1.12;
+            margin-bottom: 18px;
+        }
+
+        .left-center h2 span {
+            background: linear-gradient(135deg, #5b3fff, #a855f7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .left-center p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, .4);
+            line-height: 1.7;
+            max-width: 320px;
+        }
+
+        /* step indicators */
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin-top: 32px;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            position: relative;
+            padding-bottom: 24px;
+        }
+
+        .step-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .step-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 32px;
+            bottom: 0;
+            width: 1px;
+            background: rgba(255, 255, 255, .08);
+        }
+
+        .step-num {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(91, 63, 255, .25);
+            border: 1px solid rgba(91, 63, 255, .4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .step-num svg {
+            width: 14px;
+            height: 14px;
+            stroke: rgba(160, 130, 255, .9);
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .step-text strong {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, .8);
+            margin-bottom: 2px;
+            margin-top: 6px;
+        }
+
+        .step-text span {
+            font-size: 12px;
+            color: rgba(255, 255, 255, .35);
+        }
+
+        /* bottom stat strip */
+        .left-bottom {
+            position: relative;
+            z-index: 2;
+        }
+
+        .stat-strip {
+            display: flex;
+            gap: 28px;
+        }
+
+        .stat-item .val {
+            font-size: 22px;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -1px;
+        }
+
+        .stat-item .lbl {
+            font-size: 11px;
+            color: rgba(255, 255, 255, .35);
+            margin-top: 2px;
+        }
+
+        .stat-divider {
+            width: 1px;
+            background: rgba(255, 255, 255, .08);
+        }
+
+        /* ── RIGHT ── */
+        .right {
+            background: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 48px;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        .right-inner {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .right-nav {
+            position: absolute;
+            top: 28px;
+            right: 32px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+            color: var(--ink3);
+        }
+
+        .right-nav a {
+            color: var(--accent);
+            font-weight: 700;
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 10px;
+            border: 1.5px solid var(--soft);
+            transition: all .2s;
+        }
+
+        .right-nav a:hover {
+            background: var(--soft);
+        }
+
+        .form-heading {
+            margin-bottom: 24px;
+        }
+
+        .form-heading h1 {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 5px;
+            color: var(--ink);
+        }
+
+        .form-heading p {
+            font-size: 14px;
+            color: var(--ink3);
+            line-height: 1.5;
+        }
+
+        /* free badge */
+        .free-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: var(--green-soft);
+            color: #3730a3;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 999px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(91, 63, 255, .2);
+        }
+
+        .free-badge svg {
+            width: 13px;
+            height: 13px;
+            stroke: var(--green);
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* google */
+        .google-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 13px;
+            border-radius: 12px;
+            border: 1.5px solid #e8e5f8;
+            background: white;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--ink);
+            cursor: pointer;
+            font-family: inherit;
+            transition: all .2s;
+            margin-bottom: 18px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .04);
+        }
+
+        .google-btn:hover {
+            border-color: var(--accent);
+            background: var(--bg);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(91, 63, 255, .1);
+        }
+
+        .google-btn svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        /* divider */
+        .or-div {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .or-div::before,
+        .or-div::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #f0eeff;
+        }
+
+        .or-div span {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--ink3);
+        }
+
+        /* field */
+        .field-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .field-group {
+            margin-bottom: 14px;
+        }
+
+        .field-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--ink2);
+            margin-bottom: 6px;
+        }
+
+        .field-wrap {
+            position: relative;
+        }
+
+        .field-wrap svg.fi {
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 15px;
+            height: 15px;
+            stroke: var(--ink3);
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            pointer-events: none;
+            transition: stroke .2s;
+        }
+
+        .field-wrap input,
+        .field-wrap select {
+            width: 100%;
+            padding: 12px 13px 12px 38px;
+            border-radius: 11px;
+            border: 1.5px solid #e8e5f8;
+            background: var(--bg);
+            font-size: 13px;
+            color: var(--ink);
+            font-family: inherit;
+            transition: border-color .2s, box-shadow .2s, background .2s;
+            outline: none;
+        }
+
+        .field-wrap select {
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .field-wrap input::placeholder {
+            color: var(--ink3);
+        }
+
+        .field-wrap input:focus,
+        .field-wrap select:focus {
+            border-color: var(--accent);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(91, 63, 255, .1);
+        }
+
+        .field-wrap:focus-within svg.fi {
+            stroke: var(--accent);
+        }
+
+        .field-wrap input.error {
+            border-color: #ef4444;
+            background: #fff5f5;
+        }
+
+        .field-error {
+            font-size: 11px;
+            color: #ef4444;
+            font-weight: 600;
+            margin-top: 5px;
+            display: none;
+        }
+
+        /* pwd toggle */
+        .pwd-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            color: var(--ink3);
+            display: flex;
+            align-items: center;
+            transition: color .2s;
+        }
+
+        .pwd-toggle:hover {
+            color: var(--accent);
+        }
+
+        .pwd-toggle svg {
+            width: 15px;
+            height: 15px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* password strength */
+        .pwd-strength {
+            display: flex;
+            gap: 4px;
+            margin-top: 7px;
+        }
+
+        .pwd-bar {
+            flex: 1;
+            height: 3px;
+            border-radius: 2px;
+            background: #f0eeff;
+            transition: background .3s;
+        }
+
+        .pwd-bar.weak {
+            background: #ef4444;
+        }
+
+        .pwd-bar.medium {
+            background: #f59e0b;
+        }
+
+        .pwd-bar.strong {
+            background: var(--green);
+        }
+
+        .pwd-hint {
+            font-size: 11px;
+            color: var(--ink3);
+            margin-top: 4px;
+        }
+
+        /* terms */
+        .terms-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            margin-bottom: 18px;
+            margin-top: 4px;
+        }
+
+        .terms-row input {
+            width: 15px;
+            height: 15px;
+            accent-color: var(--accent);
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .terms-row label {
+            font-size: 12px;
+            color: var(--ink3);
+            line-height: 1.5;
+            cursor: pointer;
+        }
+
+        .terms-row a {
+            color: var(--accent);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .terms-row a:hover {
+            text-decoration: underline;
+        }
+
+        /* submit */
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            background: var(--accent);
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 8px 24px rgba(91, 63, 255, .35);
+            transition: all .25s cubic-bezier(.34, 1.3, .64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, .1), transparent);
+        }
+
+        .submit-btn:hover {
+            background: var(--accent2);
+            transform: translateY(-2px);
+            box-shadow: 0 14px 36px rgba(91, 63, 255, .45);
+        }
+
+        .submit-btn svg {
+            width: 16px;
+            height: 16px;
+            stroke: white;
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .bottom-link {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 13px;
+            color: var(--ink3);
+        }
+
+        .bottom-link a {
+            color: var(--accent);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        /* toast */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: #0f0a2e;
+            color: white;
+            padding: 13px 22px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, .25);
+            z-index: 9999;
+            opacity: 0;
+            transition: transform .4s cubic-bezier(.34, 1.56, .64, 1), opacity .35s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast-icon {
+            width: 18px;
+            height: 18px;
+            background: var(--green);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+        }
+
+        .toast-icon svg {
+            width: 10px;
+            height: 10px;
+            stroke: white;
+            fill: none;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, .3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
+        }
+
+        /* ── ANIMATIONS ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── ANIMATIONS ── */
+        .animate-fade-up {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+        .delay-600 { animation-delay: 0.6s; }
+
+        /* button hover glow */
+        .submit-btn, .google-btn, .right-nav a {
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .submit-btn:hover, .google-btn:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 14px 36px rgba(91, 63, 255, 0.3);
+        }
+
+        /* background glow */
+        .left::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(91, 63, 255, 0.05), transparent 70%);
+            animation: glow-pulse 10s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
+
+        @media(max-width:768px) {
+            .page {
+                grid-template-columns: 1fr;
+            }
+
+            .left {
+                display: none;
+            }
+
+            .right {
+                padding: 32px 24px;
+            }
+
+            body {
+                overflow-y: auto;
+            }
+
+            .field-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ── ROLE PICKER (STEP 1) ── */
+        .step-flow {
+            position: relative;
+        }
+
+        /* Step wrapper */
+        .auth-step {
+            transition: opacity 0.4s cubic-bezier(0.2,0.8,0.2,1), transform 0.4s cubic-bezier(0.2,0.8,0.2,1);
+        }
+
+        .auth-step.hidden {
+            opacity: 0;
+            transform: translateX(-24px);
+            pointer-events: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .auth-step.slide-out {
+            opacity: 0;
+            transform: translateX(-32px);
+        }
+
+        .auth-step.slide-in {
+            animation: slideInRight 0.45s cubic-bezier(0.2,0.8,0.2,1) forwards;
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(32px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Step indicator */
+        .step-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .step-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #e0ddf5;
+            transition: all 0.3s;
+        }
+
+        .step-dot.active {
+            background: var(--accent);
+            width: 22px;
+            border-radius: 4px;
+        }
+
+        .step-dot.done {
+            background: var(--accent);
+        }
+
+        .step-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--ink3);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-left: 4px;
+        }
+
+        /* Role Cards */
+        .role-picker {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 20px 0 28px;
+        }
+
+        .rp-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 22px 14px 18px;
+            border-radius: 18px;
+            border: 2px solid #e8e5f8;
+            background: var(--bg);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34,1.3,0.64,1);
+            position: relative;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        .rp-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .rp-owner::before {
+            background: linear-gradient(145deg, rgba(91,63,255,0.06), rgba(124,95,255,0.02));
+        }
+
+        .rp-customer::before {
+            background: linear-gradient(145deg, rgba(14,165,233,0.06), rgba(56,189,248,0.02));
+        }
+
+        .rp-card:hover,
+        .rp-card.selected {
+            transform: translateY(-4px);
+        }
+
+        .rp-card:hover::before,
+        .rp-card.selected::before {
+            opacity: 1;
+        }
+
+        .rp-owner:hover,
+        .rp-owner.selected {
+            border-color: var(--accent);
+            box-shadow: 0 12px 32px rgba(91,63,255,0.2);
+            background: white;
+        }
+
+        .rp-customer:hover,
+        .rp-customer.selected {
+            border-color: #0ea5e9;
+            box-shadow: 0 12px 32px rgba(14,165,233,0.18);
+            background: white;
+        }
+
+        .rp-icon-wrap {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: var(--soft);
+            display: grid;
+            place-items: center;
+            transition: background 0.3s, transform 0.3s cubic-bezier(0.34,1.5,0.64,1);
+        }
+
+        .rp-owner .rp-icon-wrap { background: #ede9ff; }
+        .rp-customer .rp-icon-wrap { background: #e0f2fe; }
+
+        .rp-card.selected .rp-icon-wrap,
+        .rp-card:hover .rp-icon-wrap {
+            transform: scale(1.1) rotate(-4deg);
+        }
+
+        .rp-owner.selected .rp-icon-wrap,
+        .rp-owner:hover .rp-icon-wrap {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+        }
+
+        .rp-customer.selected .rp-icon-wrap,
+        .rp-customer:hover .rp-icon-wrap {
+            background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+        }
+
+        .rp-icon-wrap svg {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: stroke 0.3s;
+        }
+
+        .rp-owner .rp-icon-wrap svg { stroke: var(--accent); }
+        .rp-customer .rp-icon-wrap svg { stroke: #0ea5e9; }
+
+        .rp-owner.selected .rp-icon-wrap svg,
+        .rp-owner:hover .rp-icon-wrap svg,
+        .rp-customer.selected .rp-icon-wrap svg,
+        .rp-customer:hover .rp-icon-wrap svg {
+            stroke: white;
+        }
+
+        .rp-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--ink);
+            letter-spacing: -0.3px;
+        }
+
+        .rp-desc {
+            font-size: 11.5px;
+            color: var(--ink3);
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .rp-perks {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 100%;
+        }
+
+        .rp-perks li {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 11px;
+            color: var(--ink3);
+            font-weight: 500;
+        }
+
+        .rp-perks li::before {
+            content: '';
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            background-size: contain;
+        }
+
+        .rp-perk-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+        }
+
+        .rp-owner .rp-perk-icon { background: rgba(91,63,255,0.1); }
+        .rp-customer .rp-perk-icon { background: rgba(14,165,233,0.1); }
+        .rp-owner.selected .rp-perk-icon,
+        .rp-owner:hover .rp-perk-icon { background: rgba(91,63,255,0.15); }
+        .rp-customer.selected .rp-perk-icon,
+        .rp-customer:hover .rp-perk-icon { background: rgba(14,165,233,0.15); }
+
+        .rp-perk-icon svg {
+            width: 9px;
+            height: 9px;
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .rp-owner .rp-perk-icon svg { stroke: var(--accent); }
+        .rp-customer .rp-perk-icon svg { stroke: #0ea5e9; }
+
+        .rp-select-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            opacity: 0;
+            transform: scale(0.4);
+            transition: all 0.3s cubic-bezier(0.34,1.6,0.64,1);
+        }
+
+        .rp-owner .rp-select-badge { background: var(--accent); }
+        .rp-customer .rp-select-badge { background: #0ea5e9; }
+
+        .rp-card.selected .rp-select-badge {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .rp-select-badge svg {
+            width: 11px;
+            height: 11px;
+            stroke: white;
+            fill: none;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Continue button for step 1 */
+        .rp-continue-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            background: var(--accent);
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 8px 24px rgba(91,63,255,.35);
+            transition: all 0.3s cubic-bezier(0.34,1.3,0.64,1);
+        }
+
+        .rp-continue-btn:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 14px 36px rgba(91,63,255,.45);
+        }
+
+        .rp-continue-btn svg {
+            width: 16px;
+            height: 16px;
+            stroke: white;
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Step 2 role badge at top of form */
+        .selected-role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px 6px 8px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1.5px solid;
+        }
+
+        .selected-role-badge.owner-badge {
+            background: #ede9ff;
+            color: var(--accent);
+            border-color: rgba(91,63,255,0.2);
+        }
+
+        .selected-role-badge.customer-badge {
+            background: #e0f2fe;
+            color: #0369a1;
+            border-color: rgba(14,165,233,0.2);
+        }
+
+        .selected-role-badge:hover {
+            filter: brightness(0.95);
+        }
+
+        .srb-icon {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+        }
+
+        .owner-badge .srb-icon { background: var(--accent); }
+        .customer-badge .srb-icon { background: #0ea5e9; }
+
+        .srb-icon svg {
+            width: 11px;
+            height: 11px;
+            stroke: white;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .back-link {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            color: var(--ink3);
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 4px;
+            padding: 0;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover { color: var(--accent); }
+
+        .back-link svg {
+            width: 13px;
+            height: 13px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* ── LEGAL MODALS ── */
+        .legal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 15, .7);
+            backdrop-filter: blur(6px);
+            z-index: 9000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s;
+        }
+
+        .legal-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .legal-modal {
+            background: white;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 680px;
+            max-height: 82vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 32px 80px rgba(0, 0, 0, .35);
+            transform: translateY(24px) scale(.97);
+            transition: transform .35s cubic-bezier(.34, 1.3, .64, 1);
+            overflow: hidden;
+        }
+
+        .legal-overlay.open .legal-modal {
+            transform: translateY(0) scale(1);
+        }
+
+        .legal-modal-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 22px 28px;
+            border-bottom: 1px solid #f0eeff;
+            flex-shrink: 0;
+        }
+
+        .legal-modal-head h3 {
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: -.5px;
+            color: var(--ink);
+        }
+
+        .legal-modal-head p {
+            font-size: 12px;
+            color: var(--ink3);
+            margin-top: 3px;
+        }
+
+        .legal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: #f0eeff;
+            border: none;
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            transition: background .2s;
+            flex-shrink: 0;
+        }
+
+        .legal-close:hover {
+            background: var(--soft);
+        }
+
+        .legal-close svg {
+            width: 14px;
+            height: 14px;
+            stroke: var(--accent);
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+        }
+
+        .legal-body {
+            overflow-y: auto;
+            padding: 28px 28px 32px;
+            flex: 1;
+            scrollbar-width: thin;
+            scrollbar-color: #e0ddf8 transparent;
+        }
+
+        .legal-body::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .legal-body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .legal-body::-webkit-scrollbar-thumb {
+            background: #e0ddf8;
+            border-radius: 4px;
+        }
+
+        .legal-body h4 {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--ink);
+            margin: 22px 0 8px;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legal-body h4::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #f0eeff;
+        }
+
+        .legal-body h4:first-child {
+            margin-top: 0;
+        }
+
+        .legal-body p {
+            font-size: 13px;
+            color: var(--ink2);
+            line-height: 1.85;
+            margin-bottom: 10px;
+        }
+
+        .legal-body ul {
+            padding-left: 18px;
+            margin-bottom: 10px;
+        }
+
+        .legal-body li {
+            font-size: 13px;
+            color: var(--ink2);
+            line-height: 1.8;
+            margin-bottom: 5px;
+        }
+
+        .legal-body strong {
+            color: var(--ink);
+            font-weight: 700;
+        }
+
+        .legal-body .highlight {
+            background: var(--soft);
+            border-left: 3px solid var(--accent);
+            border-radius: 0 8px 8px 0;
+            padding: 12px 14px;
+            font-size: 13px;
+            color: var(--ink2);
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .legal-foot {
+            padding: 16px 28px;
+            border-top: 1px solid #f0eeff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+            background: #faf9ff;
+        }
+
+        .legal-foot p {
+            font-size: 12px;
+            color: var(--ink3);
+        }
+
+        .legal-foot button {
+            padding: 10px 24px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background .2s;
+        }
+
+        .legal-foot button:hover {
+            background: var(--accent2);
+        }
+    
+        /* Premium Text Logo Styles */
+        .brand-wrapper { display: flex; align-items: center; gap: 8px; }
+        .brand-icon { height: 42px; width: auto; object-fit: contain; flex-shrink: 0; display: block; }
+        .brand-text-col { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+        .brand-logo-text { font-size: 26px; font-weight: 800; letter-spacing: -0.8px; line-height: 1; font-family: var(--font, 'Inter', system-ui, sans-serif); color: var(--ink, #0a0a0f); }
+        .left-logo .brand-logo-text { color: #ffffff; }
+        .brand-bill { color: inherit; }
+        .brand-sathi { background: linear-gradient(135deg, #5b3fff, #a855f7); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .brand-tagline { font-size: 7.5px; font-weight: 700; letter-spacing: 1.2px; color: #8888a0; text-transform: uppercase; margin-top: 3px; line-height: 1; font-family: var(--font, 'Inter', system-ui, sans-serif); }
+
+        .sb-logo .brand-icon { height: 34px; }
+        .sb-logo .brand-logo-text { font-size: 21px; }
+        .sb-logo .brand-tagline { font-size: 6.5px; }
+
+        @media (max-width: 768px) {
+            .brand-icon { height: 34px; }
+            .brand-logo-text { font-size: 21px; }
+            .brand-tagline { font-size: 6.5px; }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="toast" id="toast">
+        <div class="toast-icon"><svg viewBox="0 0 12 12">
+                <polyline points="2 6 5 9 10 3" />
+            </svg></div>
+        <span id="toast-msg"></span>
+    </div>
+
+    <div class="page">
+
+        <!-- ── LEFT ── -->
+        <div class="left">
+            <div class="orb orb1"></div>
+            <div class="orb orb2"></div>
+            <div class="orb orb3"></div>
+            <div class="grid-bg"></div>
+
+            <a href="index.html" class="left-logo">
+            <div class="brand-wrapper">
+    <img src="assets/favicon.png" alt="BillSathi Icon" class="brand-icon" />
+    <div class="brand-text-col">
+        <div class="brand-logo-text"><span class="brand-bill">Bill</span><span class="brand-sathi">sathi</span></div>
+        <div class="brand-tagline">SMART BILLING. STRONG BUSINESS.</div>
+    </div>
+</div>
+        </a>
+
+            <div class="left-center">
+                <div class="eyebrow">Get started free</div>
+                <h2>Send your first invoice<br>in <span>under 2 minutes.</span></h2>
+                <p>No setup, no CA, no confusion. Just sign up and start billing your clients professionally from day
+                    one.</p>
+
+                <div class="steps">
+                    <div class="step-item reveal" style="transition-delay: 0.1s;">
+                        <div class="step-num"><svg viewBox="0 0 24 24">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                <circle cx="12" cy="7" r="4" />
+                            </svg></div>
+                        <div class="step-text"><strong>Create your account</strong><span>Takes 30 seconds, free
+                                forever</span></div>
+                    </div>
+                    <div class="step-item reveal" style="transition-delay: 0.25s;">
+                        <div class="step-num"><svg viewBox="0 0 24 24">
+                                <rect x="3" y="3" width="18" height="18" rx="2" />
+                                <path d="M3 9h18M9 21V9" />
+                            </svg></div>
+                        <div class="step-text"><strong>Pick a template</strong><span>Product, service or
+                                subscription</span></div>
+                    </div>
+                    <div class="step-item reveal" style="transition-delay: 0.4s;">
+                        <div class="step-num"><svg viewBox="0 0 24 24">
+                                <line x1="22" y1="2" x2="11" y2="13" />
+                                <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                            </svg></div>
+                        <div class="step-text"><strong>Send to your client</strong><span>QR code + live invoice
+                                page</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="left-bottom">
+                <div class="stat-strip reveal" style="transition-delay: 0.6s;">
+                    <div class="stat-item">
+                        <div class="val" data-target="1.2">0</div>
+                        <div class="lbl">Active businesses</div>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <div class="val" data-target="48">0</div>
+                        <div class="lbl">Invoices generated</div>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <div class="val" data-target="60">0</div>
+                        <div class="lbl">To first invoice</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── RIGHT ── -->
+        <div class="right">
+
+            <div class="right-nav">
+                <span>Have an account?</span>
+                <a href="login.html">Sign in →</a>
+            </div>
+
+            <div class="right-inner">
+
+                <!-- Step indicator -->
+                <div class="step-indicator" id="step-indicator">
+                    <div class="step-dot active" id="dot-1"></div>
+                    <div class="step-dot" id="dot-2"></div>
+                    <span class="step-label" id="step-label-text">Choose your role</span>
+                </div>
+
+                <!-- STEP 1: Role Picker -->
+                <div class="auth-step" id="step-1">
+                    <div class="form-heading">
+                        <h1 class="animate-fade-up">How will you use BillSathi?</h1>
+                        <p class="animate-fade-up delay-100">Choose your role to get the right experience from day one.</p>
+                    </div>
+
+                    <div class="role-picker animate-fade-up delay-200">
+                        <!-- Shop Owner -->
+                        <div class="rp-card rp-owner selected" id="rp-owner" onclick="pickRole('owner')" tabindex="0" role="button" aria-pressed="true">
+                            <div class="rp-select-badge"><svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg></div>
+                            <div class="rp-icon-wrap">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                                    <polyline points="9 22 9 12 15 12 15 22"/>
+                                </svg>
+                            </div>
+                            <div class="rp-title">Shop Owner</div>
+                            <div class="rp-desc">I run a business &amp; need to create invoices</div>
+                            <ul class="rp-perks">
+                                <li><div class="rp-perk-icon"><svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg></div>Create &amp; send invoices</li>
+                                <li><div class="rp-perk-icon"><svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg></div>Track payments</li>
+                                <li><div class="rp-perk-icon"><svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg></div>GST &amp; tax reports</li>
+                            </ul>
+                        </div>
+                        <!-- Customer -->
+                        <div class="rp-card rp-customer" id="rp-customer" onclick="pickRole('customer')" tabindex="0" role="button" aria-pressed="false">
+                            <div class="rp-select-badge"><svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg></div>
+                            <div class="rp-icon-wrap">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                            </div>
+                            <div class="rp-title">Customer</div>
+                            <div class="rp-desc">I receive invoices &amp; need to pay them</div>
+                            <ul class="rp-perks">
+                                <li><div class="rp-perk-icon"><svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg></div>View my invoices</li>
+                                <li><div class="rp-perk-icon"><svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg></div>Pay securely online</li>
+                                <li><div class="rp-perk-icon"><svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg></div>Download receipts</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <button class="rp-continue-btn" id="rp-continue" onclick="goToStep2()">
+                        Continue as <span id="continue-role-label">Shop Owner</span>
+                        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </button>
+                </div>
+
+                <!-- STEP 2: Sign-up Form -->
+                <div class="auth-step hidden" id="step-2">
+                    <button class="back-link" onclick="goToStep1()">
+                        <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                        Back
+                    </button>
+
+                    <!-- Selected role badge -->
+                    <div id="role-badge-wrap" style="margin-bottom:4px"></div>
+
+                    <div class="form-heading">
+                        <h1>Create your account</h1>
+                        <p>Free forever. No credit card needed.</p>
+                    </div>
+
+                    <div class="free-badge">
+                        <svg viewBox="0 0 24 24">
+                            <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                        Free plan &mdash; 5 invoices/month, no expiry
+                    </div>
+
+                    <!-- Google -->
+                    <button class="google-btn" onclick="handleGoogle()" style="margin-top:2px;">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
+                            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+                        </svg>
+                        Continue with Google
+                    </button>
+
+                    <div class="or-div"><span>or sign up with email</span></div>
+
+                    <form onsubmit="handleSignup(event)" novalidate>
+
+                        <!-- Name row -->
+                        <div class="field-row">
+                            <div class="field-group">
+                                <label>First name</label>
+                                <div class="field-wrap">
+                                    <svg class="fi" viewBox="0 0 24 24">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                        <circle cx="12" cy="7" r="4" />
+                                    </svg>
+                                    <input type="text" id="fname" placeholder="First name" autocomplete="given-name" />
+                                </div>
+                                <div class="field-error" id="fname-err">Required</div>
+                            </div>
+                            <div class="field-group">
+                                <label>Last name</label>
+                                <div class="field-wrap">
+                                    <svg class="fi" viewBox="0 0 24 24">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                        <circle cx="12" cy="7" r="4" />
+                                    </svg>
+                                    <input type="text" id="lname" placeholder="Last name" autocomplete="family-name" />
+                                </div>
+                                <div class="field-error" id="lname-err">Required</div>
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="field-group">
+                            <label>Email address</label>
+                            <div class="field-wrap">
+                                <svg class="fi" viewBox="0 0 24 24">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                    <polyline points="22,6 12,13 2,6" />
+                                </svg>
+                                <input type="email" id="email" placeholder="you@company.com" autocomplete="email" />
+                            </div>
+                            <div class="field-error" id="email-err">Enter a valid email address</div>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="field-group">
+                            <label>Password</label>
+                            <div class="field-wrap">
+                                <svg class="fi" viewBox="0 0 24 24">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" />
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                </svg>
+                                <input type="password" id="password" placeholder="Min. 8 characters" autocomplete="new-password" oninput="checkStrength(this.value)" />
+                                <button type="button" class="pwd-toggle" onclick="togglePwd()">
+                                    <svg id="eye-icon" viewBox="0 0 24 24">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                        <circle cx="12" cy="12" r="3" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="pwd-strength">
+                                <div class="pwd-bar" id="bar1"></div>
+                                <div class="pwd-bar" id="bar2"></div>
+                                <div class="pwd-bar" id="bar3"></div>
+                                <div class="pwd-bar" id="bar4"></div>
+                            </div>
+                            <div class="pwd-hint" id="pwd-hint">Use 8+ characters with a mix of letters and numbers</div>
+                            <div class="field-error" id="pwd-err">Password must be at least 8 characters</div>
+                        </div>
+
+                        <!-- Terms -->
+                        <div class="terms-row">
+                            <input type="checkbox" id="terms" />
+                            <label for="terms">I agree to the <a href="#" onclick="openLegal('tos');return false;">Terms of Service</a> and <a href="#" onclick="openLegal('pp');return false;">Privacy Policy</a>. No spam, ever.</label>
+                        </div>
+                        <div class="field-error" id="terms-err" style="margin-top:-10px;margin-bottom:14px">Please accept the terms to continue</div>
+
+                        <button type="submit" class="submit-btn" id="submit-btn">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                                <circle cx="9" cy="7" r="4" />
+                                <line x1="19" y1="8" x2="19" y2="14" />
+                                <line x1="22" y1="11" x2="16" y2="11" />
+                            </svg>
+                            Create Free Account
+                        </button>
+
+                    </form>
+
+                    <div class="bottom-link">
+                        Already have an account? <a href="login.html">Sign in &rarr;</a>
+                    </div>
+
+                </div><!-- /step-2 -->
+            </div><!-- /right-inner -->
+        </div><!-- /right -->
+    </div><!-- /page -->
+
+    <script>
+        function showToast(msg, d) {
+            d = d || 3000;
+            var t = document.getElementById('toast');
+            document.getElementById('toast-msg').textContent = msg;
+            t.classList.add('show');
+            setTimeout(function () { t.classList.remove('show'); }, d);
+        }
+
+        /* ── ROLE SELECTION STATE ── */
+        var selectedRole = 'owner';
+
+        function pickRole(role) {
+            selectedRole = role;
+            var ownerCard = document.getElementById('rp-owner');
+            var customerCard = document.getElementById('rp-customer');
+            ownerCard.classList.remove('selected');
+            customerCard.classList.remove('selected');
+            ownerCard.setAttribute('aria-pressed', 'false');
+            customerCard.setAttribute('aria-pressed', 'false');
+            if (role === 'owner') {
+                ownerCard.classList.add('selected');
+                ownerCard.setAttribute('aria-pressed', 'true');
+                document.getElementById('continue-role-label').textContent = 'Shop Owner';
+                var btn = document.getElementById('rp-continue');
+                btn.style.background = '';
+                btn.style.boxShadow = '';
+            } else {
+                customerCard.classList.add('selected');
+                customerCard.setAttribute('aria-pressed', 'true');
+                document.getElementById('continue-role-label').textContent = 'Customer';
+                var btn = document.getElementById('rp-continue');
+                btn.style.background = '#0ea5e9';
+                btn.style.boxShadow = '0 8px 24px rgba(14,165,233,0.35)';
+            }
+        }
+
+        function goToStep2() {
+            var step1 = document.getElementById('step-1');
+            var step2 = document.getElementById('step-2');
+            // Update step indicator
+            document.getElementById('dot-1').classList.remove('active');
+            document.getElementById('dot-1').classList.add('done');
+            document.getElementById('dot-2').classList.add('active');
+            document.getElementById('step-label-text').textContent = 'Create account';
+            // Slide transition
+            step1.classList.add('slide-out');
+            setTimeout(function() {
+                step1.classList.add('hidden');
+                step1.classList.remove('slide-out');
+                step2.classList.remove('hidden');
+                step2.classList.add('slide-in');
+                setTimeout(function() { step2.classList.remove('slide-in'); }, 500);
+            }, 260);
+            // Render the role badge
+            renderRoleBadge();
+        }
+
+        function goToStep1() {
+            var step1 = document.getElementById('step-1');
+            var step2 = document.getElementById('step-2');
+            // Update step indicator
+            document.getElementById('dot-1').classList.add('active');
+            document.getElementById('dot-1').classList.remove('done');
+            document.getElementById('dot-2').classList.remove('active');
+            document.getElementById('step-label-text').textContent = 'Choose your role';
+            // Slide back
+            step2.classList.add('slide-out');
+            setTimeout(function() {
+                step2.classList.add('hidden');
+                step2.classList.remove('slide-out');
+                step1.classList.remove('hidden');
+                step1.classList.add('slide-in');
+                setTimeout(function() { step1.classList.remove('slide-in'); }, 500);
+            }, 260);
+        }
+
+        function renderRoleBadge() {
+            var wrap = document.getElementById('role-badge-wrap');
+            if (selectedRole === 'owner') {
+                wrap.innerHTML = '<div class="selected-role-badge owner-badge"><div class="srb-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>Signing up as Shop Owner <span style="margin-left:4px;opacity:.6;font-weight:500">· Change</span></div>';
+            } else {
+                wrap.innerHTML = '<div class="selected-role-badge customer-badge"><div class="srb-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>Signing up as Customer <span style="margin-left:4px;opacity:.6;font-weight:500">· Change</span></div>';
+            }
+            wrap.querySelector('.selected-role-badge').addEventListener('click', goToStep1);
+        }
+
+        function handleGoogle() {
+            localStorage.setItem('userLoggedIn', 'true');
+            localStorage.setItem('userRole', selectedRole);
+            var roleLabel = selectedRole === 'owner' ? 'Shop Owner' : 'Customer';
+            showToast('Signed up as ' + roleLabel + ' via Google ✓');
+            setTimeout(function() { window.location.href = 'index.html'; }, 1500);
+        }
+
+        function togglePwd() {
+            var inp = document.getElementById('password');
+            var icon = document.getElementById('eye-icon');
+            if (inp.type === 'password') {
+                inp.type = 'text';
+                icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>';
+            } else {
+                inp.type = 'password';
+                icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+            }
+        }
+
+        /* LEGAL MODALS */
+        function openLegal(type) {
+            var id = 'modal-' + type;
+            var el = document.getElementById(id);
+            if (el) {
+                el.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeLegal(id) {
+            var el = document.getElementById(id);
+            if (el) {
+                el.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function closeLegalBg(e, id) {
+            if (e.target.classList.contains('legal-overlay')) {
+                closeLegal(id);
+            }
+        }
+
+        /* PASSWORD STRENGTH */
+        function checkStrength(val) {
+            var bars = [document.getElementById('bar1'), document.getElementById('bar2'), document.getElementById('bar3'), document.getElementById('bar4')];
+            var hint = document.getElementById('pwd-hint');
+            bars.forEach(function (b) { b.className = 'pwd-bar'; });
+
+            if (!val) { hint.textContent = 'Use 8+ characters with a mix of letters and numbers'; return; }
+
+            var score = 0;
+            if (val.length >= 8) score++;
+            if (val.length >= 12) score++;
+            if (/[A-Z]/.test(val) && /[0-9]/.test(val)) score++;
+            if (/[^A-Za-z0-9]/.test(val)) score++;
+
+            if (score <= 1) {
+                bars[0].classList.add('weak');
+                hint.textContent = 'Too weak — add numbers or uppercase letters';
+                hint.style.color = '#ef4444';
+            } else if (score === 2) {
+                bars[0].classList.add('medium'); bars[1].classList.add('medium');
+                hint.textContent = 'Fair — try adding a symbol or making it longer';
+                hint.style.color = '#f59e0b';
+            } else if (score === 3) {
+                bars[0].classList.add('strong'); bars[1].classList.add('strong'); bars[2].classList.add('strong');
+                hint.textContent = 'Good password';
+                hint.style.color = 'var(--green)';
+            } else {
+                bars.forEach(function (b) { b.classList.add('strong'); });
+                hint.textContent = 'Strong password ✓';
+                hint.style.color = 'var(--green)';
+            }
+        }
+
+        /* VALIDATE */
+        function validate() {
+            var ok = true;
+            var fields = [
+                { id: 'fname', err: 'fname-err', check: function (v) { return v.trim().length > 0; } },
+                { id: 'lname', err: 'lname-err', check: function (v) { return v.trim().length > 0; } },
+                { id: 'email', err: 'email-err', check: function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); } },
+                { id: 'password', err: 'pwd-err', check: function (v) { return v.length >= 8; } },
+            ];
+            fields.forEach(function (f) {
+                var el = document.getElementById(f.id);
+                var err = document.getElementById(f.err);
+                el.classList.remove('error'); err.style.display = 'none';
+                if (!f.check(el.value)) {
+                    el.classList.add('error'); err.style.display = 'block'; ok = false;
+                }
+            });
+            // terms
+            var terms = document.getElementById('terms');
+            var termsErr = document.getElementById('terms-err');
+            termsErr.style.display = 'none';
+            if (!terms.checked) { termsErr.style.display = 'block'; ok = false; }
+            return ok;
+        }
+
+        /* SIGNUP */
+        function handleSignup(e) {
+            e.preventDefault();
+            if (!validate()) return;
+
+            var btn = document.getElementById('submit-btn');
+            btn.innerHTML = '<div class="spinner"></div> Creating account...';
+            btn.disabled = true;
+            btn.style.opacity = '.85';
+
+            setTimeout(function () {
+                btn.innerHTML = '<svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:white;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round"><polyline points="20 6 9 17 4 12"/></svg> Account Created!';
+                btn.style.background = 'var(--green)';
+                localStorage.setItem('userLoggedIn', 'true');
+                localStorage.setItem('userRole', selectedRole);
+                var roleLabel = selectedRole === 'owner' ? 'Shop Owner' : 'Customer';
+                showToast('Welcome, ' + roleLabel + '! Setting up your account... ✓', 2500);
+                setTimeout(function () { window.location.href = 'index.html'; }, 2000);
+            }, 1600);
+        }
+
+        /* clear errors on input */
+        ['fname', 'lname', 'email', 'password'].forEach(function (id) {
+            var el = document.getElementById(id);
+            if (el) el.addEventListener('input', function () {
+                this.classList.remove('error');
+                var errEl = document.getElementById(id + '-err');
+                if (errEl) errEl.style.display = 'none';
+            });
+        });
+
+        /* ── REVEAL & COUNT-UP ── */
+        document.addEventListener('DOMContentLoaded', function () {
+            const reveals = document.querySelectorAll('.reveal');
+            const stats = document.querySelectorAll('.stat-item .val');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        if (entry.target.classList.contains('stat-strip')) {
+                            animateStats();
+                        }
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            reveals.forEach(el => observer.observe(el));
+
+            function animateStats() {
+                stats.forEach(stat => {
+                    const target = parseFloat(stat.getAttribute('data-target'));
+                    const isK = stat.parentElement.querySelector('.lbl').textContent.toLowerCase().includes('invoices') || 
+                               stat.parentElement.querySelector('.lbl').textContent.toLowerCase().includes('businesses');
+                    const isS = stat.parentElement.querySelector('.lbl').textContent.toLowerCase().includes('first invoice');
+                    
+                    let current = 0;
+                    const duration = 2000;
+                    const startTime = performance.now();
+
+                    function update(currentTime) {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const easeOutQuad = 1 - (1 - progress) * (1 - progress);
+                        
+                        current = progress === 1 ? target : (target * easeOutQuad);
+                        
+                        if (isK) {
+                            stat.textContent = current.toFixed(current % 1 === 0 ? 0 : 1) + 'K+';
+                        } else if (isS) {
+                            stat.textContent = Math.floor(current) + 's';
+                        } else {
+                            stat.textContent = Math.floor(current);
+                        }
+
+                        if (progress < 1) {
+                            requestAnimationFrame(update);
+                        }
+                    }
+                    requestAnimationFrame(update);
+                });
+            }
+        });
+
+    </script>
+
+    <!-- TERMS OF SERVICE MODAL -->
+    <div class="legal-overlay" id="modal-tos" onclick="closeLegalBg(event,'modal-tos')">
+        <div class="legal-modal">
+            <div class="legal-modal-head">
+                <div>
+                    <h3>Terms of Service</h3>
+                    <p>Last updated: March 2026 &nbsp;·&nbsp; Effective immediately</p>
+                </div>
+                <button class="legal-close" onclick="closeLegal('modal-tos')">
+                    <svg viewBox="0 0 24 24">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
+            </div>
+            <div class="legal-body">
+
+                <div class="highlight">
+                    Please read these Terms of Service carefully before using BillSathi. By creating an account or
+                    using our platform, you agree to be bound by these terms. If you do not agree, do not use the
+                    Service.
+                </div>
+
+                <h4>1. Acceptance of Terms</h4>
+                <p>BillSathi is operated by <strong>BillSathi Technologies</strong>, a software service provider based
+                    in New Delhi, India ("Company", "we", "us", "our"). These Terms of Service ("Terms") constitute a
+                    legally binding agreement between you ("User", "you") and the Company, governing your access to and
+                    use of the BillSathi platform, website, and all related services (collectively, the "Service").</p>
+                <p>By registering an account, clicking "Create Free Account", or otherwise accessing the Service, you
+                    confirm that you have read, understood, and agree to be bound by these Terms and our Privacy Policy.
+                </p>
+
+                <h4>2. Eligibility</h4>
+                <p>You must be at least 18 years of age to use this Service. By using BillSathi, you represent and
+                    warrant that:</p>
+                <ul>
+                    <li>You are 18 years of age or older</li>
+                    <li>You have the legal authority to enter into this agreement</li>
+                    <li>You are not prohibited from using the Service under applicable law</li>
+                    <li>All information you provide is accurate, current and complete</li>
+                </ul>
+
+                <h4>3. Account Registration & Security</h4>
+                <p>You are responsible for maintaining the confidentiality of your account credentials. You agree to:
+                </p>
+                <ul>
+                    <li>Provide accurate and truthful registration information</li>
+                    <li>Maintain the security of your password and account</li>
+                    <li>Immediately notify us of any unauthorized use of your account</li>
+                    <li>Not share your account credentials with any third party</li>
+                </ul>
+                <p>BillSathi shall not be liable for any loss or damage arising from your failure to comply with this
+                    section.</p>
+
+                <h4>4. Permitted Use</h4>
+                <p>Subject to these Terms, BillSathi grants you a limited, non-exclusive, non-transferable, revocable
+                    license to use the Service for your lawful business purposes. You agree <strong>not to</strong>:</p>
+                <ul>
+                    <li>Use the Service for any fraudulent, illegal, or unauthorized purpose</li>
+                    <li>Generate invoices for goods or services that are illegal in your jurisdiction</li>
+                    <li>Impersonate any person or business entity</li>
+                    <li>Attempt to reverse engineer, decompile, or exploit the Service</li>
+                    <li>Use automated tools, bots, or scrapers to access the Service</li>
+                    <li>Resell or sublicense access to the Service without our written consent</li>
+                    <li>Use the Service to transmit spam, malware, or harmful content</li>
+                </ul>
+
+                <h4>5. Invoice Data & Content</h4>
+                <p>You are solely responsible for all invoices, content, and data you create, upload, or transmit
+                    through the Service ("User Content"). You represent and warrant that:</p>
+                <ul>
+                    <li>You have the right to use all information included in your invoices</li>
+                    <li>Your invoices accurately represent legitimate business transactions</li>
+                    <li>You will not use the Service to create fraudulent or fictitious invoices</li>
+                    <li>Your use of the Service complies with all applicable tax laws and regulations</li>
+                </ul>
+                <p>BillSathi does not verify the accuracy, legality, or completeness of your invoice content. We are a
+                    tool provider only.</p>
+
+                <h4>6. GST & Tax Compliance</h4>
+                <p>BillSathi provides GST calculation as a convenience feature. We do not guarantee that calculated tax
+                    amounts are accurate for your specific jurisdiction or transaction type. <strong>You are solely
+                        responsible for ensuring your invoices comply with applicable GST, VAT, and tax laws.</strong>
+                    We strongly recommend consulting a qualified tax professional for compliance matters.</p>
+
+                <h4>7. Subscription & Billing</h4>
+                <p>Paid plans are billed in advance on a monthly or annual basis. By subscribing, you authorize us to
+                    charge your payment method on a recurring basis. You may cancel at any time; cancellation takes
+                    effect at the end of the current billing period.</p>
+                <p><strong>Payment Processing:</strong> All payments are processed by trusted third-party payment
+                    providers (such as Stripe or Razorpay). <strong>BillSathi does not store your full card number,
+                        CVV, or banking credentials on our servers.</strong> Payment data is handled directly by our
+                    payment processors under their respective security standards (PCI-DSS compliant). By making a
+                    payment, you also agree to the terms of our payment processor.</p>
+                <p>We are not responsible for any additional charges, fees, or currency conversion costs imposed by your
+                    bank or card issuer.</p>
+
+                <h4>8. Refund Policy</h4>
+                <p>BillSathi offers a <strong>30-day money-back guarantee</strong> for first-time paid subscriptions
+                    only. If you are not satisfied with the Service within 30 days of your first payment, contact us at
+                    <strong>billing@invoicepro.io</strong> for a full refund — no questions asked.</p>
+                <p>After the 30-day period, <strong>all payments are non-refundable</strong>. Partial-month refunds are
+                    not provided upon cancellation; your access continues until the end of the paid billing period.
+                    Annual plan refunds after 30 days will be calculated on a prorated basis at our sole discretion.</p>
+                <p>Refunds will be credited to the original payment method within 5–10 business days.</p>
+
+                <h4>9. Intellectual Property</h4>
+                <p>All content, design, code, trademarks, and materials on the BillSathi platform are the exclusive
+                    property of BillSathi and are protected by applicable intellectual property laws. You may not copy,
+                    reproduce, or distribute any part of the Service without our express written permission.</p>
+                <p>You retain all ownership rights to the invoice content you create using the Service.</p>
+
+                <h4>10. Disclaimer of Warranties</h4>
+                <p>THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR
+                    IMPLIED. INVOICEPRO EXPRESSLY DISCLAIMS ALL WARRANTIES INCLUDING, WITHOUT LIMITATION, IMPLIED
+                    WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.</p>
+                <p>We do not warrant that the Service will be uninterrupted, error-free, or completely secure.</p>
+                <p><strong>BillSathi is not responsible for any loss of data</strong>, including invoice records,
+                    client information, or financial data, caused by user error, accidental deletion, technical
+                    failures, cyberattacks, or third-party service outages. We strongly recommend users maintain their
+                    own backups of critical business data.</p>
+
+                <h4>11. Limitation of Liability</h4>
+                <p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, INVOICEPRO SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL,
+                    SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO LOSS OF PROFITS, DATA,
+                    BUSINESS, OR GOODWILL, ARISING FROM YOUR USE OF THE SERVICE.</p>
+                <p>Our total cumulative liability to you for any claims arising under these Terms shall not exceed the
+                    amount you paid us in the twelve (12) months preceding the claim.</p>
+
+                <h4>12. Indemnification</h4>
+                <p>You agree to defend, indemnify, and hold harmless BillSathi and its officers, directors, employees,
+                    and agents from any claims, damages, losses, liabilities, costs, and expenses (including reasonable
+                    legal fees) arising out of or relating to your use of the Service, your User Content, or your
+                    violation of these Terms.</p>
+
+                <h4>13. Termination</h4>
+                <p>We reserve the right to suspend or terminate your account at any time, with or without notice, for
+                    any violation of these Terms or for any other reason at our sole discretion. Upon termination, your
+                    right to use the Service ceases immediately. You may delete your account at any time from your
+                    account settings.</p>
+                <p><strong>Service Availability:</strong> We may modify, suspend, or discontinue any part of the Service
+                    at any time without prior notice. We shall not be liable to you or any third party for any
+                    modification, suspension, or discontinuation of the Service. We will make reasonable efforts to
+                    provide advance notice of planned downtime or major changes where practicable.</p>
+
+                <h4>14. Governing Law</h4>
+                <p>These Terms shall be governed by and construed in accordance with the laws of India. Any disputes
+                    arising from these Terms shall be subject to the exclusive jurisdiction of the courts of New Delhi,
+                    India. If you are accessing the Service from outside India, you are responsible for compliance with
+                    your local laws.</p>
+
+                <h4>15. Changes to Terms</h4>
+                <p>We reserve the right to modify these Terms at any time. We will notify registered users of material
+                    changes via email or prominent in-app notice. Continued use of the Service after changes constitutes
+                    acceptance of the revised Terms.</p>
+
+                <h4>16. Contact</h4>
+                <p>For any questions about these Terms, contact us at: <strong><a href="/cdn-cgi/l/email-protection"
+                            class="__cf_email__"
+                            data-cfemail="1d71787a7c715d74736b72747e786d6f72337472">[email&#160;protected]</a></strong>
+                </p>
+
+            </div>
+            <div class="legal-foot">
+                <p>By using BillSathi, you agree to these Terms.</p>
+                <button onclick="closeLegal('modal-tos')">I Understand</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRIVACY POLICY MODAL -->
+    <div class="legal-overlay" id="modal-pp" onclick="closeLegalBg(event,'modal-pp')">
+        <div class="legal-modal">
+            <div class="legal-modal-head">
+                <div>
+                    <h3>Privacy Policy</h3>
+                    <p>Last updated: March 2026 &nbsp;·&nbsp; Effective immediately</p>
+                </div>
+                <button class="legal-close" onclick="closeLegal('modal-pp')">
+                    <svg viewBox="0 0 24 24">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
+            </div>
+            <div class="legal-body">
+
+                <div class="highlight">
+                    Your privacy is important to us. This policy explains what data we collect, how we use it, and your
+                    rights. BillSathi will never sell your personal data to third parties.
+                </div>
+
+                <h4>1. Who We Are</h4>
+                <p>BillSathi ("we", "our", "us") is an online invoicing platform operated from India. This Privacy
+                    Policy applies to all users of our website and Service. For privacy-related queries, contact us at
+                    <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__"
+                            data-cfemail="81f1f3e8f7e0e2f8c1e8eff7eee8e2e4f1f3eeafe8ee">[email&#160;protected]</a></strong>.
+                </p>
+
+                <h4>2. Data We Collect</h4>
+                <p><strong>Account Information:</strong> When you register, we collect your name, email address, and
+                    password (stored encrypted). If you sign in via Google, we receive your name and email from Google
+                    OAuth.</p>
+                <p><strong>Business & Invoice Data:</strong> Information you enter while creating invoices — your
+                    business name, address, client names, invoice amounts, GST numbers, and bank details. This data
+                    belongs to you.</p>
+                <p><strong>Payment Information:</strong> For paid plans, payment is processed by a third-party payment
+                    processor. We do not store your full card details on our servers.</p>
+                <p><strong>Usage &amp; Technical Data:</strong> We may automatically collect technical information
+                    including IP address, browser type and version, device information, operating system, referring
+                    URLs, pages visited, features used, session duration, and usage analytics. This data is collected to
+                    improve the Service, diagnose technical issues, and detect abuse. This data is aggregated and does
+                    not personally identify you in most cases.</p>
+                <p><strong>Communications:</strong> If you contact our support, we retain those communications to
+                    resolve issues and improve service quality.</p>
+
+                <h4>3. How We Use Your Data</h4>
+                <ul>
+                    <li>To provide, operate, and maintain the Service</li>
+                    <li>To process your transactions and send billing-related communications</li>
+                    <li>To send you service updates, feature announcements, and security notices</li>
+                    <li>To respond to your support requests and inquiries</li>
+                    <li>To detect, prevent, and address fraud, abuse, or security issues</li>
+                    <li>To analyze usage patterns and improve the Service</li>
+                    <li>To comply with legal obligations</li>
+                </ul>
+                <p>We do <strong>not</strong> use your data to serve third-party advertisements. We do
+                    <strong>not</strong> sell, rent, or trade your personal data to any third party.</p>
+
+                <h4>4. Legal Basis for Processing</h4>
+                <p>We process your data on the following legal bases under applicable privacy law:</p>
+                <ul>
+                    <li><strong>Contract performance</strong> — to provide the Service you signed up for</li>
+                    <li><strong>Legitimate interests</strong> — to improve our Service, prevent fraud, and ensure
+                        security</li>
+                    <li><strong>Legal obligation</strong> — where processing is required by law</li>
+                    <li><strong>Consent</strong> — where you have given explicit consent (e.g. marketing emails)</li>
+                </ul>
+
+                <h4>5. Data Sharing</h4>
+                <p>We share your data only in these limited circumstances:</p>
+                <ul>
+                    <li><strong>Service providers:</strong> Trusted third-party vendors who assist us in operating the
+                        Service (e.g. cloud hosting, email delivery, payment processing) under strict confidentiality
+                        agreements</li>
+                    <li><strong>Legal requirements:</strong> If required by law, court order, or government authority
+                    </li>
+                    <li><strong>Business transfer:</strong> In the event of a merger, acquisition, or sale of assets,
+                        user data may be transferred as part of the transaction</li>
+                </ul>
+                <p>We never share your invoice or client data with other BillSathi users or external parties without
+                    your explicit consent.</p>
+
+                <h4>6. Data Retention</h4>
+                <p>We retain your account and invoice data for as long as your account is active. If you delete your
+                    account, we will delete your personal data within 30 days, except where we are required by law to
+                    retain it longer (e.g. financial records).</p>
+
+                <h4>7. Data Security</h4>
+                <p>We implement industry-standard security measures to protect your data, including:</p>
+                <ul>
+                    <li>SSL/TLS encryption for all data in transit</li>
+                    <li>Encrypted storage of passwords using bcrypt hashing</li>
+                    <li>Regular security audits and vulnerability assessments</li>
+                    <li>Restricted access to personal data on a need-to-know basis</li>
+                </ul>
+                <p>However, no method of transmission over the Internet is 100% secure. While we strive to protect your
+                    data, we cannot guarantee absolute security.</p>
+
+                <h4>8. Your Rights</h4>
+                <p>Depending on your jurisdiction, you may have the following rights regarding your personal data:</p>
+                <ul>
+                    <li><strong>Access:</strong> Request a copy of the data we hold about you</li>
+                    <li><strong>Correction:</strong> Request correction of inaccurate data</li>
+                    <li><strong>Deletion:</strong> Request deletion of your personal data ("right to be forgotten")</li>
+                    <li><strong>Portability:</strong> Request your data in a portable, machine-readable format</li>
+                    <li><strong>Objection:</strong> Object to processing of your data for certain purposes</li>
+                    <li><strong>Withdraw consent:</strong> Where processing is based on consent, withdraw it at any time
+                    </li>
+                </ul>
+                <p>To exercise these rights, contact us at <strong><a href="/cdn-cgi/l/email-protection"
+                            class="__cf_email__"
+                            data-cfemail="304042594651534970595e465f59535540425f1e595f">[email&#160;protected]</a></strong>.
+                    We will respond within 30 days.</p>
+
+                <h4>9. Cookies</h4>
+                <p>We use essential cookies necessary to operate the Service (session management, security tokens). We
+                    also use analytics cookies to understand how users interact with the platform. You can disable
+                    non-essential cookies in your browser settings, though this may affect some Service functionality.
+                </p>
+
+                <h4>10. Children's Privacy</h4>
+                <p>The Service is not directed at children under 18. We do not knowingly collect personal data from
+                    children. If we become aware that a child has provided us data, we will delete it promptly.</p>
+
+                <h4>11. International Transfers</h4>
+                <p>Your data may be stored and processed in India or other countries where our service providers
+                    operate. By using the Service, you consent to such transfers. We ensure appropriate safeguards are
+                    in place for any international data transfers.</p>
+
+                <h4>12. Changes to This Policy</h4>
+                <p>We may update this Privacy Policy from time to time. We will notify you of significant changes via
+                    email or in-app notice. The "Last updated" date at the top of this page indicates when the policy
+                    was last revised.</p>
+
+                <h4>13. Contact Us</h4>
+                <p>For privacy-related questions, requests, or concerns, contact our Data Protection team at: <strong><a
+                            href="/cdn-cgi/l/email-protection" class="__cf_email__"
+                            data-cfemail="fa8a88938c9b9983ba93948c9593999f8a8895d49395">[email&#160;protected]</a></strong>
+                </p>
+                <p>BillSathi · New Delhi, India</p>
+
+            </div>
+            <div class="legal-foot">
+                <p>We never sell your data. Ever.</p>
+                <button onclick="closeLegal('modal-pp')">I Understand</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

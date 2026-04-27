@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"></noscript>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service — BillSathi</title>
+    <link rel="stylesheet" href="css/style.min.css">
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; }
+        .legal-container { max-width: 800px; margin: 80px auto; padding: 60px; background: white; border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
+        h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; letter-spacing: -1px; }
+        .last-updated { font-size: 14px; color: var(--ink3); margin-bottom: 40px; }
+        h2 { font-size: 20px; font-weight: 700; margin-top: 32px; margin-bottom: 16px; color: var(--ink); }
+        p { margin-bottom: 16px; color: var(--ink2); }
+        ul { margin-bottom: 24px; padding-left: 20px; }
+        li { margin-bottom: 8px; color: var(--ink2); }
+        
+        nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; gap: 40px; padding: 0 32px; height: 66px; background: rgba(248, 247, 255, 0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(91, 63, 255, 0.1); transform: translateZ(0); will-change: backdrop-filter, background; }
+        .logo { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 800; color: var(--ink); text-decoration: none; }
+        .logo-img { height: 60px; width: auto; max-width: none; max-height: none; object-fit: contain; display: block; background: transparent; border: none; box-shadow: none; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; }
+    @media (max-width: 768px) { .logo-img { height: 50px; } }
+.logo em { color: var(--accent); font-style: normal; }
+        .nav-links { display: flex; gap: 32px; }
+        .nav-links a { font-size: 14px; font-weight: 500; color: var(--ink2); text-decoration: none; }
+        .nav-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+        .btn-g { padding: 9px 18px; font-size: 14px; font-weight: 600; color: var(--ink2); text-decoration: none; border-radius: 10px; }
+        .btn-p { padding: 10px 22px; background: var(--accent); color: white; font-size: 14px; font-weight: 700; text-decoration: none; border-radius: 10px; }
+
+        footer { background: white; border-top: 1px solid #eeeef4; padding: 60px 48px 32px; }
+        .fg { display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr; gap: 36px; max-width: 1080px; margin: 0 auto 48px; }
+        .fl h4 { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink); margin-bottom: 18px; }
+        .fl a { display: flex; align-items: center; font-size: 13.5px; color: var(--ink3); text-decoration: none; margin-bottom: 11px; padding: 5px 8px; border-radius: 8px; transition: background .18s, color .18s; }
+        .fl a:not(.logo):hover { background: var(--accent-soft); color: var(--accent); }
+        .footer-desc { font-size: 13.5px; color: var(--ink3); margin-top: 14px; line-height: 1.7; max-width: 220px; }
+        .fb { text-align: center; padding-top: 24px; border-top: 1px solid #eeeef4; font-size: 13px; color: var(--ink3); max-width: 1080px; margin: 0 auto; }
+    
+        /* Premium Text Logo Styles */
+        .brand-wrapper { display: flex; align-items: center; gap: 8px; }
+        .brand-icon { height: 42px; width: auto; object-fit: contain; flex-shrink: 0; display: block; }
+        .brand-text-col { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+        .brand-logo-text { font-size: 26px; font-weight: 800; letter-spacing: -0.8px; line-height: 1; font-family: var(--font, 'Inter', system-ui, sans-serif); color: var(--ink, #0a0a0f); }
+        .left-logo .brand-logo-text { color: #ffffff; }
+        .brand-bill { color: inherit; }
+        .brand-sathi { background: linear-gradient(135deg, #5b3fff, #a855f7); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .brand-tagline { font-size: 7.5px; font-weight: 700; letter-spacing: 1.2px; color: #8888a0; text-transform: uppercase; margin-top: 3px; line-height: 1; font-family: var(--font, 'Inter', system-ui, sans-serif); }
+
+        .sb-logo .brand-icon { height: 34px; }
+        .sb-logo .brand-logo-text { font-size: 21px; }
+        .sb-logo .brand-tagline { font-size: 6.5px; }
+
+        @media (max-width: 768px) {
+            .brand-icon { height: 34px; }
+            .brand-logo-text { font-size: 21px; }
+            .brand-tagline { font-size: 6.5px; }
+        }
+
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">
+            <div class="brand-wrapper">
+    <img src="assets/favicon.png" alt="BillSathi Icon" class="brand-icon" />
+    <div class="brand-text-col">
+        <div class="brand-logo-text"><span class="brand-bill">Bill</span><span class="brand-sathi">sathi</span></div>
+        <div class="brand-tagline">SMART BILLING. STRONG BUSINESS.</div>
+    </div>
+</div>
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="features.html">Features</a>
+            <a href="templates.html">Templates</a>
+            <a href="how-it-works.html">How It Works</a>
+            <a href="pricing.html">Pricing</a>
+        </div>
+        <div class="nav-right">
+            <a href="login.html" class="btn-g">Login</a>
+            <a href="signup.html" class="btn-p">Get Started</a>
+        </div>
+    </nav>
+
+    <div class="legal-container">
+        <h1>Terms of Service</h1>
+        <div class="last-updated">Last updated: 2026</div>
+        
+        <p>By using BillSathi, you agree to these terms.</p>
+        
+        <h2>1. Use of Service</h2>
+        <p>You must use the platform legally and responsibly.</p>
+        
+        <h2>2. Account Responsibility</h2>
+        <p>You are responsible for your account and data.</p>
+        
+        <h2>3. Payments</h2>
+        <p>Paid plans are billed monthly or yearly. No refunds unless specified.</p>
+        
+        <h2>4. Restrictions</h2>
+        <p>You must not:</p>
+        <ul>
+            <li>Hack or disrupt the system</li>
+            <li>Use the service for illegal activities</li>
+        </ul>
+        
+        <h2>5. Limitation of Liability</h2>
+        <p>BillSathi is not responsible for indirect damages.</p>
+        
+        <h2>6. Changes to Terms</h2>
+        <p>We may update these terms at any time.</p>
+        
+        <h2>7. Contact</h2>
+        <p>support@invoicepro.com</p>
+    </div>
+
+    <footer>
+        <div class="fg">
+            <div class="fl">
+                <a href="index.html" class="logo">
+                    <div class="brand-wrapper">
+    <img src="assets/favicon.png" alt="BillSathi Icon" class="brand-icon" />
+    <div class="brand-text-col">
+        <div class="brand-logo-text"><span class="brand-bill">Bill</span><span class="brand-sathi">sathi</span></div>
+        <div class="brand-tagline">SMART BILLING. STRONG BUSINESS.</div>
+    </div>
+</div>
+                </a>
+                <p class="footer-desc">Professional invoicing backed by a powerful cloud engine.</p>
+            </div>
+            <div class="fl">
+                <h4>Product</h4>
+                <a href="templates.html">Templates</a>
+                <a href="features.html">Features</a>
+                <a href="pricing.html">Pricing</a>
+            </div>
+            <div class="fl">
+                <h4>Resources</h4>
+                <a href="#">Support Center</a>
+                <a href="#">Status Page</a>
+            </div>
+            <div class="fl">
+                <h4>Legal</h4>
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms of Service</a>
+                <a href="cookies.html">Cookie Policy</a>
+                <a href="gdpr.html">GDPR</a>
+            </div>
+        </div>
+        <div class="fb">&copy; 2026 BillSathi. All rights reserved.</div>
+    </footer>
+</body>
+</html>

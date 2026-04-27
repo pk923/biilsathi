@@ -1,0 +1,2614 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+        content="Browse InvoicePro invoice templates: modern, minimal, GST-ready, and professional designs." />
+    <title>Templates — InvoicePro</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --ink: #0a0a0f;
+            --ink2: #3d3d52;
+            --ink3: #8888a0;
+            --bg: #f8f7ff;
+            --surface: #ffffff;
+            --accent: #5b3fff;
+            --accent2: #7c5fff;
+            --accent-soft: #ede9ff;
+            --green: #5b3fff;
+            --green-soft: #ede9ff;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        @keyframes pageEnter {
+            from {
+                opacity: 0;
+                transform: translateY(12px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        body {
+            animation: pageEnter 0.4s cubic-bezier(0.22, 1, 0.36, 1) both
+        }
+
+        .pt-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: #f8f7ff;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.26s ease;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            overflow-x: hidden;
+        }
+
+        /* NAV */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            padding: 0 48px;
+            height: 66px;
+            background: rgba(248, 247, 255, 0.94);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(91, 63, 255, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--accent);
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+        }
+
+        .logo-icon svg {
+            width: 17px;
+            height: 17px;
+            fill: white;
+        }
+
+        .logo em {
+            color: var(--accent);
+            font-style: normal;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--ink2);
+            text-decoration: none;
+            transition: color .2s;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+            opacity: 1;
+            filter: none;
+        }
+
+        .nav-links a.active {
+            color: #111;
+            font-weight: 600;
+            opacity: 1;
+            filter: none;
+        }
+
+        .nav-right {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-g {
+            padding: 9px 18px;
+            border: none;
+            background: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--ink2);
+            cursor: pointer;
+            border-radius: 10px;
+            transition: background .2s;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn-g:hover {
+            background: var(--accent-soft);
+            color: var(--accent);
+        }
+
+        .btn-p {
+            padding: 10px 22px;
+            background: var(--accent);
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform .15s, background .2s;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn-p:hover {
+            background: var(--accent2);
+            transform: translateY(-1px);
+        }
+
+        /* HERO */
+        .page-hero {
+            padding: 80px 48px 60px;
+            text-align: center;
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(91, 63, 255, 0.07) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .sec-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: white;
+            background: var(--accent);
+            padding: 8px 20px;
+            border-radius: 999px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 16px rgba(91, 63, 255, .35);
+        }
+
+        .sec-pill::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+        }
+
+        .page-hero h1 {
+            font-size: clamp(38px, 5.5vw, 64px);
+            font-weight: 800;
+            letter-spacing: -2.5px;
+            line-height: 1.06;
+            margin-bottom: 18px;
+        }
+
+        .grad {
+            background: linear-gradient(135deg, #5b3fff 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-hero p {
+            font-size: 17px;
+            color: var(--ink2);
+            max-width: 520px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+
+        /* CATEGORY TABS */
+        .cat-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .cat-tab {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            border-radius: 16px;
+            border: 2px solid #e8e6f8;
+            background: white;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all .25s cubic-bezier(.34, 1.56, .64, 1);
+            text-decoration: none;
+        }
+
+        .cat-tab:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(91, 63, 255, .12);
+        }
+
+        .cat-tab.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            box-shadow: 0 8px 28px rgba(91, 63, 255, .4);
+        }
+
+        .cat-tab-icon {
+            font-size: 22px;
+        }
+
+        .cat-tab-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--ink2);
+        }
+
+        .cat-tab.active .cat-tab-label {
+            color: white;
+        }
+
+        .cat-tab-count {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--ink3);
+            background: var(--bg);
+            padding: 2px 8px;
+            border-radius: 999px;
+        }
+
+        .cat-tab.active .cat-tab-count {
+            background: rgba(255, 255, 255, .2);
+            color: white;
+        }
+
+        /* ANNOUNCE BAR */
+        .announce-bar {
+            background: linear-gradient(90deg, #5b3fff 0%, #7c3aed 50%, #5b3fff 100%);
+            background-size: 200% 100%;
+            animation: grad-shift 6s linear infinite;
+            overflow: hidden;
+            padding: 11px 0;
+        }
+
+        @keyframes grad-shift {
+            0% {
+                background-position: 0%
+            }
+
+            100% {
+                background-position: 200%
+            }
+        }
+
+        .announce-inner {
+            display: flex;
+            align-items: center;
+            width: max-content;
+            animation: announce-scroll 22s linear infinite;
+        }
+
+        @keyframes announce-scroll {
+            from {
+                transform: translateX(0)
+            }
+
+            to {
+                transform: translateX(-50%)
+            }
+        }
+
+        .announce-text {
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+            white-space: nowrap;
+            padding: 0 20px;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+        }
+
+        .announce-sep {
+            color: rgba(255, 255, 255, .3);
+            font-size: 14px;
+        }
+
+        .announce-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #5b3fff;
+            flex-shrink: 0;
+            margin: 0 14px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1)
+            }
+
+            50% {
+                opacity: .4;
+                transform: scale(1.5)
+            }
+        }
+
+        /* SECTION */
+        .tmpl-section {
+            padding: 80px 48px;
+        }
+
+        .tmpl-section:nth-child(even) {
+            background: white;
+        }
+
+        .tmpl-section:nth-child(odd) {
+            background: var(--bg);
+        }
+
+        .tmpl-section.hidden {
+            display: none;
+        }
+
+        .section-head {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 48px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+
+
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            border-radius: 999px;
+            margin-bottom: 14px;
+        }
+
+        .section-head h2 {
+            font-size: clamp(28px, 3.5vw, 42px);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            margin-bottom: 8px;
+            line-height: 1.1;
+        }
+
+        .section-head p {
+            font-size: 15px;
+            color: var(--ink2);
+            line-height: 1.7;
+            max-width: 480px;
+        }
+
+        .section-head-right {
+            font-size: 13px;
+            color: var(--ink3);
+            font-weight: 500;
+        }
+
+        .section-head-right strong {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* TEMPLATE GRID — equal 5-card layout */
+        .tmpl-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+        }
+
+        /* TEMPLATE CARD */
+        .tcard {
+            background: white;
+            border-radius: 20px;
+            border: 1.5px solid #e8e6f8;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+            transition: transform .3s cubic-bezier(.34, 1.56, .64, 1), box-shadow .3s, border-color .3s;
+            opacity: 0;
+            transform: translateY(24px);
+        }
+
+        .tcard.show {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity .55s ease, transform .55s cubic-bezier(.2, .8, .3, 1), box-shadow .3s, border-color .3s;
+        }
+
+        .tcard.show:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 24px 56px rgba(91, 63, 255, .15);
+            border-color: var(--accent);
+        }
+
+        .tcard.show:hover .tcard-name {
+            color: var(--accent);
+        }
+
+        .tcard-name {
+            transition: color .2s;
+        }
+
+        /* iframe preview */
+        .tcard-thumb {
+            height: 190px;
+            overflow: hidden;
+            position: relative;
+            background: #f8f7ff;
+        }
+
+        .tcard-thumb iframe {
+            width: 640px;
+            height: 480px;
+            border: none;
+            transform: scale(0.328);
+            transform-origin: top left;
+            pointer-events: none;
+            display: block;
+        }
+
+        .tcard-thumb-overlay {
+            position: absolute;
+            inset: 0;
+        }
+
+        /* badge */
+        .tcard-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 999px;
+            letter-spacing: .04em;
+            z-index: 2;
+        }
+
+        /* body */
+        .tcard-body {
+            padding: 14px 16px 16px;
+        }
+
+        .tcard-name {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--ink);
+            margin-bottom: 3px;
+            letter-spacing: -0.2px;
+            line-height: 1.3;
+        }
+
+        .tcard-desc {
+            font-size: 11px;
+            color: var(--ink3);
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .tcard-fields {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 12px;
+        }
+
+        .tcard-field {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--ink2);
+            background: var(--bg);
+            padding: 3px 8px;
+            border-radius: 6px;
+            border: 1px solid #e8e6f8;
+        }
+
+        .tcard-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .tcard-preview {
+            flex: 1;
+            padding: 8px;
+            background: var(--bg);
+            border: 1.5px solid #e8e6f8;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--ink2);
+            cursor: pointer;
+            font-family: inherit;
+            transition: all .2s;
+        }
+
+        .tcard-preview:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-soft);
+        }
+
+        .tcard-use {
+            flex: 1;
+            padding: 8px;
+            background: var(--accent);
+            border: none;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background .2s, transform .15s;
+        }
+
+        .tcard-use:hover {
+            background: var(--accent2);
+            transform: translateY(-1px);
+        }
+
+        /* MODAL — PREVIEW + BUILDER */
+        .modal-bg {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 15, .75);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .25s;
+        }
+
+        .modal-bg.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* PREVIEW MODAL */
+        .preview-modal {
+            background: white;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 760px;
+            max-height: 92vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transform: scale(.95) translateY(20px);
+            transition: transform .3s cubic-bezier(.34, 1.56, .64, 1);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, .4);
+        }
+
+        .modal-bg.open .preview-modal {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-hdr {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 24px;
+            border-bottom: 1px solid #f0eeff;
+            flex-shrink: 0;
+        }
+
+
+
+        .modal-title {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--ink);
+            letter-spacing: -0.3px;
+        }
+
+        .modal-subtitle {
+            font-size: 12px;
+            color: var(--ink3);
+            margin-top: 2px;
+        }
+
+        .modal-hdr-right {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .modal-use-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 10px 22px;
+            background: var(--accent);
+            color: white;
+            font-size: 13px;
+            font-weight: 700;
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            box-shadow: 0 4px 16px rgba(91, 63, 255, .35);
+            transition: background .2s, transform .15s;
+        }
+
+        .modal-use-btn:hover {
+            background: var(--accent2);
+            transform: translateY(-1px);
+        }
+
+        .modal-close {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #f3f3f8;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            display: grid;
+            place-items: center;
+            color: var(--ink2);
+            transition: background .2s;
+        }
+
+        .modal-close:hover {
+            background: var(--accent-soft);
+            color: var(--accent);
+        }
+
+        .modal-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 24px;
+            background: #f8f7ff;
+        }
+
+        .modal-body iframe {
+            width: 100%;
+            height: 680px;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, .1);
+            background: white;
+            display: block;
+        }
+
+        /* BUILDER MODAL */
+        .builder-modal {
+            background: white;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 1160px;
+            max-height: 94vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transform: scale(.95) translateY(20px);
+            transition: transform .3s cubic-bezier(.34, 1.56, .64, 1);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, .4);
+        }
+
+        .modal-bg.open .builder-modal {
+            transform: scale(1) translateY(0);
+        }
+
+        .builder-inner {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .builder-form {
+            border-right: 1px solid #f0eeff;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .builder-form-head {
+            padding: 20px 24px;
+            border-bottom: 1px solid #f0eeff;
+            flex-shrink: 0;
+        }
+
+        .builder-form-head h3 {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--ink);
+        }
+
+        .builder-form-head p {
+            font-size: 12px;
+            color: var(--ink3);
+            margin-top: 3px;
+        }
+
+        .builder-form-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 24px;
+        }
+
+        .form-section {
+            margin-bottom: 24px;
+        }
+
+        .form-section-title {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .form-section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--accent-soft);
+        }
+
+        .field-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .field-row.single {
+            grid-template-columns: 1fr;
+        }
+
+        .field {
+            margin-bottom: 10px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--ink2);
+            margin-bottom: 5px;
+            letter-spacing: .02em;
+        }
+
+        .field input,
+        .field select,
+        .field textarea {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1.5px solid #e0e0ea;
+            border-radius: 10px;
+            font-size: 13px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color .2s, box-shadow .2s;
+            background: white;
+            color: var(--ink);
+            resize: none;
+        }
+
+        .field input:focus,
+        .field select:focus,
+        .field textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(91, 63, 255, .08);
+        }
+
+        /* line items */
+
+
+        .li-head {
+            display: grid;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+
+        .li-row {
+            display: grid;
+            gap: 6px;
+            margin-bottom: 6px;
+            position: relative;
+        }
+
+        .li-row input {
+            padding: 8px 10px;
+            border: 1.5px solid #e0e0ea;
+            border-radius: 9px;
+            font-size: 12px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color .2s;
+        }
+
+        .li-row input:focus {
+            border-color: var(--accent);
+        }
+
+        .li-del {
+            position: absolute;
+            right: -28px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #fee2e2;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            color: #ef4444;
+            display: grid;
+            place-items: center;
+            transition: background .2s;
+        }
+
+        .li-del:hover {
+            background: #fca5a5;
+        }
+
+        .add-line-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: var(--accent-soft);
+            border: 1.5px dashed var(--accent-mid, #c4b8ff);
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--accent);
+            cursor: pointer;
+            font-family: inherit;
+            transition: background .2s;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .add-line-btn:hover {
+            background: #ddd8ff;
+        }
+
+        .add-line-btn svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+        }
+
+        /* totals strip */
+        .totals-strip {
+            border-top: 1px solid #f0eeff;
+            padding: 14px 24px;
+            background: var(--bg);
+            flex-shrink: 0;
+        }
+
+        .tot-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--ink2);
+            margin-bottom: 6px;
+        }
+
+        .tot-row.grand {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--ink);
+            border-top: 1.5px solid #e0e0ea;
+            padding-top: 10px;
+            margin-top: 6px;
+            margin-bottom: 0;
+        }
+
+        .tot-row .tot-val {
+            font-weight: 600;
+        }
+
+        /* builder actions */
+        .builder-actions {
+            padding: 14px 24px;
+            border-top: 1px solid #f0eeff;
+            display: flex;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .build-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .build-btn svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .build-btn.primary {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 4px 16px rgba(91, 63, 255, .35);
+        }
+
+        .build-btn.primary:hover {
+            background: var(--accent2);
+            transform: translateY(-1px);
+        }
+
+        .build-btn.secondary {
+            background: var(--bg);
+            color: var(--ink2);
+            border: 1.5px solid #e0e0ea;
+        }
+
+        .build-btn.secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-soft);
+        }
+
+        /* preview pane */
+        .builder-preview {
+            background: #f0eeff;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .preview-pane-head {
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(91, 63, 255, .1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+            background: white;
+        }
+
+        .preview-pane-head h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .preview-pane-head p {
+            font-size: 12px;
+            color: var(--ink3);
+        }
+
+        .live-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--green);
+            background: var(--green-soft);
+            padding: 5px 12px;
+            border-radius: 999px;
+        }
+
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--green);
+            animation: pulse 1.5s infinite;
+        }
+
+        .preview-pane-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .preview-pane-body iframe {
+            width: 680px;
+            height: 900px;
+            border: none;
+            border-radius: 14px;
+            box-shadow: 0 12px 48px rgba(91, 63, 255, .12), 0 2px 8px rgba(0, 0, 0, .06);
+            background: white;
+            display: block;
+            flex-shrink: 0;
+        }
+
+        /* CTA BAND */
+        .cta-section {
+            padding: 0 48px 80px;
+        }
+
+        .cta-band {
+            border-radius: 24px;
+            padding: 60px 48px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #312e81 0%, #4f46e5 45%, #7c3aed 80%, #a855f7 100%);
+            box-shadow: 0 28px 70px rgba(91, 63, 255, .4);
+        }
+
+        .cta-band::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .05);
+            top: -80px;
+            right: -60px;
+        }
+
+        .cta-band::after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(168, 85, 247, .2);
+            bottom: -50px;
+            left: -40px;
+        }
+
+        .cta-inner {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-eyebrow {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, .5);
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .cta-band h2 {
+            font-size: clamp(24px, 4vw, 40px);
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: white;
+            margin-bottom: 12px;
+            line-height: 1.15;
+        }
+
+        .cta-band p {
+            font-size: 15px;
+            color: rgba(255, 255, 255, .7);
+            max-width: 400px;
+            margin: 0 auto 28px;
+            line-height: 1.75;
+        }
+
+        .cta-btns {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-white {
+            padding: 13px 28px;
+            border-radius: 999px;
+            background: white;
+            color: #4338ca;
+            font-size: 14px;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: transform .2s, box-shadow .2s;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, .18);
+        }
+
+        .cta-white:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, .25);
+        }
+
+        .cta-ghost {
+            padding: 13px 28px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .12);
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            border: 1.5px solid rgba(255, 255, 255, .25);
+            cursor: pointer;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: background .2s;
+        }
+
+        .cta-ghost:hover {
+            background: rgba(255, 255, 255, .22);
+        }
+
+        /* FOOTER */
+        footer {
+            background: white;
+            border-top: 1px solid #eeeef4;
+            padding: 60px 48px 32px;
+        }
+
+        .fg {
+            display: grid;
+            grid-template-columns: 1.8fr 1fr 1fr 1fr;
+            gap: 36px;
+            max-width: 1080px;
+            margin: 0 auto 48px;
+        }
+
+        .fl h4 {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--ink);
+            margin-bottom: 18px;
+        }
+
+        .fl a {
+            display: flex;
+            align-items: center;
+            font-size: 13.5px;
+            color: var(--ink3);
+            text-decoration: none;
+            margin-bottom: 11px;
+            padding: 5px 8px;
+            border-radius: 8px;
+            transition: background .18s, color .18s;
+        }
+
+        .fl a:not(.logo):hover {
+            background: var(--accent-soft);
+            color: var(--accent);
+        }
+
+        .footer-desc {
+            font-size: 13.5px;
+            color: var(--ink3);
+            margin-top: 14px;
+            line-height: 1.7;
+            max-width: 220px;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .social-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--bg);
+            border: 1.5px solid #e0e0ea;
+            display: grid;
+            place-items: center;
+            color: var(--ink2);
+            cursor: pointer;
+            text-decoration: none;
+            transition: background .2s, border-color .2s, color .2s;
+        }
+
+        .social-btn:hover {
+            background: var(--accent-soft);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .fb {
+            text-align: center;
+            padding-top: 24px;
+            border-top: 1px solid #eeeef4;
+            font-size: 13px;
+            color: var(--ink3);
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            background: #0f0a2e;
+            color: white;
+            padding: 14px 22px;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, .25);
+            z-index: 9999;
+            transform: translateY(80px);
+            opacity: 0;
+            transition: transform .35s cubic-bezier(.34, 1.56, .64, 1), opacity .35s;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast-icon {
+            width: 20px;
+            height: 20px;
+            background: var(--green);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+        }
+
+        .toast-icon svg {
+            width: 11px;
+            height: 11px;
+            stroke: white;
+            fill: none;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* SCROLL REVEAL */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity .6s ease, transform .6s cubic-bezier(.2, .8, .3, 1);
+        }
+
+        .reveal.in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 1200px) {
+            .tmpl-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .builder-inner {
+                grid-template-columns: 340px 1fr;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .tmpl-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .builder-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .builder-preview {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 0 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .page-hero,
+            .tmpl-section,
+            .cta-section {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .tmpl-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 14px;
+            }
+
+            .cat-tabs {
+                gap: 8px;
+            }
+
+            .cat-tab {
+                padding: 10px 16px;
+            }
+
+            .fg {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            footer {
+                padding: 48px 20px 28px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tmpl-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Use Template button pulse */
+        @keyframes use-pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 4px 16px rgba(91, 63, 255, .35);
+            }
+
+            50% {
+                box-shadow: 0 4px 28px rgba(91, 63, 255, .65), 0 0 0 6px rgba(91, 63, 255, .08);
+            }
+        }
+
+        .build-btn.primary {
+            animation: use-pulse 2.2s ease-in-out infinite;
+        }
+
+        .build-btn.primary:hover {
+            animation: none;
+            transform: translateY(-2px) scale(1.03) !important;
+            box-shadow: 0 12px 36px rgba(91, 63, 255, .55) !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="toast" id="toast"><span class="toast-icon"><svg viewBox="0 0 12 12">
+                <polyline points="2 6 5 9 10 3" />
+            </svg></span><span id="toast-msg"></span></div>
+
+    <!-- PREVIEW MODAL -->
+    <div class="modal-bg" id="previewModal">
+        <div class="preview-modal">
+            <div class="modal-hdr">
+                <div class="modal-hdr-left">
+                    <div class="modal-title" id="pm-title">Template Preview</div>
+                    <div class="modal-subtitle" id="pm-sub">InvoicePro Template</div>
+                </div>
+                <div class="modal-hdr-right">
+                    <button class="modal-use-btn" onclick="openBuilderFromPreview()">Use This Template →</button>
+                    <button class="modal-close" onclick="closePreview()">✕</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <iframe id="pm-iframe" title="Invoice Preview"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- BUILDER MODAL -->
+    <div class="modal-bg" id="builderModal">
+        <div class="builder-modal">
+            <!-- header -->
+            <div class="modal-hdr" style="border-bottom:1px solid #f0eeff;padding:16px 24px;">
+                <div class="modal-hdr-left">
+                    <div class="modal-title" id="bm-title">Invoice Builder</div>
+                    <div class="modal-subtitle" id="bm-sub">Fill in your details — preview updates live</div>
+                </div>
+                <div class="modal-hdr-right">
+                    <button class="modal-close" onclick="closeBuilder()">✕</button>
+                </div>
+            </div>
+            <!-- body -->
+            <div class="builder-inner" style="flex:1;overflow:hidden;display:grid;">
+                <!-- FORM SIDE -->
+                <div class="builder-form">
+                    <div class="builder-form-head">
+                        <h3>Invoice Details</h3>
+                        <p>All fields update the preview instantly</p>
+                    </div>
+                    <div class="builder-form-body" id="builderFormBody">
+                        <!-- injected by JS -->
+                    </div>
+                    <div class="totals-strip" id="totalsStrip">
+                        <div class="tot-row"><span>Subtotal</span><span class="tot-val" id="tot-sub">₹0</span></div>
+                        <div class="tot-row"><span id="tax-label">GST (18%)</span><span class="tot-val"
+                                id="tot-tax">₹0</span></div>
+                        <div class="tot-row grand"><span>Total Due</span><span id="tot-grand">₹0</span></div>
+                    </div>
+                    <div class="builder-actions">
+                        <button class="build-btn secondary" onclick="closeBuilder()">
+                            <svg viewBox="0 0 24 24">
+                                <polyline points="15 18 9 12 15 6" />
+                            </svg> Back
+                        </button>
+                        <button class="build-btn primary" onclick="animateUseTemplate(this)"
+                            style="transition:transform .15s,box-shadow .15s,background .2s">
+                            <svg viewBox="0 0 24 24">
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                            Use Template
+                        </button>
+                    </div>
+                </div>
+                <!-- PREVIEW SIDE -->
+                <div class="builder-preview">
+                    <div class="preview-pane-head">
+                        <div>
+                            <h4>Live Preview</h4>
+                            <p>Updates as you type</p>
+                        </div>
+                        <div class="live-badge">
+                            <div class="live-dot"></div>Live
+                        </div>
+                    </div>
+                    <div class="preview-pane-body">
+                        <iframe id="bm-iframe" title="Live Invoice Preview"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAV -->
+    <nav id="navbar">
+  <a href="index.html" class="logo">
+    <div class="logo-icon"><svg viewBox="0 0 24 24">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+      </svg></div>Invoice<em>Pro</em>
+  </a>
+
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="features.html">Features</a>
+    <a href="templates.html" class="active">Templates</a>
+    <a href="how-it-works.html">How It Works</a>
+    <a href="pricing.html">Pricing</a>
+  </div>
+
+  <div class="nav-right">
+    <a href="login.html" class="btn-g" style="text-decoration: none; display: inline-flex; align-items: center;">Login</a>
+    <a href="signup.html" class="btn-p" style="text-decoration: none; display: inline-flex; align-items: center;">Get Started</a>
+  </div>
+</nav>
+
+    <!-- ANNOUNCE BAR -->
+    <div class="announce-bar">
+        <div class="announce-inner">
+            <span class="announce-dot"></span><span class="announce-text">Product Business Templates</span><span
+                class="announce-sep"> · </span>
+            <span class="announce-text">Service Business Templates</span><span class="announce-sep"> · </span>
+            <span class="announce-text">Subscription Business Templates</span><span class="announce-sep"> · </span>
+            <span class="announce-text">GST Compliant</span><span class="announce-sep"> · </span>
+            <span class="announce-text">Instant PDF Export</span><span class="announce-sep"> · </span>
+            <span class="announce-text">Product Business Templates</span><span class="announce-sep"> · </span>
+            <span class="announce-text">Service Business Templates</span><span class="announce-sep"> · </span>
+            <span class="announce-text">Subscription Business Templates</span><span class="announce-sep"> · </span>
+            <span class="announce-text">GST Compliant</span><span class="announce-sep"> · </span>
+            <span class="announce-text">Instant PDF Export</span><span class="announce-sep"> · </span>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <section class="page-hero">
+        <div class="sec-pill">Templates</div>
+        <h1>Invoice Templates for<br><span class="grad">Every Business Type</span></h1>
+        <p>Professionally designed templates across 3 business categories. Pick your type, fill the form, download your
+            invoice.</p>
+        <div class="cat-tabs" id="catTabs">
+            <button class="cat-tab active" data-cat="all" onclick="setFilter('all',this)">
+                <span class="cat-tab-icon">✦</span>
+                <div>
+                    <div class="cat-tab-label">All Templates</div>
+                </div>
+            </button>
+            <button class="cat-tab" data-cat="product" onclick="setFilter('product',this)">
+                <span class="cat-tab-icon">🛍️</span>
+                <div>
+                    <div class="cat-tab-label">Product Business</div>
+                </div>
+            </button>
+            <button class="cat-tab" data-cat="service" onclick="setFilter('service',this)">
+                <span class="cat-tab-icon">💼</span>
+                <div>
+                    <div class="cat-tab-label">Service Business</div>
+                </div>
+            </button>
+            <button class="cat-tab" data-cat="subscription" onclick="setFilter('subscription',this)">
+                <span class="cat-tab-icon">🔄</span>
+                <div>
+                    <div class="cat-tab-label">Subscription Business</div>
+                </div>
+            </button>
+        </div>
+    </section>
+
+    <!-- SECTION: PRODUCT -->
+    <section class="tmpl-section" id="sec-product">
+        <div class="section-head reveal">
+            <div class="section-head-left">
+                <div class="section-badge" style="background:#fff3e0;color:#f57c00;border:1px solid #ffe0b2">🛍️ Product
+                    Business</div>
+                <h2>Product & Retail <span
+                        style="background:linear-gradient(135deg,#f57c00,#ff9800);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">Templates</span>
+                </h2>
+                <p>For clothing shops, electronics, grocery, mobile stores and any business selling physical products.
+                </p>
+            </div>
+            <div class="section-head-right">Fields: <strong>Product · Qty · Price · GST · Total</strong></div>
+        </div>
+        <div class="tmpl-grid" id="grid-product"></div>
+    </section>
+
+    <!-- SECTION: SERVICE -->
+    <section class="tmpl-section" id="sec-service">
+        <div class="section-head reveal">
+            <div class="section-head-left">
+                <div class="section-badge" style="background:#e8eaf6;color:#3949ab;border:1px solid #c5cae9">💼 Service
+                    Business</div>
+                <h2>Service & Freelance <span
+                        style="background:linear-gradient(135deg,#3949ab,#5b3fff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">Templates</span>
+                </h2>
+                <p>For web developers, designers, consultants, repair technicians and any service provider.</p>
+            </div>
+            <div class="section-head-right">Fields: <strong>Service · Description · Hours · Total</strong></div>
+        </div>
+        <div class="tmpl-grid" id="grid-service"></div>
+    </section>
+
+    <!-- SECTION: SUBSCRIPTION -->
+    <section class="tmpl-section" id="sec-subscription">
+        <div class="section-head reveal">
+            <div class="section-head-left">
+                <div class="section-badge" style="background:#ede9ff;color:#5b3fff;border:1px solid #dcd7ff">🔄
+                    Subscription Business</div>
+                <h2>Subscription & Recurring <span
+                        style="background:linear-gradient(135deg,#5b3fff,#7c5fff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">Templates</span>
+                </h2>
+                <p>For gyms, coaching institutes, SaaS tools and any business with monthly or recurring payments.</p>
+            </div>
+            <div class="section-head-right">Fields: <strong>Plan · Duration · Monthly Price · Total</strong></div>
+        </div>
+        <div class="tmpl-grid" id="grid-subscription"></div>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta-section">
+        <div class="cta-band reveal">
+            <div class="cta-inner">
+                <div class="cta-eyebrow">Don't see your type?</div>
+                <h2>Build a Custom Invoice</h2>
+                <p>Start from scratch with our invoice builder. Fully customizable for any business.</p>
+                <div class="cta-btns">
+                    <a href="signup.html" class="cta-white">Start Building →</a>
+                    <a href="pricing.html" class="cta-ghost">See Pricing</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="fg">
+            <div class="fl">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon" style="width:32px;height:32px;border-radius:9px"><svg viewBox="0 0 24 24"
+                            style="width:15px;height:15px;fill:white">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                        </svg></div>Invoice<em>Pro</em>
+                </a>
+                <p class="footer-desc">Professional invoicing backed by a powerful cloud engine.</p>
+                <div class="footer-socials">
+                    <a class="social-btn"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                            <path
+                                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.742l7.732-8.835L1.254 2.25H8.08l4.259 5.633 5.905-5.633zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                        </svg></a>
+                    <a class="social-btn"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                            <path
+                                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                        </svg></a>
+                    <a class="social-btn"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                            <path
+                                d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                        </svg></a>
+                </div>
+            </div>
+            <div class="fl">
+                <h4>Product</h4><a href="templates.html">Templates</a><a href="features.html">Features</a><a
+                    href="pricing.html">Pricing</a><a href="#">API Docs</a>
+            </div>
+            <div class="fl">
+                <h4>Resources</h4><a href="#">Invoice Guide</a><a href="#">Blog</a><a href="#">Support Center</a><a
+                    href="#">Status Page</a>
+            </div>
+            <div class="fl">
+                <h4>Legal</h4><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Cookie
+                    Policy</a><a href="#">GDPR</a>
+            </div>
+        </div>
+        <div class="fb">&copy; 2026 InvoicePro. All rights reserved.</div>
+    </footer>
+
+    <script>
+        /* ── SMOOTH PAGE TRANSITIONS ── */
+        (function () {
+            var ov = document.createElement('div');
+            ov.className = 'pt-overlay'; document.body.appendChild(ov);
+            document.addEventListener('click', function (e) {
+                var a = e.target.closest('a[href]');
+                if (!a) return;
+                var h = a.getAttribute('href');
+                if (!h || h.startsWith('#') || h.startsWith('http') || h.startsWith('mailto') || h.startsWith('tel') || a.target === '_blank') return;
+                e.preventDefault();
+                ov.style.opacity = '1'; ov.style.pointerEvents = 'all';
+                setTimeout(function () { window.location.href = h; }, 270);
+            });
+            window.addEventListener('pageshow', function () { ov.style.opacity = '0'; ov.style.pointerEvents = 'none'; });
+        })();
+
+        /* ─── TOAST ─── */
+        function showToast(msg, d) {
+            d = d || 3500;
+            var t = document.getElementById('toast');
+            document.getElementById('toast-msg').textContent = msg;
+            t.classList.add('show');
+            setTimeout(function () { t.classList.remove('show'); }, d);
+        }
+
+        /* ─── STATE ─── */
+        var uploadedLogo = null;
+        var uploadedSig = null;
+        var currentSigTab = "draw";
+        var builderTpl = null;
+        var lineItems = [];
+        var currentTpl = null;
+        var activeFilter = 'all';
+
+        /* ─── TEMPLATE DATA ─── */
+        var TEMPLATES = {
+            product: [
+                { id: 'p1', name: 'Modern Retail Invoice', desc: 'Wave gradient — clothing & fashion shops', badge: 'Popular', badgeColor: '#5b3fff', fields: ['Product', 'Qty', 'Price', 'GST', 'Total'], accent: '#5b3fff' },
+                { id: 'p2', name: 'Electronics Shop Invoice', desc: 'Dark header with contact bar & status', badge: 'New', badgeColor: '#0288d1', fields: ['Product', 'Qty', 'Price', 'Total'], accent: '#0288d1' },
+                { id: 'p3', name: 'GST Product Invoice', desc: 'Full CGST / SGST compliance columns', badge: 'GST', badgeColor: '#6366f1', fields: ['HSN', 'Taxable', 'CGST', 'SGST', 'Total'], accent: '#6366f1' },
+                { id: 'p4', name: 'Minimal Store Invoice', desc: 'Classic serif elegant design', badge: null, badgeColor: null, fields: ['Item', 'Qty', 'Rate', 'Total'], accent: '#334155' },
+                { id: 'p5', name: 'Wholesale Invoice', desc: 'Side accent strip with 5% discount column', badge: 'B2B', badgeColor: '#6d28d9', fields: ['Product', 'Qty', 'Rate', 'Disc', 'Total'], accent: '#6d28d9' }
+            ],
+            service: [
+                { id: 's1', name: 'Freelancer Invoice', desc: 'Split dark layout — developers & designers', badge: 'Popular', badgeColor: '#5b3fff', fields: ['Service', 'Hours', 'Rate', 'Total'], accent: '#5b3fff' },
+                { id: 's2', name: 'Agency Invoice', desc: 'Blue dark header with contact bar', badge: 'New', badgeColor: '#0284c7', fields: ['Service', 'Hours', 'Rate', 'Total'], accent: '#0284c7' },
+                { id: 's3', name: 'Consulting Invoice', desc: 'Elegant serif — management consultants', badge: null, badgeColor: null, fields: ['Service', 'Duration', 'Rate', 'Total'], accent: '#334155' },
+                { id: 's4', name: 'Project Invoice', desc: 'Purple milestones with status column', badge: 'Trending', badgeColor: '#7c3aed', fields: ['Milestone', 'Hours', 'Rate', 'Status'], accent: '#7c3aed' },
+                { id: 's5', name: 'Creative Service Invoice', desc: 'Dark rose — photographers & editors', badge: null, badgeColor: null, fields: ['Service', 'Hours', 'Rate', 'Total'], accent: '#db2777' }
+            ],
+            subscription: [
+                { id: 'sub1', name: 'Membership Invoice', desc: 'Green card layout for clubs & gyms', badge: 'Popular', badgeColor: '#4f46e5', fields: ['Plan', 'Duration', 'Price', 'Total'], accent: '#4f46e5' },
+                { id: 'sub2', name: 'Gym Invoice', desc: 'Bold red fitness with member card block', badge: null, badgeColor: null, fields: ['Package', 'Duration', 'Price', 'Total'], accent: '#dc2626' },
+                { id: 'sub3', name: 'Coaching Invoice', desc: 'Warm amber — coaching institutes', badge: 'New', badgeColor: '#d97706', fields: ['Course', 'Duration', 'Fee', 'Total'], accent: '#d97706' },
+                { id: 'sub4', name: 'SaaS Billing Invoice', desc: 'Tech dark header for software subscriptions', badge: 'Tech', badgeColor: '#2563eb', fields: ['Plan', 'Seats', 'Cycle', 'Total'], accent: '#2563eb' },
+                { id: 'sub5', name: 'Recurring Payment Invoice', desc: 'Indigo gradient — any recurring service', badge: null, badgeColor: null, fields: ['Service', 'Frequency', 'Price', 'Total'], accent: '#4f46e5' }
+            ]
+        };
+
+        /* ─── HELPERS ─── */
+        function fmtINR(n) { return '\u20b9' + (n || 0).toLocaleString('en-IN'); }
+
+        function qrSVG(seed) {
+            var n = 0;
+            for (var i = 0; i < seed.length; i++) n += seed.charCodeAt(i);
+            var c = '';
+            for (var r = 0; r < 11; r++) {
+                for (var cl = 0; cl < 11; cl++) {
+                    if (((r * 13 + cl * 7 + n * 3 + (r ^ cl)) % 3) !== 0)
+                        c += '<rect x="' + (cl * 6) + '" y="' + (r * 6) + '" width="5" height="5" fill="#1e293b"/>';
+                }
+            }
+            function sq(x, y) { return '<rect x="' + x + '" y="' + y + '" width="19" height="19" fill="#1e293b"/><rect x="' + (x + 2) + '" y="' + (y + 2) + '" width="15" height="15" fill="#fff"/><rect x="' + (x + 4) + '" y="' + (y + 4) + '" width="11" height="11" fill="#1e293b"/>'; }
+            return '<svg viewBox="0 0 66 66" width="60" height="60" xmlns="http://www.w3.org/2000/svg">' + c + sq(0, 0) + sq(42, 0) + sq(0, 42) + '</svg>';
+        }
+
+        function logoHTML(logo, acc, biz, tag) {
+            var name = '<div style="font-size:15px;font-weight:800;color:#0f172a;margin-top:6px">' + (biz || 'Business') + '</div><div style="font-size:10px;color:#94a3b8;margin-top:2px">' + (tag || '') + '</div>';
+            if (logo) return '<img src="' + logo + '" style="height:52px;max-width:130px;object-fit:contain;display:block"/>' + name;
+            return '<div style="width:52px;height:52px;background:' + acc + ';border-radius:12px;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" width="26" height="26" style="fill:white"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>' + name;
+        }
+
+        function infoRow(d, bg, border, lbl) {
+            return '<div style="display:flex;background:' + bg + ';border-bottom:1px solid ' + border + '">'
+                + '<div style="flex:1;padding:14px 28px;border-right:1px solid ' + border + '">'
+                + '<div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:' + lbl + ';margin-bottom:7px">From (Seller)</div>'
+                + '<div style="font-size:13px;font-weight:800;color:#0f172a;margin-bottom:3px">' + (d.biz || 'Your Business') + '</div>'
+                + '<div style="font-size:10px;color:#475569;line-height:1.8">' + [d.phone, d.email, d.addr].filter(Boolean).join('<br>') + '</div>'
+                + '</div>'
+                + '<div style="flex:1;padding:14px 28px">'
+                + '<div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:' + lbl + ';margin-bottom:7px">Bill To (Buyer)</div>'
+                + '<div style="font-size:13px;font-weight:800;color:#0f172a;margin-bottom:3px">' + (d.client || 'Client Name') + '</div>'
+                + '<div style="font-size:10px;color:#475569;line-height:1.8">' + [d.bphone, d.bemail, d.baddr].filter(Boolean).join('<br>') + '</div>'
+                + '</div>'
+                + '</div>';
+        }
+
+        function totalsBox(sub, tax, grand, acc) {
+            var s = '<div style="width:200px;flex-shrink:0">';
+            s += '<div style="display:flex;justify-content:space-between;padding:7px 12px;font-size:11px;background:' + acc + '0a;border-bottom:1px solid ' + acc + '15"><span style="color:#64748b">Subtotal</span><span style="font-weight:600">' + fmtINR(sub) + '</span></div>';
+            s += '<div style="display:flex;justify-content:space-between;padding:7px 12px;font-size:11px;background:' + acc + '0d;border-bottom:1px solid ' + acc + '15"><span style="color:#64748b">Shipping</span><span style="font-weight:600">' + fmtINR(0) + '</span></div>';
+            s += '<div style="display:flex;justify-content:space-between;padding:7px 12px;font-size:11px;background:' + acc + '12;border-bottom:1px solid ' + acc + '15"><span style="color:#64748b">Tax (18% GST)</span><span style="font-weight:600">' + fmtINR(tax) + '</span></div>';
+            s += '<div style="display:flex;justify-content:space-between;padding:7px 12px;font-size:13px;background:' + acc + '"><span style="color:#fff;font-weight:800">Grand Total</span><span style="color:#fff;font-weight:800">' + fmtINR(grand) + '</span></div>';
+            return s + '</div>';
+        }
+
+        function payBlock(d, col) {
+            col = col || '#475569';
+            var s = '<div style="flex:1"><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:' + col + ';margin-bottom:8px">Payment Info</div>';
+            if (d.accno) s += '<div style="display:flex;gap:6px;margin-bottom:4px;font-size:11px"><span style="color:#94a3b8;min-width:76px">Account No</span><span style="font-weight:600">' + d.accno + '</span></div>';
+            if (d.accname) s += '<div style="display:flex;gap:6px;margin-bottom:4px;font-size:11px"><span style="color:#94a3b8;min-width:76px">Name</span><span style="font-weight:600">' + d.accname + '</span></div>';
+            if (d.bank) s += '<div style="display:flex;gap:6px;margin-bottom:4px;font-size:11px"><span style="color:#94a3b8;min-width:76px">Bank</span><span style="font-weight:600">' + d.bank + '</span></div>';
+            if (!d.accno && !d.bank) s += '<div style="font-size:11px;color:#94a3b8">Add payment info in form</div>';
+            return s + '</div>';
+        }
+
+        function footerBlock(inv, terms, sigColor) {
+            // get signature — either drawn canvas or uploaded image
+            var sigHTML = '';
+            if (uploadedSig) {
+                sigHTML = '<img src="' + uploadedSig + '" style="max-height:44px;max-width:100%;object-fit:contain;display:block;margin:0 auto 4px"/>';
+            } else {
+                // try to get drawn signature from canvas
+                try {
+                    var c = document.getElementById('sig-canvas');
+                    if (c) {
+                        var dataUrl = c.toDataURL('image/png');
+                        // check if canvas has any drawing (not blank)
+                        var blank = document.createElement('canvas');
+                        blank.width = c.width; blank.height = c.height;
+                        if (dataUrl !== blank.toDataURL('image/png')) {
+                            sigHTML = '<img src="' + dataUrl + '" style="max-height:44px;max-width:100%;object-fit:contain;display:block;margin:0 auto 4px"/>';
+                        }
+                    }
+                } catch (e) { }
+            }
+            var sigBox = sigHTML
+                ? '<div style="width:120px;text-align:center;flex-shrink:0;padding-top:4px">' + sigHTML + '<div style="border-bottom:1.5px solid ' + (sigColor || '#1e293b') + ';margin-bottom:4px"></div><div style="font-size:9px;color:#475569;font-weight:600">Authorised Signature</div></div>'
+                : '<div style="width:120px;text-align:center;flex-shrink:0;padding-top:8px"><div style="border-bottom:1.5px solid ' + (sigColor || '#1e293b') + ';height:32px;margin-bottom:4px"></div><div style="font-size:9px;color:#475569;font-weight:600">Authorised Signature</div></div>';
+            var invoiceUrl = 'invoice-view.html?id=' + (inv || 'INV-001');
+            var qrLink = '<a href="' + invoiceUrl + '" target="_blank" title="View live invoice" style="display:inline-block;cursor:pointer;transition:transform .2s" onmouseover="this.style.transform=\'scale(1.05)\'" onmouseout="this.style.transform=\'\'">' + qrSVG(inv || 'INV') + '<div style="font-size:8px;color:#94a3b8;text-align:center;margin-top:3px;letter-spacing:.5px">Scan to view</div></a>';
+            return '<div style="display:flex;gap:14px;padding:16px 28px;border-top:1px solid #f1f5f9;margin-top:14px;align-items:flex-start">'
+                + qrLink
+                + '<div style="flex:1;font-size:10px;color:#94a3b8;line-height:1.7"><div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#475569;margin-bottom:4px">Terms &amp; Conditions</div>' + (terms || 'Payment due within 14 days.') + '</div>'
+                + sigBox
+                + '</div>';
+        }
+
+        function waveDiv(acc, acc2) {
+            return '<div style="position:relative;height:68px;overflow:hidden;margin-top:8px">'
+                + '<svg viewBox="0 0 700 68" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">'
+                + '<defs><linearGradient id="wg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:' + acc + '"/><stop offset="100%" style="stop-color:' + acc2 + '"/></linearGradient></defs>'
+                + '<path d="M0 18 C140 0 260 58 420 24 C560 -6 640 52 700 20 L700 68 L0 68 Z" fill="url(#wg)"/>'
+                + '<path d="M0 32 C160 12 280 68 460 36 C600 10 660 60 700 38 L700 68 L0 68 Z" fill="' + acc + '" opacity="0.3"/>'
+                + '</svg></div>';
+        }
+
+        function topContactRight(d, acc, inv, date, grand) {
+            var icons = {
+                phone: '<path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.69 19a19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>',
+                email: '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>',
+                web: '<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',
+                addr: '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>'
+            };
+            var rows = '';
+            ['phone', 'email', 'web', 'addr'].forEach(function (k) {
+                if (d[k]) rows += '<div style="display:flex;align-items:center;gap:6px;justify-content:flex-end;margin-bottom:4px"><div style="width:16px;height:16px;background:' + acc + '18;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg viewBox="0 0 24 24" width="8" height="8" style="stroke:' + acc + ';fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round">' + icons[k] + '</svg></div><span style="font-size:10px;color:#475569">' + d[k] + '</span></div>';
+            });
+            return '<div>'
+                + rows
+                + '<div style="text-align:right;margin-top:10px">'
+                + '<h1 style="font-size:34px;font-weight:900;color:#0f172a;letter-spacing:-1.5px">INVOICE</h1>'
+                + '<div style="font-size:11px;color:#64748b;margin-top:2px">No: ' + (inv || 'INV-001') + '</div>'
+                + '<div style="margin-top:8px;font-size:11px;color:#64748b">Total Due<span style="display:block;font-size:22px;font-weight:800;color:#0f172a">' + fmtINR(grand) + '</span></div>'
+                + '<div style="font-size:10px;color:#94a3b8;margin-top:4px">' + (date || '') + '</div>'
+                + '</div>'
+                + '</div>';
+        }
+
+        function calcProd(d) {
+            var items = d.items || [{ name: 'Product', qty: 1, price: 1000, gst: 18 }];
+            var sub = 0, rows = '';
+            items.forEach(function (it, i) {
+                var amt = (it.qty || 1) * (it.price || 0); sub += amt;
+                rows += '<tr' + (i % 2 ? ' style="background:#fafafa"' : '') + '>'
+                    + '<td style="padding:9px 12px"><strong>' + (it.name || 'Product') + '</strong></td>'
+                    + '<td style="padding:9px 12px;text-align:center">' + (it.qty || 1) + '</td>'
+                    + '<td style="padding:9px 12px;text-align:right">' + fmtINR(it.price || 0) + '</td>'
+                    + '<td style="padding:9px 12px;text-align:center">' + (it.gst || 18) + '%</td>'
+                    + '<td style="padding:9px 12px;text-align:right;font-weight:700">' + fmtINR(amt) + '</td>'
+                    + '</tr>';
+            });
+            var tax = Math.round(sub * 0.18);
+            return { sub: sub, tax: tax, grand: sub + tax, rows: rows, items: items };
+        }
+
+        function calcSvc(d) {
+            var items = d.items || [{ name: 'Service', desc: '', hrs: 1, rate: 5000 }];
+            var sub = 0, rows = '';
+            items.forEach(function (it, i) {
+                var amt = (it.hrs || 1) * (it.rate || 0); sub += amt;
+                rows += '<tr' + (i % 2 ? ' style="background:#fafafa"' : '') + '>'
+                    + '<td style="padding:9px 12px;vertical-align:top"><strong>' + (it.name || 'Service') + '</strong>' + (it.desc ? '<br><span style="color:#94a3b8;font-size:10px">' + it.desc + '</span>' : '') + '</td>'
+                    + '<td style="padding:9px 12px;text-align:center">' + (it.hrs || 1) + '</td>'
+                    + '<td style="padding:9px 12px;text-align:right">' + fmtINR(it.rate || 0) + '</td>'
+                    + '<td style="padding:9px 12px;text-align:right;font-weight:700">' + fmtINR(amt) + '</td>'
+                    + '</tr>';
+            });
+            var tax = Math.round(sub * 0.18);
+            return { sub: sub, tax: tax, grand: sub + tax, rows: rows, items: items };
+        }
+
+        function calcSub(d) {
+            var items = d.items || [{ name: 'Basic Plan', duration: '1 Month', price: 2999 }];
+            var sub = 0, rows = '';
+            items.forEach(function (it, i) {
+                sub += (it.price || 0);
+                rows += '<tr' + (i % 2 ? ' style="background:#fafafa"' : '') + '>'
+                    + '<td style="padding:9px 12px"><strong>' + (it.name || 'Plan') + '</strong></td>'
+                    + '<td style="padding:9px 12px;text-align:center">' + (it.duration || '1 Month') + '</td>'
+                    + '<td style="padding:9px 12px;text-align:right">' + fmtINR(it.price || 0) + '</td>'
+                    + '<td style="padding:9px 12px;text-align:right;font-weight:700">' + fmtINR(it.price || 0) + '</td>'
+                    + '</tr>';
+            });
+            var tax = Math.round(sub * 0.18);
+            return { sub: sub, tax: tax, grand: sub + tax, rows: rows };
+        }
+
+        function baseStyle() {
+            return '<!DOCTYPE html><html><head><meta charset="utf-8"><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:"Segoe UI",system-ui,sans-serif;background:#fff;font-size:12px;color:#1e293b}.page{max-width:700px;margin:0 auto}table{width:100%;border-collapse:collapse}thead th{text-align:left}</style></head><body><div class="page">';
+        }
+        function endPage() { return '</div></body></html>'; }
+
+        /* ═══════════════════════════════════
+           15 UNIQUE TEMPLATE GENERATORS
+        ═══════════════════════════════════ */
+
+        /* P1 – Wave Gradient */
+        function tpl_p1(d) {
+            var acc = '#5b3fff', acc2 = '#7c3aed';
+            var c = calcProd(d);
+            var tHead = '<tr style="background:' + acc + '10;border-bottom:2px solid ' + acc + '30">'
+                + '<th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#475569">Product Description</th>'
+                + '<th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#475569;text-align:center">Qty</th>'
+                + '<th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#475569;text-align:right">Price</th>'
+                + '<th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#475569;text-align:center">GST</th>'
+                + '<th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#475569;text-align:right">Total</th></tr>';
+            return baseStyle()
+                + '<div style="padding:24px 32px 0;display:flex;justify-content:space-between;align-items:flex-start">'
+                + '<div>' + logoHTML(d.logo, acc, d.biz || 'Your Business', d.tagline || 'Retail Store') + '</div>'
+                + topContactRight(d, acc, d.inv, d.date, c.grand)
+                + '</div>'
+                + waveDiv(acc, acc2)
+                + infoRow(d, '#f8f7ff', '#e8e6f8', acc)
+                + '<div style="padding:18px 32px 0"><table><thead>' + tHead + '</thead><tbody>' + c.rows + '</tbody></table></div>'
+                + '<div style="display:flex;gap:20px;padding:16px 32px 0">' + payBlock(d, acc) + totalsBox(c.sub, c.tax, c.grand, acc) + '</div>'
+                + footerBlock(d.inv, 'All goods subject to return policy. Payment due within 14 days.', acc)
+                + endPage();
+        }
+
+        /* P2 – Dark Header Electronics */
+        function tpl_p2(d) {
+            var acc = '#0288d1';
+            var c = calcProd(d);
+            var hdr = '<div style="background:#0c1a2e;padding:26px 32px;display:flex;justify-content:space-between;align-items:flex-start">'
+                + '<div>' + logoHTML(d.logo, acc, d.biz || 'Electronics Hub', d.tagline || 'Tech & Gadgets') + '</div>'
+                + '<div style="text-align:right"><div style="font-size:9px;letter-spacing:4px;color:#64748b;font-weight:600;text-transform:uppercase;margin-bottom:5px">Invoice</div><div style="font-size:26px;font-weight:800;color:' + acc + ';letter-spacing:-1px">' + (d.inv || 'INV-001') + '</div><div style="font-size:10px;color:#475569;margin-top:4px">' + (d.date || '') + '</div><div style="font-size:15px;font-weight:800;color:#e2e8f0;margin-top:8px">' + fmtINR(c.grand) + '</div></div>'
+                + '</div><div style="height:4px;background:linear-gradient(90deg,#0c1a2e,' + acc + ',#38bdf8,' + acc + ',#0c1a2e)"></div>';
+            var cbar = '';
+            if (d.phone || d.email || d.web || d.addr) {
+                var items2 = [d.phone, d.email, d.web, d.addr].filter(Boolean).map(function (x) { return '<div style="font-size:10px;color:#475569">' + x + '</div>'; }).join('');
+                cbar = '<div style="display:flex;gap:18px;padding:9px 32px;background:' + acc + '0f;border-bottom:1px solid ' + acc + '20;flex-wrap:wrap">' + items2 + '</div>';
+            }
+            var tHead = '<tr style="background:' + acc + '08;border-bottom:2px solid ' + acc + '35">'
+                + '<th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:' + acc + '">Product</th>'
+                + '<th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:' + acc + ';text-align:center">Qty</th>'
+                + '<th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:' + acc + ';text-align:right">Price</th>'
+                + '<th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:' + acc + ';text-align:center">GST</th>'
+                + '<th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:' + acc + ';text-align:right">Total</th></tr>';
+            return baseStyle() + hdr + cbar
+                + infoRow(d, '#f0f9ff', '#bae6fd', acc)
+                + '<div style="padding:18px 32px 0"><table><thead>' + tHead + '</thead><tbody>' + c.rows + '</tbody></table></div>'
+                + '<div style="display:flex;gap:16px;padding:14px 32px 0">' + payBlock(d, acc) + totalsBox(c.sub, c.tax, c.grand, acc) + '</div>'
+                + footerBlock(d.inv, 'Warranty as per manufacturer. Payment due within 14 days.', acc) + endPage();
+        }
+
+        /* P3 – GST Emerald */
+        function tpl_p3(d) {
+            var acc = '#6366f1';
+            var c = calcProd(d);
+            var rows3 = ''; c.items.forEach(function (it, i) { var amt = (it.qty || 1) * (it.price || 0); var cgst = Math.round(amt * 0.09); var sgst = Math.round(amt * 0.09); rows3 += '<tr' + (i % 2 ? ' style="background:#f5f3ff"' : '') + '><td style="padding:7px 8px"><strong>' + (it.name || 'Product') + '</strong></td><td style="padding:7px 8px;text-align:center">' + (it.hsn || '998313') + '</td><td style="padding:7px 8px;text-align:center">' + (it.qty || 1) + '</td><td style="padding:7px 8px;text-align:right">' + fmtINR(it.price || 0) + '</td><td style="padding:7px 8px;text-align:right">' + fmtINR(amt) + '</td><td style="padding:7px 8px;text-align:center">' + fmtINR(cgst) + '</td><td style="padding:7px 8px;text-align:center">' + fmtINR(sgst) + '</td><td style="padding:7px 8px;text-align:right;font-weight:700;color:' + acc + '">' + fmtINR(amt + cgst + sgst) + '</td></tr>'; });
+            var hdr = '<div style="background:#fff;padding:20px 28px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid ' + acc + '">'
+                + '<div>' + logoHTML(d.logo, acc, d.biz || 'GST Dealer', d.tagline || 'GST Registered Dealer') + '</div>'
+                + '<div style="text-align:right"><h1 style="font-size:26px;font-weight:900;color:#0f172a;letter-spacing:-1px">TAX INVOICE</h1><div style="font-size:10px;color:#64748b;margin-top:2px">No: ' + (d.inv || 'INV-001') + '</div><div style="font-size:10px;color:#64748b;margin-top:2px">' + (d.date || '') + '</div><div style="font-size:15px;font-weight:800;color:' + acc + ';margin-top:6px">' + fmtINR(c.grand) + '</div></div>'
+                + '</div>'
+                + '<div style="background:' + acc + '12;border:1px solid ' + acc + '30;padding:8px 28px;display:flex;gap:20px;flex-wrap:wrap;font-size:10px;font-weight:600;color:#312e81">'
+                + '<span>GSTIN: ' + (d.gstin || '27AABCX1234M1Z5') + '</span><span>PAN: ' + (d.pan || 'AABCX1234M') + '</span><span>HSN: 998313</span>'
+                + '</div>';
+            var tHead = '<tr style="background:' + acc + '"><th style="color:#fff;padding:8px;font-size:9px;text-transform:uppercase">Product</th><th style="color:#fff;padding:8px;font-size:9px;text-transform:uppercase;text-align:center">HSN</th><th style="color:#fff;padding:8px;font-size:9px;text-transform:uppercase;text-align:center">Qty</th><th style="color:#fff;padding:8px;font-size:9px;text-transform:uppercase;text-align:right">Rate</th><th style="color:#fff;padding:8px;font-size:9px;text-transform:uppercase;text-align:right">Taxable</th><th style="color:#fff;padding:8px;font-size:9px;text-transform:uppercase;text-align:center">CGST 9%</th><th style="color:#fff;padding:8px;font-size:9px;text-transform:uppercase;text-align:center">SGST 9%</th><th style="color:#fff;padding:8px;font-size:9px;text-transform:uppercase;text-align:right">Total</th></tr>';
+            var sumBox = '<div style="width:200px;flex-shrink:0;border:1px solid ' + acc + '30;border-radius:8px;overflow:hidden"><div style="display:flex;justify-content:space-between;padding:6px 10px;font-size:11px;background:#f5f3ff;border-bottom:1px solid ' + acc + '15"><span style="color:#64748b">Taxable</span><span style="font-weight:600">' + fmtINR(c.sub) + '</span></div><div style="display:flex;justify-content:space-between;padding:6px 10px;font-size:11px;background:#f5f3ff;border-bottom:1px solid ' + acc + '15"><span style="color:#64748b">CGST 9%</span><span style="font-weight:600">' + fmtINR(Math.round(c.sub * 0.09)) + '</span></div><div style="display:flex;justify-content:space-between;padding:6px 10px;font-size:11px;background:#f5f3ff;border-bottom:1px solid ' + acc + '15"><span style="color:#64748b">SGST 9%</span><span style="font-weight:600">' + fmtINR(Math.round(c.sub * 0.09)) + '</span></div><div style="display:flex;justify-content:space-between;padding:7px 10px;font-size:12px;background:' + acc + '"><span style="color:#fff;font-weight:800">Total</span><span style="color:#fff;font-weight:800">' + fmtINR(c.grand) + '</span></div></div>';
+            return baseStyle() + hdr + infoRow(d, '#f5f3ff', '#ddd6fe', acc) + '<div style="padding:14px 28px 0"><table style="font-size:10px"><thead>' + tHead + '</thead><tbody>' + rows3 + '</tbody></table></div><div style="display:flex;gap:14px;padding:14px 28px 0">' + payBlock(d, acc) + sumBox + '</div>' + footerBlock(d.inv, 'Subject to local jurisdiction. E-invoice enabled. All taxes as per GST Act 2017.', acc) + endPage();
+        }
+
+        /* P4 – Serif Minimal */
+        function tpl_p4(d) {
+            var acc = '#334155';
+            var c = calcProd(d);
+            var body = '<div style="padding:36px;font-family:Georgia,serif">'
+                + '<div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px;padding-bottom:22px;border-bottom:2px solid #0f172a">'
+                + '<div>' + logoHTML(d.logo, acc, d.biz || 'Your Store', d.tagline || 'Quality Products') + '</div>'
+                + '<div style="text-align:right"><h1 style="font-size:30px;font-weight:400;letter-spacing:6px;text-transform:uppercase;color:#0f172a">Invoice</h1><div style="font-size:10px;color:#94a3b8;margin-top:3px">No: ' + (d.inv || 'INV-001') + ' &bull; ' + (d.date || '') + '</div><div style="font-size:10px;color:#64748b;margin-top:8px">Total Due<span style="display:block;font-size:20px;font-weight:700;color:#0f172a">' + fmtINR(c.grand) + '</span></div></div>'
+                + '</div>'
+                + '<div style="display:flex;justify-content:space-between;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid #e2e8f0">'
+                + '<div><h4 style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#94a3b8;font-weight:400;margin-bottom:10px;font-family:Segoe UI,sans-serif">From (Seller)</h4><p style="font-size:13px;line-height:1.8;color:#334155"><strong>' + (d.biz || 'Your Store') + '</strong><br>' + [d.phone, d.email, d.addr].filter(Boolean).join('<br>') + '</p></div>'
+                + '<div style="text-align:right"><h4 style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#94a3b8;font-weight:400;margin-bottom:10px;font-family:Segoe UI,sans-serif">Bill To (Buyer)</h4><p style="font-size:13px;line-height:1.8;color:#334155"><strong>' + (d.client || 'Client Name') + '</strong><br>' + [d.bphone, d.bemail, d.baddr].filter(Boolean).join('<br>') + '</p></div>'
+                + '</div>'
+                + '<table style="font-family:Segoe UI,sans-serif;margin-bottom:24px"><thead><tr><th style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;padding:0 0 10px;border-bottom:2px solid #0f172a;color:#0f172a">Item</th><th style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;padding:0 0 10px;border-bottom:2px solid #0f172a;color:#0f172a;text-align:center">Qty</th><th style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;padding:0 0 10px;border-bottom:2px solid #0f172a;color:#0f172a;text-align:right">Rate</th><th style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;padding:0 0 10px;border-bottom:2px solid #0f172a;color:#0f172a;text-align:right">Total</th></tr></thead><tbody>' + c.rows + '</tbody></table>'
+                + '<div style="display:flex;justify-content:space-between;align-items:flex-start;font-family:Segoe UI,sans-serif">'
+                + '<div><h4 style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#94a3b8;font-weight:400;margin-bottom:8px">Payment Info</h4><p style="font-size:11px;color:#475569;line-height:1.9">' + (d.accno ? 'Acc: ' + d.accno + '<br>' : '') + (d.bank ? 'Bank: ' + d.bank : 'Add payment details') + '</p></div>'
+                + '<div style="display:flex;gap:14px;align-items:flex-end">' + qrSVG(d.inv || 'INV')
+                + '<div style="width:175px"><div style="display:flex;justify-content:space-between;padding:6px 0;font-size:11px;color:#64748b;border-bottom:1px dotted #f1f5f9"><span>Subtotal</span><span>' + fmtINR(c.sub) + '</span></div><div style="display:flex;justify-content:space-between;padding:6px 0;font-size:11px;color:#64748b;border-bottom:1px dotted #f1f5f9"><span>GST 18%</span><span>' + fmtINR(c.tax) + '</span></div><div style="display:flex;justify-content:space-between;padding:10px 0;font-size:14px;font-weight:700;color:#0f172a;border-top:2px solid #0f172a;margin-top:5px"><span>Total</span><span>' + fmtINR(c.grand) + '</span></div></div>'
+                + '</div>'
+                + '</div>'
+                + '<div style="display:flex;justify-content:space-between;margin-top:28px;padding-top:18px;border-top:1px solid #e2e8f0;font-family:Segoe UI,sans-serif">'
+                + '<div><h4 style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#94a3b8;font-weight:400;margin-bottom:6px">Terms &amp; Conditions</h4><p style="font-size:10px;color:#94a3b8;line-height:1.7;max-width:260px">All items subject to return policy. Payment due within 14 days.</p></div>'
+                + '<div style="text-align:center"><div style="width:120px;border-bottom:1px solid #0f172a;height:28px;margin-bottom:4px"></div><div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#64748b">Signature</div></div>'
+                + '</div></div>';
+            return '<!DOCTYPE html><html><head><meta charset="utf-8"><style>*{box-sizing:border-box;margin:0;padding:0}body{background:#fff;font-size:12px;color:#1e293b}.page{max-width:700px;margin:0 auto}table{width:100%;border-collapse:collapse}</style></head><body><div class="page">' + body + '</div></body></html>';
+        }
+
+        /* P5 – Side Accent Wholesale */
+        function tpl_p5(d) {
+            var acc = '#6d28d9';
+            var c = calcProd(d);
+            var rows5 = ''; c.items.forEach(function (it, i) { var amt = (it.qty || 1) * (it.price || 0); var disc = Math.round(amt * 0.05); rows5 += '<tr' + (i % 2 ? ' style="background:#faf5ff"' : '') + '><td style="padding:9px 10px"><strong>' + (it.name || 'Product') + '</strong></td><td style="padding:9px 10px;text-align:center">' + (it.qty || 1) + '</td><td style="padding:9px 10px;text-align:right">' + fmtINR(it.price || 0) + '</td><td style="padding:9px 10px;text-align:right;color:#6366f1">-' + fmtINR(disc) + '</td><td style="padding:9px 10px;text-align:right;font-weight:700;color:' + acc + '">' + fmtINR(amt - disc) + '</td></tr>'; });
+            var discT = Math.round(c.sub * 0.05); var afterD = c.sub - discT; var taxA = Math.round(afterD * 0.18); var finalG = afterD + taxA;
+            var inner = '<div style="flex:1;min-width:0">'
+                + '<div style="padding:22px 26px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid #ede9fe">'
+                + '<div>' + logoHTML(d.logo, acc, d.biz || 'Wholesale Co.', d.tagline || 'Bulk Orders Welcome') + '</div>'
+                + '<div style="text-align:right"><h1 style="font-size:22px;font-weight:900;color:#0f172a">WHOLESALE INVOICE</h1><div style="font-size:10px;color:#64748b">No: ' + (d.inv || 'INV-001') + ' &bull; ' + (d.date || '') + '</div><div style="font-size:16px;font-weight:800;color:' + acc + ';margin-top:6px">' + fmtINR(finalG) + '</div></div>'
+                + '</div>'
+                + infoRow(d, acc + '05', acc + '18', acc)
+                + '<div style="padding:14px 26px 0"><table><thead><tr style="background:' + acc + '"><th style="padding:9px 10px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fff">Product</th><th style="padding:9px 10px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fff;text-align:center">Qty</th><th style="padding:9px 10px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fff;text-align:right">Rate</th><th style="padding:9px 10px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fff;text-align:right">Disc 5%</th><th style="padding:9px 10px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fff;text-align:right">Total</th></tr></thead><tbody>' + rows5 + '</tbody></table></div>'
+                + '<div style="display:flex;gap:16px;padding:14px 26px 0">' + payBlock(d, acc)
+                + '<div style="width:210px;flex-shrink:0">'
+                + '<div style="display:flex;justify-content:space-between;padding:7px 12px;font-size:11px;background:' + acc + '06;border-bottom:1px solid ' + acc + '12"><span style="color:#64748b">Subtotal</span><span style="font-weight:600">' + fmtINR(c.sub) + '</span></div>'
+                + '<div style="display:flex;justify-content:space-between;padding:7px 12px;font-size:11px;background:' + acc + '06;border-bottom:1px solid ' + acc + '12"><span style="color:#6366f1">Discount 5%</span><span style="color:#6366f1;font-weight:600">-' + fmtINR(discT) + '</span></div>'
+                + '<div style="display:flex;justify-content:space-between;padding:7px 12px;font-size:11px;background:' + acc + '06;border-bottom:1px solid ' + acc + '12"><span style="color:#64748b">GST 18%</span><span style="font-weight:600">' + fmtINR(taxA) + '</span></div>'
+                + '<div style="display:flex;justify-content:space-between;padding:7px 12px;font-size:13px;background:' + acc + '"><span style="color:#fff;font-weight:800">Grand Total</span><span style="color:#fff;font-weight:800">' + fmtINR(finalG) + '</span></div>'
+                + '</div></div>'
+                + footerBlock(d.inv, 'Bulk orders: min quantity applies. 5% discount applied. Returns within 48 hrs.', acc)
+                + '</div>';
+            return '<!DOCTYPE html><html><head><meta charset="utf-8"><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:"Segoe UI",sans-serif;background:#fff;font-size:12px;color:#1e293b}.page{max-width:700px;margin:0 auto;display:flex}table{width:100%;border-collapse:collapse}</style></head><body><div class="page"><div style="width:8px;background:linear-gradient(180deg,' + acc + ',#a855f7,' + acc + ');flex-shrink:0"></div>' + inner + '</div></body></html>';
+        }
+
+        /* S1 – Freelancer Dark Split */
+        function tpl_s1(d) {
+            var acc = '#5b3fff';
+            var c = calcSvc(d);
+            var hdr = '<div style="background:#0f172a;padding:26px 32px;display:flex;justify-content:space-between;align-items:flex-end">'
+                + '<div>' + logoHTML(d.logo, acc, d.biz || 'Your Studio', d.tagline || 'Freelance Professional') + '</div>'
+                + '<div style="text-align:right"><div style="font-size:9px;letter-spacing:3px;color:#475569;font-weight:400;text-transform:uppercase;margin-bottom:5px">Invoice</div><div style="font-size:26px;font-weight:300;color:' + acc + ';letter-spacing:-0.5px">' + (d.inv || 'INV-001') + '</div><div style="font-size:10px;color:#475569;margin-top:4px">' + (d.date || '') + '</div><div style="font-size:14px;font-weight:800;color:' + acc + ';margin-top:8px">' + fmtINR(c.grand) + '</div></div>'
+                + '</div><div style="height:4px;background:linear-gradient(90deg,' + acc + ',#a855f7)"></div>';
+            var cbar = ''; if (d.phone || d.email || d.addr) { var ci = [d.phone, d.email, d.addr].filter(Boolean).map(function (x) { return '<div style="font-size:10px;color:#475569">' + x + '</div>'; }).join(''); cbar = '<div style="display:flex;gap:18px;padding:9px 32px;background:' + acc + '08;border-bottom:1px solid ' + acc + '18;flex-wrap:wrap">' + ci + '</div>'; }
+            var tHead = '<tr><th style="font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:700;padding:0 0 10px;border-bottom:2px solid ' + acc + ';color:' + acc + '">Service</th><th style="font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:700;padding:0 0 10px;border-bottom:2px solid ' + acc + ';color:' + acc + ';text-align:center">Hours</th><th style="font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:700;padding:0 0 10px;border-bottom:2px solid ' + acc + ';color:' + acc + ';text-align:right">Rate/hr</th><th style="font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:700;padding:0 0 10px;border-bottom:2px solid ' + acc + ';color:' + acc + ';text-align:right">Total</th></tr>';
+            return baseStyle() + hdr + cbar + infoRow(d, '#f8f7ff', '#e8e6f8', acc)
+                + '<div style="padding:18px 32px 0"><table><thead>' + tHead + '</thead><tbody>' + c.rows + '</tbody></table></div>'
+                + '<div style="display:flex;gap:20px;padding:16px 32px 0">' + payBlock(d, acc) + totalsBox(c.sub, c.tax, c.grand, acc) + '</div>'
+                + footerBlock(d.inv, 'Payment due within 14 days. Work remains property of provider until full payment received.', acc) + endPage();
+        }
+
+        /* S2 – Agency Blue */
+        function tpl_s2(d) {
+            var acc = '#0284c7';
+            var c = calcSvc(d);
+            var hdr = '<div style="padding:22px 32px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #0f172a">'
+                + '<div>' + logoHTML(d.logo, acc, d.biz || 'Your Agency', d.tagline || 'Creative Agency') + '</div>'
+                + '<div style="text-align:right"><h1 style="font-size:11px;letter-spacing:5px;font-weight:700;text-transform:uppercase;color:#94a3b8;margin-bottom:5px">Invoice</h1><div style="font-size:24px;font-weight:800;color:#0f172a;letter-spacing:-0.5px">' + (d.inv || 'INV-001') + '</div><div style="font-size:10px;color:#94a3b8;margin-top:3px">' + (d.date || '') + '</div><div style="font-size:17px;font-weight:800;color:' + acc + ';margin-top:8px">' + fmtINR(c.grand) + '</div></div>'
+                + '</div><div style="height:4px;background:linear-gradient(90deg,' + acc + ',#38bdf8,#0ea5e9,' + acc + ')"></div>';
+            var tHead = '<tr style="background:#0c4a6e"><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#7dd3fc">Service</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#7dd3fc;text-align:center">Hours</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#7dd3fc;text-align:right">Rate/hr</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#7dd3fc;text-align:right">Total</th></tr>';
+            var cbar = ''; if (d.phone || d.email || d.addr) { var ci = [d.phone, d.email, d.addr].filter(Boolean).map(function (x) { return '<div style="font-size:10px;color:#0c4a6e">' + x + '</div>'; }).join(''); cbar = '<div style="display:flex;gap:18px;padding:9px 32px;background:' + acc + '0f;border-bottom:1px solid #bae6fd;flex-wrap:wrap">' + ci + '</div>'; }
+            return baseStyle() + hdr + cbar + infoRow(d, '#f0f9ff', '#bae6fd', acc)
+                + '<div style="padding:16px 32px 0"><table><thead>' + tHead + '</thead><tbody>' + c.rows + '</tbody></table></div>'
+                + '<div style="display:flex;gap:16px;padding:14px 32px 0">' + payBlock(d, '#0c4a6e') + totalsBox(c.sub, c.tax, c.grand, acc) + '</div>'
+                + footerBlock(d.inv, 'All work remains IP of agency until full payment. Late fees may apply.', acc) + endPage();
+        }
+
+        /* S3 – Serif Consulting */
+        function tpl_s3(d) {
+            var acc = '#334155';
+            var c = calcSvc(d);
+            var body = '<div style="padding:36px">'
+                + '<div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px">'
+                + '<div style="font-family:Georgia,serif">' + logoHTML(d.logo, acc, d.biz || 'Consulting Firm', d.tagline || 'Management Consulting') + '</div>'
+                + '<div style="text-align:right;font-family:Segoe UI,sans-serif"><h1 style="font-size:12px;letter-spacing:5px;font-weight:400;text-transform:uppercase;color:#94a3b8">Invoice</h1><div style="font-size:22px;font-weight:700;color:#0f172a;letter-spacing:-1px;margin-top:3px">' + (d.inv || 'INV-001') + '</div><div style="font-size:10px;color:#64748b;margin-top:2px">' + (d.date || '') + '</div><div style="font-size:15px;font-weight:700;color:' + acc + ';margin-top:7px">' + fmtINR(c.grand) + '</div></div>'
+                + '</div>'
+                + '<div style="height:2px;background:linear-gradient(90deg,#334155,#94a3b8,transparent);margin-bottom:22px"></div>'
+                + '<div style="display:flex;justify-content:space-between;margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid #e2e8f0">'
+                + '<div><h4 style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#94a3b8;font-weight:400;margin-bottom:10px;font-family:Segoe UI,sans-serif">From (Seller)</h4><p style="font-size:13px;line-height:1.8"><strong>' + (d.biz || 'Consulting Firm') + '</strong><br>' + [d.phone, d.email, d.addr].filter(Boolean).join('<br>') + '</p></div>'
+                + '<div style="text-align:right"><h4 style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#94a3b8;font-weight:400;margin-bottom:10px;font-family:Segoe UI,sans-serif">Bill To (Buyer)</h4><p style="font-size:13px;line-height:1.8"><strong>' + (d.client || 'Client Name') + '</strong><br>' + [d.bphone, d.bemail, d.baddr].filter(Boolean).join('<br>') + '</p></div>'
+                + '</div>'
+                + '<table style="font-family:Segoe UI,sans-serif;margin-bottom:22px"><thead><tr><th style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;padding:0 0 10px;border-bottom:2px solid #0f172a;color:#0f172a">Service</th><th style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;padding:0 0 10px;border-bottom:2px solid #0f172a;color:#0f172a;text-align:center">Hours</th><th style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;padding:0 0 10px;border-bottom:2px solid #0f172a;color:#0f172a;text-align:right">Rate/hr</th><th style="font-size:9px;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;padding:0 0 10px;border-bottom:2px solid #0f172a;color:#0f172a;text-align:right">Amount</th></tr></thead><tbody>' + c.rows + '</tbody></table>'
+                + '<div style="display:flex;justify-content:space-between;align-items:flex-start;font-family:Segoe UI,sans-serif">'
+                + '<div><h4 style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#94a3b8;font-weight:400;margin-bottom:8px">Payment Info</h4><p style="font-size:11px;color:#475569;line-height:1.9">' + (d.accno ? 'Account: ' + d.accno + '<br>' : '') + (d.bank ? 'Bank: ' + d.bank : 'Add payment details') + '</p></div>'
+                + '<div style="width:175px"><div style="display:flex;justify-content:space-between;padding:6px 0;font-size:11px;color:#64748b;border-bottom:1px dashed #f1f5f9"><span>Subtotal</span><span>' + fmtINR(c.sub) + '</span></div><div style="display:flex;justify-content:space-between;padding:6px 0;font-size:11px;color:#64748b;border-bottom:1px dashed #f1f5f9"><span>GST 18%</span><span>' + fmtINR(c.tax) + '</span></div><div style="display:flex;justify-content:space-between;padding:10px 0;font-size:14px;font-weight:700;color:#0f172a;border-top:2px solid #0f172a;margin-top:5px"><span>Total</span><span>' + fmtINR(c.grand) + '</span></div></div>'
+                + '</div>'
+                + '<div style="display:flex;justify-content:space-between;margin-top:26px;padding-top:18px;border-top:1px solid #e2e8f0;font-family:Segoe UI,sans-serif">'
+                + '<div style="display:flex;gap:14px;align-items:center">' + qrSVG(d.inv || 'INV') + '<div><h4 style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#94a3b8;font-weight:400;margin-bottom:6px">Terms &amp; Conditions</h4><p style="font-size:10px;color:#94a3b8;line-height:1.7;max-width:240px">Payment due within 14 days. Retainer fees non-refundable.</p></div></div>'
+                + '<div style="text-align:center;padding-top:8px"><div style="width:120px;border-bottom:1px solid #0f172a;height:28px;margin-bottom:4px"></div><div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#64748b">Signature</div></div>'
+                + '</div></div>';
+            return '<!DOCTYPE html><html><head><meta charset="utf-8"><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:Georgia,serif;background:#fff;font-size:12px;color:#1e293b}.page{max-width:700px;margin:0 auto}table{width:100%;border-collapse:collapse}</style></head><body><div class="page">' + body + '</div></body></html>';
+        }
+
+        /* S4 – Project Purple Milestone */
+        function tpl_s4(d) {
+            var acc = '#7c3aed';
+            var c = calcSvc(d);
+            var rows4 = ''; c.items.forEach(function (it, i) { var amt = (it.hrs || 1) * (it.rate || 0); rows4 += '<tr' + (i % 2 ? ' style="background:#faf5ff"' : '') + '><td style="padding:10px 12px;vertical-align:top"><strong>' + (it.name || 'Milestone') + '</strong>' + (it.desc ? '<br><span style="color:#94a3b8;font-size:10px">' + it.desc + '</span>' : '') + '</td><td style="padding:10px 12px;text-align:center">' + (it.hrs || 1) + ' hrs</td><td style="padding:10px 12px;text-align:right">' + fmtINR(it.rate || 0) + '</td><td style="padding:10px 12px;text-align:center"><span style="background:#f5f3ff;color:#6366f1;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:700">Delivered</span></td><td style="padding:10px 12px;text-align:right;font-weight:700;color:' + acc + '">' + fmtINR(amt) + '</td></tr>'; });
+            var hdr = '<div style="background:linear-gradient(135deg,#4c1d95,' + acc + ');padding:26px 32px;display:flex;justify-content:space-between;align-items:flex-start">'
+                + '<div>' + logoHTML(d.logo, acc, d.biz || 'Your Studio', d.tagline || 'Project-Based Services') + '</div>'
+                + '<div style="text-align:right"><div style="font-size:9px;letter-spacing:3px;color:#c4b5fd;font-weight:700;text-transform:uppercase;margin-bottom:5px">Project Invoice</div><div style="font-size:22px;font-weight:800;color:#fff;letter-spacing:-0.5px">' + (d.inv || 'INV-001') + '</div><div style="font-size:10px;color:#c4b5fd;margin-top:4px">' + (d.date || '') + '</div><div style="font-size:17px;font-weight:800;color:#e9d5ff;margin-top:8px">' + fmtINR(c.grand) + '</div></div>'
+                + '</div>';
+            var cbar = ''; if (d.phone || d.email || d.addr) { var ci = [d.phone, d.email, d.addr].filter(Boolean).map(function (x) { return '<div style="font-size:10px;color:#4c1d95">' + x + '</div>'; }).join(''); cbar = '<div style="display:flex;gap:18px;padding:9px 32px;background:#f5f3ff;border-bottom:1px solid #ddd6fe;flex-wrap:wrap">' + ci + '</div>'; }
+            var tHead = '<tr style="background:linear-gradient(135deg,#4c1d95,' + acc + ')"><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#ddd6fe">Milestone / Service</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#ddd6fe;text-align:center">Hours</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#ddd6fe;text-align:right">Rate</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#ddd6fe;text-align:center">Status</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#ddd6fe;text-align:right">Amount</th></tr>';
+            return baseStyle() + hdr + cbar + infoRow(d, '#f5f3ff', '#ddd6fe', acc)
+                + '<div style="padding:16px 28px 0"><table><thead>' + tHead + '</thead><tbody>' + rows4 + '</tbody></table></div>'
+                + '<div style="display:flex;gap:16px;padding:14px 28px 0">' + payBlock(d, acc) + totalsBox(c.sub, c.tax, c.grand, acc) + '</div>'
+                + footerBlock(d.inv, 'Milestone-based billing. All assets become client property upon full payment.', acc) + endPage();
+        }
+
+        /* S5 – Creative Dark Rose */
+        function tpl_s5(d) {
+            var acc = '#db2777';
+            var c = calcSvc(d);
+            var hdr = '<div style="background:#1c0a14;padding:26px 32px;display:flex;justify-content:space-between;align-items:flex-end">'
+                + '<div>' + logoHTML(d.logo, acc, d.biz || 'Creative Studio', d.tagline || 'Video · Photo · Design') + '</div>'
+                + '<div style="text-align:right"><div style="font-size:9px;letter-spacing:4px;color:#9d174d;font-weight:700;text-transform:uppercase;margin-bottom:5px">Invoice</div><div style="font-size:24px;font-weight:800;color:#fce7f3;letter-spacing:-0.5px">' + (d.inv || 'INV-001') + '</div><div style="font-size:10px;color:#9d174d;margin-top:4px">' + (d.date || '') + ' &bull; ' + fmtINR(c.grand) + '</div></div>'
+                + '</div><div style="height:4px;background:linear-gradient(90deg,' + acc + ',#ec4899,#f9a8d4,#ec4899,' + acc + ')"></div>';
+            var cbar = ''; if (d.phone || d.email || d.addr) { var ci = [d.phone, d.email, d.addr].filter(Boolean).map(function (x) { return '<div style="font-size:10px;color:#881337">' + x + '</div>'; }).join(''); cbar = '<div style="display:flex;gap:18px;padding:9px 32px;background:#fff1f2;border-bottom:1px solid #fecdd3;flex-wrap:wrap">' + ci + '</div>'; }
+            var tHead = '<tr style="background:' + acc + '"><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fce7f3">Creative Service</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fce7f3;text-align:center">Hours</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fce7f3;text-align:right">Rate/hr</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fce7f3;text-align:right">Total</th></tr>';
+            return baseStyle() + hdr + cbar + infoRow(d, '#fff1f2', '#fecdd3', acc)
+                + '<div style="padding:16px 28px 0"><table><thead>' + tHead + '</thead><tbody>' + c.rows + '</tbody></table></div>'
+                + '<div style="display:flex;gap:16px;padding:14px 28px 0">' + payBlock(d, acc) + totalsBox(c.sub, c.tax, c.grand, acc) + '</div>'
+                + footerBlock(d.inv, 'All creative files delivered on full payment. No refunds on completed work.', acc) + endPage();
+        }
+
+        /* SUB1 – Membership Green */
+        function tpl_sub1(d) {
+            var acc = '#4f46e5';
+            var c = calcSub(d);
+            var hdr = '<div style="background:linear-gradient(135deg,#3730a3,' + acc + ');padding:26px 32px;display:flex;justify-content:space-between;align-items:flex-start">'
+                + '<div>' + logoHTML(d.logo, acc, d.biz || 'Your Club', d.tagline || 'Membership & Subscriptions') + '</div>'
+                + '<div style="text-align:right"><div style="font-size:9px;letter-spacing:3px;color:#a5b4fc;font-weight:700;text-transform:uppercase;margin-bottom:5px">Invoice</div><div style="font-size:22px;font-weight:800;color:#fff;letter-spacing:-0.5px">' + (d.inv || 'INV-001') + '</div><div style="font-size:10px;color:#a5b4fc;margin-top:4px">' + (d.date || '') + '</div><div style="font-size:18px;font-weight:800;color:#ede9ff;margin-top:8px">' + fmtINR(c.grand) + '</div></div>'
+                + '</div><div style="height:3px;background:rgba(255,255,255,.3)"></div>';
+            var cbar = ''; if (d.phone || d.email || d.addr) { var ci = [d.phone, d.email, d.addr].filter(Boolean).map(function (x) { return '<div style="font-size:10px;color:#3730a3">' + x + '</div>'; }).join(''); cbar = '<div style="display:flex;gap:18px;padding:9px 32px;background:#f5f3ff;border-bottom:1px solid #ddd6fe;flex-wrap:wrap">' + ci + '</div>'; }
+            var tHead = '<tr style="background:' + acc + '"><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fff">Plan / Service</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fff;text-align:center">Duration</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fff;text-align:right">Price</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fff;text-align:right">Amount</th></tr>';
+            return baseStyle() + hdr + cbar + infoRow(d, '#f5f3ff', '#ddd6fe', acc)
+                + '<div style="padding:16px 28px 0"><table><thead>' + tHead + '</thead><tbody>' + c.rows + '</tbody></table></div>'
+                + '<div style="display:flex;gap:16px;padding:14px 28px 0">' + payBlock(d, acc) + totalsBox(c.sub, c.tax, c.grand, acc) + '</div>'
+                + footerBlock(d.inv, 'Membership auto-renews unless cancelled 7 days prior. Refunds not applicable for used periods.', acc) + endPage();
+        }
+
+        /* SUB2 – Gym Red Bold */
+        function tpl_sub2(d) {
+            var acc = '#dc2626';
+            var c = calcSub(d);
+            var hdr = '<div style="border-top:5px solid ' + acc + ';padding:20px 28px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #7f1d1d">'
+                + '<div>' + logoHTML(d.logo, acc, d.biz || 'FitZone Gym', d.tagline || 'Fitness & Strength Training') + '</div>'
+                + '<div style="text-align:right"><h2 style="font-size:20px;font-weight:900;color:#7f1d1d;letter-spacing:2px">INVOICE</h2><div style="font-size:13px;font-weight:700;color:' + acc + ';margin-top:3px">' + (d.inv || 'INV-001') + '</div><div style="font-size:10px;color:#94a3b8;margin-top:2px">' + (d.date || '') + '</div></div>'
+                + '</div>';
+            var infoBar = '<div style="background:#7f1d1d;padding:8px 28px;display:flex;gap:20px;font-size:10px;color:#fca5a5;font-weight:600;text-transform:uppercase;flex-wrap:wrap">'
+                + '<span>&#128170; ' + (d.biz || 'Gym') + '</span>' + (d.phone ? '<span>' + d.phone + '</span>' : '') + (d.email ? '<span>' + d.email + '</span>' : '')
+                + '</div>';
+            var memberCard = '<div style="background:#fef2f2;border:1.5px solid #fecaca;border-radius:12px;padding:14px 28px;margin:14px 28px;display:flex;justify-content:space-between;align-items:center">'
+                + '<div><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:' + acc + ';margin-bottom:5px">Member</div><div style="font-size:14px;font-weight:700;color:#0f172a">' + (d.client || 'Member Name') + '</div><div style="font-size:10px;color:#475569;margin-top:2px">' + [d.bphone, d.bemail].filter(Boolean).join(' &bull; ') + '</div></div>'
+                + '<div style="text-align:right"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:' + acc + ';margin-bottom:5px">Total Due</div><div style="font-size:20px;font-weight:800;color:' + acc + '">' + fmtINR(c.grand) + '</div></div>'
+                + '</div>';
+            var tHead = '<tr style="background:#7f1d1d"><th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fca5a5">Package / Plan</th><th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fca5a5;text-align:center">Duration</th><th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fca5a5;text-align:right">Price</th><th style="padding:9px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fca5a5;text-align:right">Amount</th></tr>';
+            return baseStyle() + hdr + infoBar + memberCard
+                + '<div style="padding:0 28px"><table><thead>' + tHead + '</thead><tbody>' + c.rows + '</tbody></table></div>'
+                + '<div style="display:flex;gap:16px;padding:14px 28px 0">' + payBlock(d, '#7f1d1d') + totalsBox(c.sub, c.tax, c.grand, acc) + '</div>'
+                + footerBlock(d.inv, 'Membership non-transferable. No refunds for unused sessions. Auto-renews on expiry.', acc) + endPage();
+        }
+
+        /* SUB3 – Coaching Amber */
+        function tpl_sub3(d) {
+            var acc = '#d97706';
+            var c = calcSub(d);
+            var hdr = '<div style="background:#78350f;padding:22px 28px;display:flex;justify-content:space-between;align-items:flex-start">'
+                + '<div>' + logoHTML(d.logo, acc, d.biz || 'Coaching Institute', d.tagline || 'Learn &bull; Grow &bull; Succeed') + '</div>'
+                + '<div style="text-align:right"><div style="font-size:9px;letter-spacing:3px;color:#fb923c;font-weight:700;text-transform:uppercase;margin-bottom:5px">Invoice</div><div style="font-size:22px;font-weight:800;color:#fff;letter-spacing:-0.5px">' + (d.inv || 'INV-001') + '</div><div style="font-size:10px;color:#fb923c;margin-top:4px">' + (d.date || '') + '</div><div style="font-size:17px;font-weight:800;color:#fed7aa;margin-top:8px">' + fmtINR(c.grand) + '</div></div>'
+                + '</div><div style="height:4px;background:linear-gradient(90deg,#92400e,' + acc + ',#fbbf24,' + acc + ',#92400e)"></div>';
+            var cbar = ''; if (d.phone || d.email || d.addr) { var ci = [d.phone, d.email, d.addr].filter(Boolean).map(function (x) { return '<div style="font-size:10px;color:#78350f;font-weight:500">' + x + '</div>'; }).join(''); cbar = '<div style="display:flex;gap:18px;padding:9px 28px;background:#fffbeb;border-bottom:1px solid #fde68a;flex-wrap:wrap">' + ci + '</div>'; }
+            var tHead = '<tr style="background:#78350f"><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fed7aa">Course / Batch</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fed7aa;text-align:center">Duration</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fed7aa;text-align:right">Fee</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#fed7aa;text-align:right">Amount</th></tr>';
+            return baseStyle() + hdr + cbar + infoRow(d, '#fffbeb', '#fde68a', acc)
+                + '<div style="padding:16px 28px 0"><table><thead>' + tHead + '</thead><tbody>' + c.rows + '</tbody></table></div>'
+                + '<div style="display:flex;gap:16px;padding:14px 28px 0">' + payBlock(d, '#78350f') + totalsBox(c.sub, c.tax, c.grand, acc) + '</div>'
+                + footerBlock(d.inv, 'Fees once paid are non-refundable. Batch timings subject to change. Course material included.', acc) + endPage();
+        }
+
+        /* SUB4 – SaaS Tech Blue */
+        function tpl_sub4(d) {
+            var acc = '#2563eb';
+            var c = calcSub(d);
+            var hdr = '<div style="background:#0f172a;padding:24px 32px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid ' + acc + '">'
+                + '<div>' + logoHTML(d.logo, acc, d.biz || 'SaaS Platform', d.tagline || 'Software as a Service') + '</div>'
+                + '<div style="text-align:right"><div style="font-size:9px;letter-spacing:3px;color:#475569;font-weight:400;text-transform:uppercase;margin-bottom:5px">Invoice</div><div style="font-size:22px;font-weight:800;color:' + acc + ';letter-spacing:-0.5px">' + (d.inv || 'INV-001') + '</div><div style="font-size:10px;color:#475569;margin-top:4px">' + (d.date || '') + '</div><div style="font-size:15px;font-weight:800;color:#e2e8f0;margin-top:8px">' + fmtINR(c.grand) + '</div></div>'
+                + '</div><div style="height:3px;background:linear-gradient(90deg,#1e3a8a,' + acc + ',#60a5fa,' + acc + ',#1e3a8a)"></div>';
+            var cbar = ''; if (d.phone || d.email || d.web || d.addr) { var ci = [d.phone, d.email, d.web, d.addr].filter(Boolean).map(function (x) { return '<div style="font-size:10px;color:#1e3a8a;font-weight:500">' + x + '</div>'; }).join(''); cbar = '<div style="display:flex;gap:18px;padding:9px 32px;background:#eff6ff;border-bottom:1px solid #dbeafe;flex-wrap:wrap">' + ci + '</div>'; }
+            var tHead = '<tr style="background:#1e3a8a"><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#93c5fd">Plan</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#93c5fd;text-align:center">Duration</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#93c5fd;text-align:right">Price</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#93c5fd;text-align:right">Amount</th></tr>';
+            return baseStyle() + hdr + cbar + infoRow(d, '#eff6ff', '#dbeafe', acc)
+                + '<div style="padding:16px 32px 0"><table><thead>' + tHead + '</thead><tbody>' + c.rows + '</tbody></table></div>'
+                + '<div style="display:flex;gap:16px;padding:14px 32px 0">' + payBlock(d, '#1e3a8a') + totalsBox(c.sub, c.tax, c.grand, acc) + '</div>'
+                + footerBlock(d.inv, 'Subscription auto-renews. Cancel anytime. Data retained 30 days post-cancellation.', acc) + endPage();
+        }
+
+        /* SUB5 – Indigo Recurring */
+        function tpl_sub5(d) {
+            var acc = '#4f46e5';
+            var c = calcSub(d);
+            var hdr = '<div style="background:linear-gradient(135deg,#312e81,' + acc + ');padding:24px 32px;display:flex;justify-content:space-between;align-items:flex-start">'
+                + '<div>' + logoHTML(d.logo, acc, d.biz || 'Your Service', d.tagline || 'Recurring Billing') + '</div>'
+                + '<div style="text-align:right"><div style="font-size:9px;letter-spacing:3px;color:#a5b4fc;font-weight:700;text-transform:uppercase;margin-bottom:5px">Recurring Invoice</div><div style="font-size:20px;font-weight:800;color:#fff;letter-spacing:-0.5px">' + (d.inv || 'INV-001') + '</div><div style="font-size:10px;color:#a5b4fc;margin-top:4px">' + (d.date || '') + '</div><div style="font-size:17px;font-weight:800;color:#c7d2fe;margin-top:8px">' + fmtINR(c.grand) + '</div></div>'
+                + '</div><div style="height:4px;background:linear-gradient(90deg,#312e81,' + acc + ',#818cf8,' + acc + ',#312e81)"></div>';
+            var cbar = ''; if (d.phone || d.email || d.addr) { var ci = [d.phone, d.email, d.addr].filter(Boolean).map(function (x) { return '<div style="font-size:10px;color:#3730a3;font-weight:500">' + x + '</div>'; }).join(''); cbar = '<div style="display:flex;gap:18px;padding:9px 32px;background:#eef2ff;border-bottom:1px solid #c7d2fe;flex-wrap:wrap">' + ci + '</div>'; }
+            var tHead = '<tr style="background:linear-gradient(135deg,#312e81,' + acc + ')"><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#c7d2fe">Service / Plan</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#c7d2fe;text-align:center">Frequency</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#c7d2fe;text-align:right">Price</th><th style="padding:10px 12px;font-size:10px;font-weight:700;text-transform:uppercase;color:#c7d2fe;text-align:right">Total</th></tr>';
+            return baseStyle() + hdr + cbar + infoRow(d, '#eef2ff', '#c7d2fe', acc)
+                + '<div style="padding:16px 28px 0"><table><thead>' + tHead + '</thead><tbody>' + c.rows + '</tbody></table></div>'
+                + '<div style="display:flex;gap:16px;padding:14px 28px 0">' + payBlock(d, acc) + totalsBox(c.sub, c.tax, c.grand, acc) + '</div>'
+                + footerBlock(d.inv, 'Recurring billing. Cancel with 7 days notice. Auto-renews unless cancelled.', acc) + endPage();
+        }
+
+        /* ─── DISPATCH ─── */
+        var TPL = { p1: tpl_p1, p2: tpl_p2, p3: tpl_p3, p4: tpl_p4, p5: tpl_p5, s1: tpl_s1, s2: tpl_s2, s3: tpl_s3, s4: tpl_s4, s5: tpl_s5, sub1: tpl_sub1, sub2: tpl_sub2, sub3: tpl_sub3, sub4: tpl_sub4, sub5: tpl_sub5 };
+        function getHTML(tpl, data) { data = data || {}; data.logo = uploadedLogo; return (TPL[tpl.id] || tpl_p1)(data); }
+
+        /* ─── BUILD GRID ─── */
+        function buildGrid(cat, gridId, delay) {
+            delay = delay || 0;
+            var grid = document.getElementById(gridId);
+            if (!grid) return;
+            grid.innerHTML = '';
+            TEMPLATES[cat].forEach(function (tpl, i) {
+                var card = document.createElement('div');
+                card.className = 'tcard';
+                var badgeHTML = tpl.badge ? '<div class="tcard-badge" style="background:' + tpl.badgeColor + '18;color:' + tpl.badgeColor + ';border:1px solid ' + tpl.badgeColor + '35">' + tpl.badge + '</div>' : '';
+                var fieldsHTML = tpl.fields.map(function (f) { return '<span class="tcard-field">' + f + '</span>'; }).join('');
+                card.innerHTML = '<div class="tcard-thumb"><iframe title="' + tpl.name + '" scrolling="no"></iframe><div class="tcard-thumb-overlay"></div>' + badgeHTML + '</div>'
+                    + '<div class="tcard-body"><div class="tcard-name">' + tpl.name + '</div><div class="tcard-desc">' + tpl.desc + '</div>'
+                    + '<div class="tcard-fields">' + fieldsHTML + '</div>'
+                    + '<div class="tcard-actions"><button class="tcard-preview">Preview</button><button class="tcard-use">Use Template \u2192</button></div></div>';
+                var iframe = card.querySelector('iframe');
+                var html = getHTML(tpl);
+                setTimeout(function () {
+                    try { var doc = iframe.contentDocument || iframe.contentWindow.document; doc.open(); doc.write(html); doc.close(); } catch (e) { }
+                }, 120);
+                card.querySelector('.tcard-preview').onclick = function (e) { e.stopPropagation(); openPreview(tpl); };
+                card.querySelector('.tcard-use').onclick = function (e) { e.stopPropagation(); openBuilder(tpl); };
+                card.onclick = function () { openPreview(tpl); };
+                grid.appendChild(card);
+                setTimeout(function () { card.classList.add('show'); }, delay + 80 + i * 80);
+            });
+        }
+
+        buildGrid('product', 'grid-product', 200);
+        buildGrid('service', 'grid-service', 400);
+        buildGrid('subscription', 'grid-subscription', 600);
+
+        /* ─── FILTER ─── */
+        function setFilter(cat, btn) {
+            activeFilter = cat;
+            document.querySelectorAll('.cat-tab').forEach(function (b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+            ['product', 'service', 'subscription'].forEach(function (c) {
+                var sec = document.getElementById('sec-' + c);
+                if (sec) sec.classList.toggle('hidden', cat !== 'all' && cat !== c);
+            });
+            if (cat !== 'all') {
+                setTimeout(function () { var el = document.getElementById('sec-' + cat); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+            }
+        }
+
+        /* ─── PREVIEW MODAL ─── */
+        function openPreview(tpl) {
+            currentTpl = tpl;
+            document.getElementById('pm-title').textContent = tpl.name;
+            var catLabel = tpl.id[0] === 'p' ? 'Product' : tpl.id.indexOf('sub') === 0 ? 'Subscription' : 'Service';
+            document.getElementById('pm-sub').textContent = catLabel + ' Template \u00b7 InvoicePro';
+            var iframe = document.getElementById('pm-iframe');
+            var html = getHTML(tpl);
+            try { var doc = iframe.contentDocument || iframe.contentWindow.document; doc.open(); doc.write(html); doc.close(); } catch (e) { }
+            document.getElementById('previewModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closePreview() { document.getElementById('previewModal').classList.remove('open'); document.body.style.overflow = ''; }
+        function openBuilderFromPreview() { closePreview(); openBuilder(currentTpl); }
+
+        /* ─── BUILDER MODAL ─── */
+        function openBuilder(tpl) {
+            builderTpl = tpl;
+            var cat = tpl.id[0] === 'p' ? 'product' : tpl.id.indexOf('sub') === 0 ? 'subscription' : 'service';
+            document.getElementById('bm-title').textContent = tpl.name;
+            document.getElementById('bm-sub').textContent = 'Fill details \u2014 live preview updates instantly';
+            lineItems = cat === 'product' ? [{ name: '', qty: 1, price: 0, gst: 18 }] : cat === 'service' ? [{ name: '', desc: '', hrs: 1, rate: 0 }] : [{ name: '', duration: '1 Month', price: 0 }];
+            renderForm(cat);
+            updatePreview();
+            document.getElementById('builderModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeBuilder() { document.getElementById('builderModal').classList.remove('open'); document.body.style.overflow = ''; }
+
+        /* ─── LOGO UPLOAD ─── */
+        function handleLogoUpload(input) {
+            var file = input.files[0];
+            if (!file) return;
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                uploadedLogo = e.target.result;
+                var cat = builderTpl.id[0] === 'p' ? 'product' : builderTpl.id.indexOf('sub') === 0 ? 'subscription' : 'service';
+                renderForm(cat);
+                updatePreview();
+                showToast('Logo uploaded! \u2713');
+            };
+            reader.readAsDataURL(file);
+        }
+        function removeLogo() {
+            uploadedLogo = null;
+            var cat = builderTpl.id[0] === 'p' ? 'product' : builderTpl.id.indexOf('sub') === 0 ? 'subscription' : 'service';
+            renderForm(cat);
+            updatePreview();
+        }
+
+        /* ─── RENDER FORM ─── */
+        function renderForm(cat) {
+            var body = document.getElementById('builderFormBody');
+            var logoSection = '<div class="form-section">'
+                + '<div class="form-section-title">Logo Upload</div>'
+                + '<div style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--bg);border-radius:12px;border:1.5px dashed #c4b8ff">'
+                + '<div style="width:60px;height:60px;background:var(--accent-soft);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;border:1.5px solid #ddd6fe">'
+                + (uploadedLogo ? '<img src="' + uploadedLogo + '" style="width:100%;height:100%;object-fit:contain"/>' : '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5b3fff" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>')
+                + '</div>'
+                + '<div style="flex:1">'
+                + '<div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px">Your Business Logo</div>'
+                + '<div style="font-size:11px;color:var(--ink3);margin-bottom:10px">PNG, JPG or SVG \u2014 shows on invoice</div>'
+                + '<div style="display:flex;gap:8px;align-items:center">'
+                + '<label style="display:inline-flex;align-items:center;gap:6px;padding:9px 18px;background:var(--accent);color:white;font-size:13px;font-weight:700;border-radius:10px;cursor:pointer">'
+                + '\u2191 Upload Logo'
+                + '<input type="file" accept="image/*" style="display:none" onchange="handleLogoUpload(this)"/>'
+                + '</label>'
+                + (uploadedLogo ? '<button onclick="removeLogo()" style="padding:9px 14px;background:#fee2e2;color:#ef4444;border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">Remove</button>' : '')
+                + '</div>'
+                + '</div>'
+                + '</div></div>';
+
+            var signSection = '<div class="form-section">'
+                + '<div class="form-section-title">Signature</div>'
+
+                // Tab switcher
+                + '<div style="display:flex;gap:0;background:#f0eeff;border-radius:10px;padding:4px;margin-bottom:12px">'
+                + '<button id="sig-tab-draw" onclick="switchSigTab(\'draw\')" style="flex:1;padding:8px;border:none;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;background:var(--accent);color:white;transition:all .2s">&#9998; Draw</button>'
+                + '<button id="sig-tab-upload" onclick="switchSigTab(\'upload\')" style="flex:1;padding:8px;border:none;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;background:transparent;color:var(--ink3);transition:all .2s">&#8679; Upload</button>'
+                + '</div>'
+
+                // Draw pad
+                + '<div id="sig-draw-panel">'
+                + '<canvas id="sig-canvas" width="320" height="90" style="display:block;background:white;border-radius:8px;border:1.5px solid #e0e0ea;cursor:crosshair;touch-action:none;width:100%"></canvas>'
+                + '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">'
+                + '<div style="font-size:11px;color:var(--ink3)">Draw your signature above</div>'
+                + '<button onclick="clearSignature()" style="padding:5px 12px;background:#fee2e2;color:#ef4444;border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">Clear</button>'
+                + '</div>'
+                + '</div>'
+
+                // Upload panel
+                + '<div id="sig-upload-panel" style="display:none">'
+                + '<div style="background:white;border-radius:8px;border:1.5px dashed #c4b8ff;padding:16px;text-align:center;min-height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">'
+                + (uploadedSig ? '<img src="' + uploadedSig + '" style="max-height:70px;max-width:100%;object-fit:contain"/>' : '<div style="font-size:11px;color:var(--ink3)">Upload PNG/JPG of your signature</div>')
+                + '</div>'
+                + '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">'
+                + '<label style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:var(--accent);color:white;font-size:12px;font-weight:700;border-radius:8px;cursor:pointer">&#8679; Choose Image<input type="file" accept="image/*" style="display:none" onchange="handleSigUpload(this)"/></label>'
+                + (uploadedSig ? '<button onclick="removeSig()" style="padding:7px 12px;background:#fee2e2;color:#ef4444;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">Remove</button>' : '')
+                + '</div>'
+                + '</div>'
+
+                + '</div>';
+
+            body.innerHTML = logoSection + signSection;
+            initSignaturePad();
+        }
+
+        /* ─── LINE ITEMS ─── */
+        function renderLineItems(cat) {
+            var wrap = document.getElementById('line-items-wrap');
+            if (!wrap) return;
+            wrap.innerHTML = '';
+            lineItems.forEach(function (it, i) {
+                var row = document.createElement('div');
+                row.style.cssText = 'position:relative;margin-bottom:10px;background:var(--bg);border-radius:12px;padding:12px;border:1.5px solid #e8e6f8';
+                if (cat === 'product') {
+                    row.innerHTML = '<div class="field-row"><div class="field"><label>Product Name</label><input value="' + (it.name || '') + '" placeholder="Product" oninput="lineItems[' + i + '].name=this.value;updatePreview()"/></div><div class="field"><label>GST %</label><input type="number" value="' + (it.gst || 18) + '" min="0" max="28" oninput="lineItems[' + i + '].gst=+this.value;updatePreview()"/></div></div><div class="field-row"><div class="field"><label>Qty</label><input type="number" value="' + (it.qty || 1) + '" min="1" oninput="lineItems[' + i + '].qty=+this.value;updatePreview()"/></div><div class="field"><label>Price (\u20b9)</label><input type="number" value="' + (it.price || 0) + '" min="0" oninput="lineItems[' + i + '].price=+this.value;updatePreview()"/></div></div>';
+                } else if (cat === 'service') {
+                    row.innerHTML = '<div class="field-row single"><div class="field"><label>Service Name</label><input value="' + (it.name || '') + '" placeholder="Service" oninput="lineItems[' + i + '].name=this.value;updatePreview()"/></div></div><div class="field-row single"><div class="field"><label>Description</label><input value="' + (it.desc || '') + '" placeholder="Brief description" oninput="lineItems[' + i + '].desc=this.value;updatePreview()"/></div></div><div class="field-row"><div class="field"><label>Hours</label><input type="number" value="' + (it.hrs || 1) + '" min="0.5" step="0.5" oninput="lineItems[' + i + '].hrs=+this.value;updatePreview()"/></div><div class="field"><label>Rate/hr (\u20b9)</label><input type="number" value="' + (it.rate || 0) + '" min="0" oninput="lineItems[' + i + '].rate=+this.value;updatePreview()"/></div></div>';
+                } else {
+                    row.innerHTML = '<div class="field-row single"><div class="field"><label>Plan Name</label><input value="' + (it.name || '') + '" placeholder="Plan" oninput="lineItems[' + i + '].name=this.value;updatePreview()"/></div></div><div class="field-row"><div class="field"><label>Duration</label><select oninput="lineItems[' + i + '].duration=this.value;updatePreview()"><option' + (it.duration === '1 Month' ? ' selected' : '') + '>1 Month</option><option' + (it.duration === '3 Months' ? ' selected' : '') + '>3 Months</option><option' + (it.duration === '6 Months' ? ' selected' : '') + '>6 Months</option><option' + (it.duration === '1 Year' ? ' selected' : '') + '>1 Year</option></select></div><div class="field"><label>Amount (\u20b9)</label><input type="number" value="' + (it.price || 0) + '" min="0" oninput="lineItems[' + i + '].price=+this.value;updatePreview()"/></div></div>';
+                }
+                if (lineItems.length > 1) {
+                    var del = document.createElement('button');
+                    del.textContent = '\u00d7';
+                    del.style.cssText = 'position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;background:#fee2e2;border:none;cursor:pointer;font-size:14px;color:#ef4444;display:grid;place-items:center;';
+                    del.onclick = (function (idx) { return function () { lineItems.splice(idx, 1); renderLineItems(cat); updatePreview(); }; })(i);
+                    row.appendChild(del);
+                }
+                wrap.appendChild(row);
+            });
+        }
+
+        function addLine(cat) {
+            if (cat === 'product') lineItems.push({ name: '', qty: 1, price: 0, gst: 18 });
+            else if (cat === 'service') lineItems.push({ name: '', desc: '', hrs: 1, rate: 0 });
+            else lineItems.push({ name: '', duration: '1 Month', price: 0 });
+            renderLineItems(cat);
+            updatePreview();
+        }
+
+        /* ─── UPDATE PREVIEW ─── */
+        function updatePreview() {
+            if (!builderTpl) return;
+            var dateVal = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+            var data = {
+                biz: '',
+                tagline: '',
+                phone: '',
+                email: '',
+                web: '',
+                addr: '',
+                client: '',
+                bphone: '',
+                bemail: '',
+                baddr: '',
+                inv: 'INV-001',
+                date: dateVal,
+                accno: '',
+                accname: '',
+                bank: '',
+                items: lineItems,
+                logo: uploadedLogo
+            };
+            var html = getHTML(builderTpl, data);
+            var iframe = document.getElementById('bm-iframe');
+            try { var doc = iframe.contentDocument || iframe.contentWindow.document; doc.open(); doc.write(html); doc.close(); } catch (e) { }
+
+        }
+
+        function downloadInvoice() { showToast('Redirecting to signup to use this template!'); setTimeout(function () { window.location.href = 'signup.html'; }, 900); }
+
+        /* ─── MODAL CLOSE HANDLERS ─── */
+        document.getElementById('previewModal').addEventListener('click', function (e) { if (e.target === this) closePreview(); });
+        document.getElementById('builderModal').addEventListener('click', function (e) { if (e.target === this) closeBuilder(); });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { closePreview(); closeBuilder(); } });
+
+        /* ─── SCROLL REVEAL ─── */
+        var ro = new IntersectionObserver(function (entries) { entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); } }); }, { threshold: .1 });
+        document.querySelectorAll('.reveal').forEach(function (el) { ro.observe(el); });
+
+        /* ─── SIGNATURE PAD ─── */
+        var sigCanvas, sigCtx, sigDrawing = false;
+
+        function initSignaturePad() {
+            sigCanvas = document.getElementById('sig-canvas');
+            if (!sigCanvas) return;
+            sigCtx = sigCanvas.getContext('2d');
+            sigCtx.strokeStyle = '#1e293b';
+            sigCtx.lineWidth = 2;
+            sigCtx.lineCap = 'round';
+            sigCtx.lineJoin = 'round';
+
+            function getPos(e) {
+                var r = sigCanvas.getBoundingClientRect();
+                var scaleX = sigCanvas.width / r.width;
+                var scaleY = sigCanvas.height / r.height;
+                if (e.touches) {
+                    return { x: (e.touches[0].clientX - r.left) * scaleX, y: (e.touches[0].clientY - r.top) * scaleY };
+                }
+                return { x: (e.clientX - r.left) * scaleX, y: (e.clientY - r.top) * scaleY };
+            }
+
+            function startDraw(e) { e.preventDefault(); sigDrawing = true; var p = getPos(e); sigCtx.beginPath(); sigCtx.moveTo(p.x, p.y); }
+            function draw(e) { e.preventDefault(); if (!sigDrawing) return; var p = getPos(e); sigCtx.lineTo(p.x, p.y); sigCtx.stroke(); }
+            function stopDraw() { sigDrawing = false; updatePreview(); }
+
+            sigCanvas.addEventListener('mousedown', startDraw);
+            sigCanvas.addEventListener('mousemove', draw);
+            sigCanvas.addEventListener('mouseup', stopDraw);
+            sigCanvas.addEventListener('mouseleave', stopDraw);
+            sigCanvas.addEventListener('touchstart', startDraw, { passive: false });
+            sigCanvas.addEventListener('touchmove', draw, { passive: false });
+            sigCanvas.addEventListener('touchend', stopDraw);
+        }
+
+        function clearSignature() {
+            if (sigCtx && sigCanvas) {
+                sigCtx.clearRect(0, 0, sigCanvas.width, sigCanvas.height);
+                updatePreview();
+            }
+        }
+
+        /* ─── SIGNATURE TAB SWITCH ─── */
+        function switchSigTab(tab) {
+            currentSigTab = tab;
+            var drawPanel = document.getElementById('sig-draw-panel');
+            var uploadPanel = document.getElementById('sig-upload-panel');
+            var tabDraw = document.getElementById('sig-tab-draw');
+            var tabUpload = document.getElementById('sig-tab-upload');
+            if (!drawPanel) return;
+            if (tab === 'draw') {
+                drawPanel.style.display = 'block';
+                uploadPanel.style.display = 'none';
+                tabDraw.style.background = 'var(--accent)';
+                tabDraw.style.color = 'white';
+                tabUpload.style.background = 'transparent';
+                tabUpload.style.color = 'var(--ink3)';
+                initSignaturePad();
+            } else {
+                drawPanel.style.display = 'none';
+                uploadPanel.style.display = 'block';
+                tabDraw.style.background = 'transparent';
+                tabDraw.style.color = 'var(--ink3)';
+                tabUpload.style.background = 'var(--accent)';
+                tabUpload.style.color = 'white';
+            }
+        }
+
+        /* ─── SIGNATURE IMAGE UPLOAD ─── */
+        function handleSigUpload(input) {
+            var file = input.files[0];
+            if (!file) return;
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                uploadedSig = e.target.result;
+                var cat = builderTpl.id[0] === 'p' ? 'product' : builderTpl.id.indexOf('sub') === 0 ? 'subscription' : 'service';
+                renderForm(cat);
+                switchSigTab('upload');
+                showToast('Signature uploaded! ✓');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removeSig() {
+            uploadedSig = null;
+            var cat = builderTpl.id[0] === 'p' ? 'product' : builderTpl.id.indexOf('sub') === 0 ? 'subscription' : 'service';
+            renderForm(cat);
+            switchSigTab('upload');
+            updatePreview();
+        }
+
+        /* ─── USE TEMPLATE BUTTON ANIMATION ─── */
+        function animateUseTemplate(btn) {
+            // ripple + bounce
+            btn.style.transform = 'scale(0.95)';
+            btn.style.boxShadow = '0 2px 8px rgba(91,63,255,.3)';
+            setTimeout(function () {
+                btn.style.transform = 'scale(1.06)';
+                btn.style.boxShadow = '0 12px 32px rgba(91,63,255,.55)';
+            }, 100);
+            setTimeout(function () {
+                btn.style.transform = 'scale(1)';
+                btn.style.boxShadow = '0 8px 24px rgba(91,63,255,.4)';
+                showToast('Redirecting to get started! ✓');
+                setTimeout(function () { window.location.href = 'signup.html'; }, 800);
+            }, 220);
+        }
+    </script>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>

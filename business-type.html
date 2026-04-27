@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Choose Your Business Type — BillSathi</title>
+  <meta name="description" content="Personalize your BillSathi experience by selecting your business type. Set up in seconds." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style"
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap"
+    onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap">
+  </noscript>
+  <style>
+    /* ── RESET & ROOT ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #0a0a0f;
+      --ink2: #3d3d52;
+      --ink3: #8888a0;
+      --bg: #f8f7ff;
+      --surface: #ffffff;
+      --accent: #5b3fff;
+      --accent2: #7c5fff;
+      --accent-soft: #ede9ff;
+      --accent-mid: #c4b8ff;
+      --green: #16a34a;
+      --green-soft: #dcfce7;
+      --shadow-sm: 0 2px 10px rgba(91,63,255,.08);
+      --shadow-md: 0 8px 32px rgba(91,63,255,.14);
+      --shadow-lg: 0 24px 64px rgba(91,63,255,.20);
+      --radius-card: 24px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    /* ── KEYFRAMES ── */
+    @keyframes pageEnter {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:.4; transform:scale(1.6); }
+    }
+
+    @keyframes floatY {
+      0%,100% { transform:translateY(0); }
+      50%      { transform:translateY(-8px); }
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(28px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    @keyframes badgePop {
+      from { opacity:0; transform:scale(.7) translateY(10px); }
+      to   { opacity:1; transform:scale(1) translateY(0); }
+    }
+
+    @keyframes orbFloat {
+      0%,100% { transform:translate(0,0) scale(1); }
+      33%      { transform:translate(30px,-20px) scale(1.05); }
+      66%      { transform:translate(-20px,15px) scale(.97); }
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+
+    /* ── BODY ── */
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      overflow-x: hidden;
+      min-height: 100vh;
+      animation: pageEnter .45s cubic-bezier(.22,1,.36,1) both;
+    }
+
+    /* ── PAGE TRANSITION ── */
+    .pt-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: #f8f7ff;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .26s ease;
+    }
+
+    /* ── AMBIENT BACKGROUND ORBS ── */
+    .bg-orbs {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .bg-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(70px);
+      opacity: .45;
+    }
+    .bg-orb-1 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(91,63,255,.13), transparent 70%);
+      top: -150px; left: -100px;
+      animation: orbFloat 14s ease-in-out infinite;
+    }
+    .bg-orb-2 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(168,85,247,.10), transparent 70%);
+      top: 20%; right: -120px;
+      animation: orbFloat 18s ease-in-out infinite 4s;
+    }
+    .bg-orb-3 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(14,165,233,.08), transparent 70%);
+      bottom: 10%; left: 10%;
+      animation: orbFloat 22s ease-in-out infinite 8s;
+    }
+
+    /* ── ANNOUNCEMENT MARQUEE BAR ── */
+    .announce-bar {
+      background: linear-gradient(135deg, #312e81 0%, #5b3fff 45%, #7c3aed 80%, #a855f7 100%);
+      padding: 0;
+      height: 44px;
+      overflow: hidden;
+      position: relative;
+      z-index: 10;
+    }
+
+    .announce-bar::before,
+    .announce-bar::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 80px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .announce-bar::before {
+      left: 0;
+      background: linear-gradient(to right, #4338ca, transparent);
+    }
+    .announce-bar::after {
+      right: 0;
+      background: linear-gradient(to left, #7c3aed, transparent);
+    }
+
+    .announce-track {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      width: max-content;
+      animation: marquee 52s linear infinite;
+    }
+
+    .announce-track:hover { animation-play-state: paused; }
+
+    .announce-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 48px;
+      font-size: 12.5px;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.9);
+      white-space: nowrap;
+    }
+
+    .announce-star {
+      width: 18px;
+      height: 18px;
+      background: rgba(255,255,255,.12);
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .announce-star::after {
+      content: '';
+      width: 5px;
+      height: 5px;
+      background: rgba(255,255,255,.75);
+      border-radius: 50%;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      padding: 0 48px;
+      height: 66px;
+      background: rgba(248,247,255,.94);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(91,63,255,.1);
+    }
+
+    nav .nav-right { margin-left: auto; }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--ink);
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .logo-img { height: 60px; width: auto; max-width: none; max-height: none; object-fit: contain; display: block; background: transparent; border: none; box-shadow: none; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; }
+    @media (max-width: 768px) { .logo-img { height: 50px; } }
+.logo em { color:var(--accent); font-style:normal; }
+
+    .nav-links { display:flex; gap:32px; }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink2);
+      text-decoration: none;
+      transition: color .2s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform .25s cubic-bezier(.34,1.56,.64,1);
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    .nav-right { display:flex; align-items:center; gap:12px; }
+
+    .btn-g {
+      padding: 9px 18px;
+      border: none;
+      background: none;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink2);
+      cursor: pointer;
+      border-radius: 10px;
+      transition: background .2s, color .2s;
+      font-family: inherit;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .btn-g:hover { background: var(--accent-soft); color: var(--accent); }
+
+    .btn-p {
+      padding: 10px 22px;
+      background: var(--accent);
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform .15s, background .2s, box-shadow .2s;
+      font-family: inherit;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      box-shadow: 0 4px 14px rgba(91,63,255,.3);
+    }
+
+    .btn-p:hover {
+      background: var(--accent2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(91,63,255,.4);
+    }
+
+    /* ── MAIN WRAP ── */
+    .page-wrap {
+      min-height: calc(100vh - 106px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px 56px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── HERO HEADER ── */
+    .page-header {
+      text-align: center;
+      margin-bottom: 40px;
+      animation: fadeUp .6s cubic-bezier(.22,1,.36,1) .1s both;
+    }
+
+    .step-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 24px;
+      border-radius: 999px;
+      background: white;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      border: 1.5px solid rgba(91,63,255,.2);
+      box-shadow: 0 2px 14px rgba(91,63,255,.12), 0 0 0 4px rgba(91,63,255,.05);
+      animation: badgePop .5s cubic-bezier(.34,1.56,.64,1) .05s both;
+    }
+
+    .step-pill-dot {
+      width: 7px; height: 7px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+      flex-shrink: 0;
+    }
+
+    .page-header h1 {
+      font-size: clamp(32px, 4.6vw, 56px);
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1.07;
+      color: var(--ink);
+      margin-bottom: 14px;
+      white-space: nowrap;
+    }
+
+    .page-header h1 .grad {
+      background: linear-gradient(135deg, #5b3fff 0%, #a855f7 60%, #ec4899 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200% auto;
+      animation: shimmer 4s linear infinite;
+    }
+
+    .page-header p {
+      font-size: 17.5px;
+      color: var(--ink2);
+      line-height: 1.72;
+      max-width: 520px;
+      margin: 0 auto;
+      font-weight: 400;
+    }
+
+    /* ── CARDS GRID ── */
+    .biz-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      max-width: 1060px;
+      width: 100%;
+    }
+
+    /* stagger card entrance */
+    .biz-card:nth-child(1) { animation: fadeUp .6s cubic-bezier(.22,1,.36,1) .22s both; }
+    .biz-card:nth-child(2) { animation: fadeUp .6s cubic-bezier(.22,1,.36,1) .34s both; }
+    .biz-card:nth-child(3) { animation: fadeUp .6s cubic-bezier(.22,1,.36,1) .46s both; }
+
+    .biz-card {
+      background: white;
+      border: 2px solid rgba(234,232,245,.8);
+      border-radius: var(--radius-card);
+      padding: 40px 32px 34px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition:
+        transform .35s cubic-bezier(.34,1.56,.64,1),
+        box-shadow .35s ease,
+        border-color .28s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Top glow shimmer on hover */
+    .biz-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--card-accent, var(--accent)), transparent);
+      opacity: 0;
+      transition: opacity .3s;
+      border-radius: var(--radius-card) var(--radius-card) 0 0;
+    }
+
+    /* Left accent strip */
+    .biz-card::after {
+      content: '';
+      position: absolute;
+      left: 0; top: 28px; bottom: 28px;
+      width: 3px;
+      border-radius: 0 3px 3px 0;
+      background: var(--card-accent, var(--accent));
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform .38s cubic-bezier(.34,1.56,.64,1);
+    }
+
+    /* Inner ambient glow */
+    .card-glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at top left, var(--card-glow-color, rgba(91,63,255,.07)), transparent 60%);
+      opacity: 0;
+      transition: opacity .35s;
+      pointer-events: none;
+    }
+
+    .biz-card:hover .card-glow { opacity: 1; }
+
+    .biz-card:hover {
+      transform: translateY(-10px) scale(1.018);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--card-accent, var(--accent));
+    }
+
+    .biz-card:hover::before { opacity: 1; }
+    .biz-card:hover::after  { transform: scaleY(1); }
+
+    /* Per-type accent vars */
+    .biz-card[data-type="product"]    { --card-accent: #5b3fff; --card-glow-color: rgba(91,63,255,.08); }
+    .biz-card[data-type="service"]    { --card-accent: #0ea5e9; --card-glow-color: rgba(14,165,233,.08); }
+    .biz-card[data-type="freelancer"] { --card-accent: #a855f7; --card-glow-color: rgba(168,85,247,.08); }
+
+    /* Selected state */
+    .biz-card.selected {
+      border-color: var(--card-accent, var(--accent));
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--card-accent, var(--accent)) 15%, transparent), var(--shadow-md);
+      transform: translateY(-5px) scale(1.012);
+    }
+
+    .biz-card.selected::after  { transform: scaleY(1); }
+    .biz-card.selected::before { opacity: 1; }
+
+    /* ── CHECKMARK ── */
+    .card-check {
+      position: absolute;
+      top: 18px; right: 18px;
+      width: 26px; height: 26px;
+      background: var(--card-accent, var(--accent));
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      opacity: 0;
+      transform: scale(.4) rotate(-45deg);
+      transition: opacity .28s, transform .38s cubic-bezier(.34,1.56,.64,1);
+      box-shadow: 0 3px 10px rgba(0,0,0,.15);
+    }
+
+    .card-check svg {
+      width: 13px; height: 13px;
+      stroke: white; fill: none;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .biz-card.selected .card-check {
+      opacity: 1;
+      transform: scale(1) rotate(0deg);
+    }
+
+    /* ── CARD ICON ── */
+    .card-icon {
+      width: 72px; height: 72px;
+      border-radius: 22px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+      transition: transform .38s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
+      /* subtle inner ring for depth */
+      outline: 1.5px solid rgba(255,255,255,.2);
+      outline-offset: 2px;
+    }
+
+    .biz-card[data-type="product"] .card-icon {
+      background: linear-gradient(145deg, #7c5fff 0%, #5b3fff 55%, #4831d4 100%);
+      box-shadow:
+        0 10px 28px rgba(91,63,255,.35),
+        0 2px 8px rgba(91,63,255,.18),
+        inset 0 1px 0 rgba(255,255,255,.2);
+      animation: floatY 3.6s ease-in-out infinite;
+    }
+
+    .biz-card[data-type="service"] .card-icon {
+      background: linear-gradient(145deg, #38bdf8 0%, #0ea5e9 50%, #0284c7 100%);
+      box-shadow:
+        0 10px 28px rgba(14,165,233,.32),
+        0 2px 8px rgba(14,165,233,.16),
+        inset 0 1px 0 rgba(255,255,255,.2);
+      animation: floatY 4s ease-in-out infinite .5s;
+    }
+
+    .biz-card[data-type="freelancer"] .card-icon {
+      background: linear-gradient(145deg, #c084fc 0%, #a855f7 50%, #7c3aed 100%);
+      box-shadow:
+        0 10px 28px rgba(168,85,247,.32),
+        0 2px 8px rgba(168,85,247,.18),
+        inset 0 1px 0 rgba(255,255,255,.2);
+      animation: floatY 3.2s ease-in-out infinite 1s;
+    }
+
+    .biz-card:hover .card-icon {
+      transform: scale(1.14) rotate(-5deg);
+      animation: none;
+    }
+
+    .biz-card[data-type="product"]:hover .card-icon  { box-shadow: 0 16px 40px rgba(91,63,255,.48),  inset 0 1px 0 rgba(255,255,255,.2); }
+    .biz-card[data-type="service"]:hover .card-icon   { box-shadow: 0 16px 40px rgba(14,165,233,.44),  inset 0 1px 0 rgba(255,255,255,.2); }
+    .biz-card[data-type="freelancer"]:hover .card-icon{ box-shadow: 0 16px 40px rgba(168,85,247,.46), inset 0 1px 0 rgba(255,255,255,.2); }
+
+    .card-icon svg {
+      width: 32px; height: 32px;
+      stroke: white; fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,.18));
+    }
+
+    /* ── CARD BADGE ── */
+    .card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      padding: 5px 13px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+      border: 1px solid transparent;
+      position: relative;
+      z-index: 1;
+    }
+    .card-badge-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .biz-card[data-type="product"] .card-badge    { background:#ede9ff; color:#5b3fff; border-color:#ddd6fe; }
+    .biz-card[data-type="product"] .card-badge-dot { background: #5b3fff; }
+    .biz-card[data-type="service"] .card-badge    { background:#e0f2fe; color:#0284c7; border-color:#bae6fd; }
+    .biz-card[data-type="service"] .card-badge-dot { background: #0284c7; }
+    .biz-card[data-type="freelancer"] .card-badge { background:#faf5ff; color:#a855f7; border-color:#e9d5ff; }
+    .biz-card[data-type="freelancer"] .card-badge-dot { background: #a855f7; }
+
+    /* ── CARD TITLE ── */
+    .card-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -.4px;
+      margin-bottom: 10px;
+      transition: color .22s;
+      position: relative;
+      z-index: 1;
+    }
+
+    .biz-card:hover .card-title { color: var(--card-accent, var(--accent)); }
+
+    /* ── CARD DESC ── */
+    .card-desc {
+      font-size: 14px;
+      color: var(--ink3);
+      line-height: 1.8;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── TAGS ── */
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 22px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ink2);
+      background: var(--bg);
+      padding: 4px 10px;
+      border-radius: 8px;
+      border: 1px solid #e8e6f5;
+      transition: background .2s, border-color .2s, color .2s;
+    }
+
+    .biz-card:hover .tag {
+      background: white;
+      border-color: color-mix(in srgb, var(--card-accent, var(--accent)) 25%, transparent);
+    }
+
+    .tag-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--card-accent, var(--accent));
+      flex-shrink: 0;
+    }
+
+    /* ── CARD CTA ── */
+    .card-cta {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--card-accent, var(--accent));
+      opacity: 0;
+      transform: translateX(-8px);
+      transition: opacity .28s, transform .3s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .biz-card:hover .card-cta { opacity: 1; transform: translateX(0); }
+
+    .card-cta svg {
+      width: 15px; height: 15px;
+      stroke: currentColor; fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform .22s cubic-bezier(.34,1.56,.64,1);
+    }
+
+    .biz-card:hover .card-cta svg { transform: translateX(4px); }
+
+    /* ── FOOTER NOTE ── */
+    .footer-note {
+      margin-top: 48px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--ink3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      animation: fadeUp .6s cubic-bezier(.22,1,.36,1) .58s both;
+      background: white;
+      border: 1.5px solid #eeecf8;
+      padding: 12px 24px;
+      border-radius: 999px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .footer-note a {
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .footer-note a:hover { color: var(--accent2); text-decoration: underline; }
+
+    /* ── SUPPORT CTA SECTION ── */
+    .support-section {
+      margin-top: 72px;
+      width: 100%;
+      max-width: 980px;
+      background: linear-gradient(135deg, #312e81 0%, #4f46e5 42%, #7c3aed 78%, #a855f7 100%);
+      border-radius: 28px;
+      padding: 52px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 32px 72px rgba(91,63,255,.36);
+      animation: fadeUp .7s cubic-bezier(.22,1,.36,1) .65s both;
+    }
+
+    /* Decorative circles */
+    .support-section::before {
+      content: '';
+      position: absolute;
+      width: 340px; height: 340px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.05);
+      top: -100px; right: -60px;
+      pointer-events: none;
+    }
+
+    .support-section::after {
+      content: '';
+      position: absolute;
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      background: rgba(168,85,247,.18);
+      bottom: -60px; left: -40px;
+      pointer-events: none;
+    }
+
+    .support-inner { position: relative; z-index: 1; }
+
+    .support-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.5);
+      margin-bottom: 14px;
+    }
+
+    .support-section h2 {
+      font-size: clamp(22px, 3.5vw, 36px);
+      font-weight: 800;
+      color: white;
+      letter-spacing: -1px;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+
+    .support-section p {
+      font-size: 15px;
+      color: rgba(255,255,255,.68);
+      line-height: 1.8;
+      max-width: 440px;
+      margin: 0 auto 28px;
+    }
+
+    .support-btns {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-support-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 30px;
+      background: white;
+      color: #4338ca;
+      font-size: 14px;
+      font-weight: 800;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      font-family: inherit;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(0,0,0,.18);
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .btn-support-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,0,0,.28);
+    }
+
+    .btn-support-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: rgba(255,255,255,.12);
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      border: 1.5px solid rgba(255,255,255,.25);
+      border-radius: 999px;
+      cursor: pointer;
+      font-family: inherit;
+      text-decoration: none;
+      transition: background .22s, border-color .22s;
+    }
+
+    .btn-support-ghost:hover {
+      background: rgba(255,255,255,.22);
+      border-color: rgba(255,255,255,.45);
+    }
+
+    /* ── SECTION DIVIDER ── */
+    .section-sep {
+      width: 100%;
+      max-width: 860px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(91,63,255,.12) 30%, rgba(91,63,255,.12) 70%, transparent);
+      margin: 44px auto 0;
+      animation: fadeUp .5s cubic-bezier(.22,1,.36,1) .48s both;
+    }
+
+    /* ── TRUST BADGES ROW ── */
+    .trust-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px 28px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+      padding: 20px 32px;
+      background: white;
+      border: 1px solid #ede9ff;
+      border-radius: 16px;
+      max-width: 860px;
+      width: 100%;
+      box-shadow: 0 2px 16px rgba(91,63,255,.06);
+      animation: fadeUp .6s cubic-bezier(.22,1,.36,1) .52s both;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink2);
+    }
+
+    .trust-icon {
+      width: 28px; height: 28px;
+      background: #f0eeff;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #ddd6fe;
+    }
+
+    .trust-icon svg {
+      width: 14px; height: 14px;
+      stroke: var(--accent); fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .trust-divider {
+      width: 1px; height: 22px;
+      background: #e8e5f8;
+    }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 28px; right: 28px;
+      background: #0a0a0f;
+      color: white;
+      padding: 14px 22px;
+      border-radius: 16px;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 16px 48px rgba(0,0,0,.28);
+      z-index: 9999;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: transform .38s cubic-bezier(.34,1.56,.64,1), opacity .38s;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    .toast-icon {
+      width: 22px; height: 22px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .toast-icon svg {
+      width: 11px; height: 11px;
+      stroke: white; fill: none;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* ── PAGE WRAP SPACING ── */
+    .page-wrap {
+      padding-top: 56px;
+      padding-bottom: 72px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      .biz-grid { grid-template-columns: 1fr; max-width: 500px; }
+      .trust-divider { display: none; }
+      .trust-row { max-width: none; justify-content: flex-start; }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; gap: 20px; }
+      .nav-links { display: none; }
+      .page-wrap { padding: 40px 16px 56px; }
+      .support-section { padding: 40px 28px; border-radius: 20px; }
+      .support-section h2 { letter-spacing: -.5px; }
+      .trust-row { padding: 16px 18px; gap: 10px 18px; }
+    }
+
+    @media (max-width: 480px) {
+      .page-header h1 { letter-spacing: -1px; }
+      .page-header p { font-size: 15px; }
+      .footer-note { flex-direction: column; gap: 6px; border-radius: 16px; }
+    }
+
+    /* ── REDUCED MOTION ── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  
+        /* Premium Text Logo Styles */
+        .brand-wrapper { display: flex; align-items: center; gap: 8px; }
+        .brand-icon { height: 42px; width: auto; object-fit: contain; flex-shrink: 0; display: block; }
+        .brand-text-col { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+        .brand-logo-text { font-size: 26px; font-weight: 800; letter-spacing: -0.8px; line-height: 1; font-family: var(--font, 'Inter', system-ui, sans-serif); color: var(--ink, #0a0a0f); }
+        .left-logo .brand-logo-text { color: #ffffff; }
+        .brand-bill { color: inherit; }
+        .brand-sathi { background: linear-gradient(135deg, #5b3fff, #a855f7); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .brand-tagline { font-size: 7.5px; font-weight: 700; letter-spacing: 1.2px; color: #8888a0; text-transform: uppercase; margin-top: 3px; line-height: 1; font-family: var(--font, 'Inter', system-ui, sans-serif); }
+
+        .sb-logo .brand-icon { height: 34px; }
+        .sb-logo .brand-logo-text { font-size: 21px; }
+        .sb-logo .brand-tagline { font-size: 6.5px; }
+
+        @media (max-width: 768px) {
+            .brand-icon { height: 34px; }
+            .brand-logo-text { font-size: 21px; }
+            .brand-tagline { font-size: 6.5px; }
+        }
+
+    </style>
+  <link rel="stylesheet" href="css/theme.css" />
+</head>
+<body>
+
+  <!-- Ambient orbs -->
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-orb bg-orb-3"></div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" role="alert" aria-live="polite">
+    <span class="toast-icon"><svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg></span>
+    <span id="toast-msg"></span>
+  </div>
+
+  <div class="pt-overlay" id="ptOverlay"></div>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="index.html" class="logo">
+      <div class="brand-wrapper">
+    <img src="assets/favicon.png" alt="BillSathi Icon" class="brand-icon" />
+    <div class="brand-text-col">
+        <div class="brand-logo-text"><span class="brand-bill">Bill</span><span class="brand-sathi">sathi</span></div>
+        <div class="brand-tagline">SMART BILLING. STRONG BUSINESS.</div>
+    </div>
+</div>
+    </a>
+
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="features.html">Features</a>
+      <a href="templates.html">Templates</a>
+      <a href="how-it-works.html">How It Works</a>
+      <a href="pricing.html">Pricing</a>
+    </div>
+
+    <div class="nav-right">
+      <a href="login.html" class="btn-g">Login</a>
+      <a href="signup.html" class="btn-p">Get Started</a>
+    </div>
+  </nav>
+
+  <!-- ANNOUNCEMENT MARQUEE BAR -->
+  <div class="announce-bar" aria-hidden="true">
+    <div class="announce-track" id="announceTrack">
+      <span class="announce-item"><span class="announce-star"></span>Built for Speed, Precision &amp; Scale</span>
+      <span class="announce-item"><span class="announce-star"></span>Powering 10,000+ Businesses Worldwide</span>
+      <span class="announce-item"><span class="announce-star"></span>Trusted by Modern Founders &amp; Teams</span>
+      <span class="announce-item"><span class="announce-star"></span>Professional Invoices in Seconds</span>
+      <span class="announce-item"><span class="announce-star"></span>GST Compliant &amp; India Ready</span>
+      <span class="announce-item"><span class="announce-star"></span>500+ Templates — Zero Design Skills Needed</span>
+      <span class="announce-item"><span class="announce-star"></span>PDF Export, WhatsApp &amp; Email Sharing</span>
+      <span class="announce-item"><span class="announce-star"></span>Built for Speed, Precision &amp; Scale</span>
+      <span class="announce-item"><span class="announce-star"></span>Powering 10,000+ Businesses Worldwide</span>
+      <span class="announce-item"><span class="announce-star"></span>Trusted by Modern Founders &amp; Teams</span>
+      <span class="announce-item"><span class="announce-star"></span>Professional Invoices in Seconds</span>
+      <span class="announce-item"><span class="announce-star"></span>GST Compliant &amp; India Ready</span>
+      <span class="announce-item"><span class="announce-star"></span>500+ Templates — Zero Design Skills Needed</span>
+      <span class="announce-item"><span class="announce-star"></span>PDF Export, WhatsApp &amp; Email Sharing</span>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <main class="page-wrap" id="mainContent">
+
+    <!-- HEADER -->
+    <div class="page-header">
+      <div class="step-pill">
+        <span class="step-pill-dot"></span>
+        Step 1 of 2 — Business Setup
+      </div>
+      <h1>Choose Your <span class="grad">Business Type</span></h1>
+      <p>We'll personalize your invoicing experience based on your workflow.<br>Takes less than 10 seconds.</p>
+    </div>
+
+    <!-- visual separator between hero and cards -->
+    <div style="width:100%;max-width:860px;display:flex;align-items:center;gap:14px;margin:0 auto 36px;">
+      <div style="flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(91,63,255,.1));"></div>
+      <span style="font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(91,63,255,.5);">Select one</span>
+      <div style="flex:1;height:1px;background:linear-gradient(to left,transparent,rgba(91,63,255,.1));"></div>
+    </div>
+
+    <!-- CARDS -->
+    <div class="biz-grid" id="bizGrid">
+
+      <!-- PRODUCT -->
+      <div class="biz-card" id="card-product" data-type="product"
+           onclick="selectType('product')" role="button" tabindex="0"
+           aria-label="Select Product-Based Business">
+        <div class="card-glow"></div>
+        <span class="card-check" aria-hidden="true">
+          <svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg>
+        </span>
+
+        <div class="card-icon">
+          <!-- Lucide: Package -->
+          <svg viewBox="0 0 24 24">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+            <line x1="12" y1="22.08" x2="12" y2="12"/>
+          </svg>
+        </div>
+
+        <span class="card-badge"><span class="card-badge-dot"></span>Retail &amp; Commerce</span>
+        <div class="card-title">Product-Based Business</div>
+        <div class="card-desc">For stores, ecommerce sellers, wholesalers &amp; product businesses. Includes item, quantity, pricing &amp; stock-style invoice layout.</div>
+
+        <div class="card-tags">
+          <span class="tag"><span class="tag-dot"></span>Items &amp; Qty</span>
+          <span class="tag"><span class="tag-dot"></span>GST / Tax</span>
+          <span class="tag"><span class="tag-dot"></span>Discounts</span>
+          <span class="tag"><span class="tag-dot"></span>Retail Friendly</span>
+        </div>
+
+        <div class="card-cta">
+          Select this type
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </div>
+      </div>
+
+      <!-- SERVICE -->
+      <div class="biz-card" id="card-service" data-type="service"
+           onclick="selectType('service')" role="button" tabindex="0"
+           aria-label="Select Service-Based Business">
+        <div class="card-glow"></div>
+        <span class="card-check" aria-hidden="true">
+          <svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg>
+        </span>
+
+        <div class="card-icon">
+          <!-- Lucide: Wrench -->
+          <svg viewBox="0 0 24 24">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+          </svg>
+        </div>
+
+        <span class="card-badge"><span class="card-badge-dot"></span>Agencies &amp; Services</span>
+        <div class="card-title">Service-Based Business</div>
+        <div class="card-desc">For agencies, salons, consultants &amp; repair services. Includes service name, hourly or task-based billing &amp; milestone layout.</div>
+
+        <div class="card-tags">
+          <span class="tag"><span class="tag-dot"></span>Hourly Billing</span>
+          <span class="tag"><span class="tag-dot"></span>Milestones</span>
+          <span class="tag"><span class="tag-dot"></span>Service Items</span>
+          <span class="tag"><span class="tag-dot"></span>Consulting</span>
+        </div>
+
+        <div class="card-cta">
+          Select this type
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </div>
+      </div>
+
+      <!-- FREELANCER -->
+      <div class="biz-card" id="card-freelancer" data-type="freelancer"
+           onclick="selectType('freelancer')" role="button" tabindex="0"
+           aria-label="Select Freelancer or Solo Professional">
+        <div class="card-glow"></div>
+        <span class="card-check" aria-hidden="true">
+          <svg viewBox="0 0 12 12"><polyline points="2 6 5 9 10 3"/></svg>
+        </span>
+
+        <div class="card-icon">
+          <!-- Lucide: Laptop -->
+          <svg viewBox="0 0 24 24">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+            <line x1="2" y1="20" x2="22" y2="20"/>
+            <line x1="9" y1="17" x2="9" y2="20"/>
+            <line x1="15" y1="17" x2="15" y2="20"/>
+          </svg>
+        </div>
+
+        <span class="card-badge"><span class="card-badge-dot"></span>Solo Professional</span>
+        <div class="card-title">Freelancer / Solo Pro</div>
+        <div class="card-desc">For designers, developers, creators &amp; independent workers. Fast, simple invoice flow designed for solo professionals on the go.</div>
+
+        <div class="card-tags">
+          <span class="tag"><span class="tag-dot"></span>Quick Invoice</span>
+          <span class="tag"><span class="tag-dot"></span>Project Based</span>
+          <span class="tag"><span class="tag-dot"></span>Creator Friendly</span>
+          <span class="tag"><span class="tag-dot"></span>Simple Flow</span>
+        </div>
+
+        <div class="card-cta">
+          Select this type
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </div>
+      </div>
+
+    </div><!-- /biz-grid -->
+
+    <!-- Section separator + trust row -->
+    <div class="section-sep"></div>
+
+    <!-- TRUST ROW -->
+    <div class="trust-row">
+      <div class="trust-item">
+        <div class="trust-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        Bank-level security
+      </div>
+      <div class="trust-divider"></div>
+      <div class="trust-item">
+        <div class="trust-icon">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        GST Compliant
+      </div>
+      <div class="trust-divider"></div>
+      <div class="trust-item">
+        <div class="trust-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        Setup in &lt; 60 secs
+      </div>
+      <div class="trust-divider"></div>
+      <div class="trust-item">
+        <div class="trust-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        10,000+ businesses
+      </div>
+    </div>
+
+    <!-- spacer -->
+    <div style="height:8px;"></div>
+
+    <!-- FOOTER NOTE -->
+    <p class="footer-note">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      You can change this anytime in settings. &nbsp;
+      <a href="index.html">← Back to Home</a>
+    </p>
+
+    <!-- SUPPORT CTA BAND -->
+    <div class="support-section">
+      <div class="support-inner">
+        <div class="support-eyebrow">We're here for you</div>
+        <h2>Need help choosing?</h2>
+        <p>Not sure which type fits your business? Our team can help you set up the perfect invoice workflow in minutes.</p>
+        <div class="support-btns">
+          <a href="mailto:support@invoicepro.app" class="btn-support-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Talk to Support
+          </a>
+          <a href="how-it-works.html" class="btn-support-ghost">
+            See How It Works →
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    /* ── PAGE TRANSITIONS ── */
+    (function () {
+      var ov = document.getElementById('ptOverlay');
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest('a[href]');
+        if (!a) return;
+        var h = a.getAttribute('href');
+        if (!h || h.startsWith('#') || h.startsWith('http') || h.startsWith('mailto') || a.target === '_blank') return;
+        e.preventDefault();
+        ov.style.opacity = '1';
+        ov.style.pointerEvents = 'all';
+        setTimeout(function () { window.location.href = h; }, 270);
+      });
+      window.addEventListener('pageshow', function () {
+        ov.style.opacity = '0';
+        ov.style.pointerEvents = 'none';
+      });
+    })();
+
+    /* ── KEYBOARD SUPPORT ── */
+    document.querySelectorAll('.biz-card').forEach(function (card) {
+      card.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          selectType(card.getAttribute('data-type'));
+        }
+      });
+    });
+
+    /* ── TOAST ── */
+    function showToast(msg) {
+      var t = document.getElementById('toast');
+      document.getElementById('toast-msg').textContent = msg;
+      t.classList.add('show');
+      setTimeout(function () { t.classList.remove('show'); }, 3200);
+    }
+
+    /* ── SELECT BUSINESS TYPE ── */
+    function selectType(type) {
+      /* Deselect all */
+      document.querySelectorAll('.biz-card').forEach(function (c) {
+        c.classList.remove('selected');
+      });
+
+      /* Highlight selected */
+      var card = document.getElementById('card-' + type);
+      if (card) card.classList.add('selected');
+
+      /* Persist */
+      localStorage.setItem('selectedBusinessType', type);
+
+      /* Toast + redirect */
+      var labels = {
+        product:    'Product-Based Business',
+        service:    'Service-Based Business',
+        freelancer: 'Freelancer / Solo Professional'
+      };
+      showToast('✓ ' + (labels[type] || type) + ' selected! Opening builder…');
+
+      setTimeout(function () {
+        var ov = document.getElementById('ptOverlay');
+        ov.style.opacity = '1';
+        ov.style.pointerEvents = 'all';
+        setTimeout(function () { window.location.href = 'business-category.html'; }, 270);
+      }, 700);
+    }
+
+    /* ── HIGHLIGHT SAVED TYPE ── */
+    (function () {
+      var saved = localStorage.getItem('selectedBusinessType');
+      if (saved) {
+        var card = document.getElementById('card-' + saved);
+        if (card) card.classList.add('selected');
+      }
+    })();
+  </script>
+
+</body>
+</html>

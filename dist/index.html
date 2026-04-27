@@ -1,0 +1,2391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"></noscript>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BillSathi — Professional Invoice Generator</title>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --ink: #0a0a0f;
+      --ink2: #3d3d52;
+      --ink3: #8888a0;
+      --bg: #f8f7ff;
+      --surface: #ffffff;
+      --accent: #5b3fff;
+      --accent2: #7c5fff;
+      --accent-soft: #ede9ff;
+      --green: #5b3fff;
+      --green-soft: #ede9ff;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    @keyframes pageEnter {
+      from {
+        opacity: 0;
+        transform: translateY(12px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    body {
+      animation: pageEnter 0.4s cubic-bezier(0.22, 1, 0.36, 1) both
+    }
+
+    .pt-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: #f8f7ff;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.26s ease
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      padding: 0 48px;
+      height: 66px;
+      background: rgba(248, 247, 255, 0.94);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(91, 63, 255, 0.1);
+    }
+
+    nav .nav-right {
+      margin-left: auto;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      
+      
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .logo-img { height: 72px; width: auto; max-width: none; max-height: none; object-fit: contain; display: block; background: transparent; border: none; box-shadow: none; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; }
+    @media (max-width: 768px) { .logo-img { height: 60px; } }
+    .logo em {
+      color: var(--accent);
+      font-style: normal;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink2);
+      text-decoration: none;
+      transition: color .2s;
+      cursor: pointer;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      opacity: 1;
+      filter: none;
+    }
+
+    .nav-links a.active {
+      color: #111;
+      font-weight: 600;
+      opacity: 1;
+      filter: none;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-g {
+      padding: 9px 18px;
+      border: none;
+      background: none;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink2);
+      cursor: pointer;
+      border-radius: 10px;
+      transition: background .2s;
+      font-family: inherit;
+    }
+
+    .btn-g:hover {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .btn-p {
+      padding: 10px 22px;
+      background: var(--accent);
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform .15s, background .2s;
+      font-family: inherit;
+    }
+
+    .btn-p:hover {
+      background: var(--accent2);
+      transform: translateY(-1px);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 110px 48px 100px;
+      text-align: center;
+      background: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(91, 63, 255, 0.09) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 22px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 36px;
+      border: 1.5px solid rgba(91, 63, 255, 0.22);
+      letter-spacing: 0.01em;
+    }
+
+    .badge-sep {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0.4;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1)
+      }
+
+      50% {
+        opacity: .4;
+        transform: scale(1.5)
+      }
+    }
+
+    .hero h1 {
+      font-size: clamp(40px, 6vw, 72px);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -2px;
+      color: var(--ink);
+      margin-bottom: 24px;
+    }
+
+    .grad {
+      background: linear-gradient(135deg, #5b3fff 0%, #a855f7 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: var(--ink2);
+      line-height: 1.65;
+      max-width: 560px;
+      margin: 0 auto 48px;
+    }
+
+    .hero-btns {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .cta-a {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 17px 38px;
+      background: var(--accent);
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 10px 34px rgba(91, 63, 255, .38);
+      transition: transform .2s, box-shadow .2s;
+      font-family: inherit;
+    }
+
+    .cta-a:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 44px rgba(91, 63, 255, .5);
+    }
+
+    .cta-a svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: white;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .cta-b {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 17px 38px;
+      background: white;
+      color: var(--ink);
+      font-size: 16px;
+      font-weight: 600;
+      border: 1.5px solid rgba(0, 0, 0, 0.12);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: transform .2s, border-color .2s, color .2s;
+      font-family: inherit;
+    }
+
+    .cta-b:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* hero stats */
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 48px;
+      margin-top: 64px;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-num {
+      font-size: 30px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -1.5px;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--ink3);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    .stat-div {
+      width: 1px;
+      height: 36px;
+      background: #e0e0ea;
+      align-self: center;
+    }
+
+    /* FOOTER ENHANCEMENTS */
+    .footer-desc {
+      font-size: 13.5px;
+      color: var(--ink3);
+      margin-top: 14px;
+      line-height: 1.7;
+      max-width: 220px;
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .social-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--bg);
+      border: 1.5px solid #e0e0ea;
+      display: grid;
+      place-items: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink2);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .2s, border-color .2s, color .2s;
+    }
+
+    .social-btn:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .fl h4 {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 18px;
+    }
+
+    .fl a {
+      display: flex;
+      align-items: center;
+      font-size: 13.5px;
+      color: var(--ink3);
+      text-decoration: none;
+      margin-bottom: 11px;
+      padding: 5px 8px;
+      border-radius: 8px;
+      transition: background .18s, color .18s;
+      cursor: pointer;
+    }
+
+    .fl a:hover {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    /* ── TRUSTED BY MARQUEE ── */
+    .trusted {
+      background: white;
+      padding: 44px 0;
+      border-top: 1px solid #eeeef4;
+      border-bottom: 1px solid #eeeef4;
+    }
+
+    .trusted-title {
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: #aaaabc;
+      margin-bottom: 34px;
+    }
+
+    .mq-outer {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mq-outer::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 130px;
+      background: linear-gradient(to right, white, transparent);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .mq-outer::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 130px;
+      background: linear-gradient(to left, white, transparent);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .mq-track {
+      display: flex;
+      align-items: center;
+      width: max-content;
+      animation: mq 26s linear infinite;
+    }
+
+    .mq-track:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes mq {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      padding: 0 40px;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      white-space: nowrap;
+      opacity: 0.5;
+      transition: opacity .3s;
+      font-family: Arial Black, Arial, sans-serif;
+    }
+
+    .brand:hover {
+      opacity: 1;
+    }
+
+    .divider {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #d0d0e0;
+      flex-shrink: 0;
+    }
+
+    /* ── SECTIONS ── */
+    .sec {
+      padding: 100px 48px;
+    }
+
+    .sec-head {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .sec-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: white;
+      background: var(--accent);
+      padding: 8px 20px;
+      border-radius: 999px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 16px rgba(91, 63, 255, .35);
+    }
+
+    .sec-pill::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 50%;
+    }
+
+    .sec-head h2 {
+      font-size: clamp(42px, 5.5vw, 68px);
+      font-weight: 800;
+      letter-spacing: -2.5px;
+      margin-bottom: 20px;
+      line-height: 1.05;
+    }
+
+    .sec-head h2 .h-grad {
+      background: linear-gradient(135deg, #5b3fff, #a855f7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .sec-head p {
+      font-size: 17px;
+      color: var(--ink2);
+      max-width: 580px;
+      margin: 0 auto;
+      line-height: 1.8;
+      font-weight: 400;
+    }
+
+    .sec-head .h-line {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .sec-head .h-line::before,
+    .sec-head .h-line::after {
+      content: '';
+      flex: 1;
+      max-width: 60px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #d0ccff);
+    }
+
+    .sec-head .h-line::after {
+      background: linear-gradient(90deg, #d0ccff, transparent);
+    }
+
+    /* ── FEATURES ── */
+    .feat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      max-width: 1020px;
+      margin: 0 auto;
+    }
+
+    .fc {
+      background: white;
+      padding: 32px;
+      border-radius: 20px;
+      border: 1.5px solid #e8e6f8;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .fc:nth-child(1) {
+      animation: none;
+    }
+
+    /* card 1 — template shimmer */
+    .fc[data-card="1"] .fi {
+      animation: icon-bounce 2.5s ease-in-out infinite;
+    }
+
+    @keyframes icon-bounce {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-5px)
+      }
+    }
+
+    /* card 2 — cloud pulse */
+    .fc[data-card="2"] .fi {
+      animation: icon-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes icon-pulse {
+
+      0%,
+      100% {
+        box-shadow: 0 4px 14px rgba(91, 63, 255, .25)
+      }
+
+      50% {
+        box-shadow: 0 4px 28px rgba(91, 63, 255, .55), 0 0 0 8px rgba(91, 63, 255, .08)
+      }
+    }
+
+    /* card 3 — lightning zap */
+    .fc[data-card="3"] .fi {
+      animation: icon-zap 1.8s ease-in-out infinite;
+    }
+
+    @keyframes icon-zap {
+
+      0%,
+      80%,
+      100% {
+        transform: scale(1) rotate(0deg)
+      }
+
+      90% {
+        transform: scale(1.15) rotate(-8deg)
+      }
+    }
+
+    /* card 4 — globe spin */
+    .fc[data-card="4"] .fi svg {
+      animation: icon-spin 6s linear infinite;
+      transform-origin: center;
+    }
+
+    @keyframes icon-spin {
+      from {
+        transform: rotate(0deg)
+      }
+
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    /* hover lift */
+    .fc {
+      transition: transform .3s cubic-bezier(.34, 1.56, .64, 1), box-shadow .3s, border-color .3s;
+    }
+
+    .fc:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 24px 56px rgba(91, 63, 255, .14);
+      border-color: rgba(91, 63, 255, .4);
+    }
+
+    /* bg glow on hover */
+    .fc::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at top left, rgba(91, 63, 255, .05), transparent 65%);
+      opacity: 0;
+      transition: opacity .3s;
+      pointer-events: none;
+    }
+
+    .fc:hover::after {
+      opacity: 1;
+    }
+
+    /* left accent strip */
+    .fc-strip {
+      position: absolute;
+      left: 0;
+      top: 20px;
+      bottom: 20px;
+      width: 3px;
+      border-radius: 0 3px 3px 0;
+      background: var(--accent);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform .35s cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    .fc:hover .fc-strip {
+      transform: scaleY(1);
+    }
+
+    /* icon rotate on hover */
+    .fc:hover .fi {
+      transform: scale(1.12) rotate(-4deg);
+    }
+
+    .fi {
+      transition: transform .35s cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    /* heading color on hover */
+    .fc:hover h3 {
+      color: var(--accent);
+    }
+
+    .fc h3 {
+      transition: color .2s;
+    }
+
+    .fc-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 3px 10px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+    }
+
+    .fi {
+      width: 44px;
+      height: 44px;
+      background: var(--accent);
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 14px rgba(91, 63, 255, .25);
+    }
+
+    .fi svg {
+      width: 20px;
+      height: 20px;
+      stroke: white;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .fc h3 {
+      font-size: 17px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: var(--ink);
+      letter-spacing: -0.3px;
+    }
+
+    .fc-short {
+      font-size: 13.5px;
+      color: var(--ink2);
+      line-height: 1.7;
+      margin-bottom: 0;
+    }
+
+    .fc-expand {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .45s ease, opacity .35s ease;
+      opacity: 0;
+    }
+
+    .fc.open .fc-expand {
+      max-height: 300px;
+      opacity: 1;
+    }
+
+    .fc-expand-inner {
+      padding-top: 14px;
+      font-size: 13.5px;
+      color: var(--ink2);
+      line-height: 1.8;
+      border-top: 1px solid #f0eeff;
+      margin-top: 14px;
+    }
+
+    .fc-expand-inner ul {
+      padding-left: 18px;
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .fc-expand-inner ul li {
+      font-size: 13px;
+      color: var(--ink2);
+    }
+
+    .fc-read {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+      cursor: pointer;
+      margin-top: 16px;
+      padding: 7px 16px;
+      background: var(--accent-soft);
+      border-radius: 999px;
+      border: 1px solid rgba(91, 63, 255, .15);
+      transition: background .2s, gap .2s;
+      user-select: none;
+    }
+
+    .fc-read:hover {
+      background: #ddd8ff;
+      gap: 10px;
+    }
+
+    .fc-read svg {
+      width: 13px;
+      height: 13px;
+      stroke: var(--accent);
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform .3s;
+    }
+
+    .fc.open .fc-read svg {
+      transform: rotate(90deg);
+    }
+
+    .fc-num {
+      position: absolute;
+      bottom: 14px;
+      right: 20px;
+      font-size: 52px;
+      font-weight: 900;
+      color: rgba(91, 63, 255, 0.04);
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      max-width: 860px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 27px;
+      left: 18%;
+      right: 18%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+
+    .step {
+      text-align: center;
+    }
+
+    .sn {
+      width: 54px;
+      height: 54px;
+      background: var(--accent);
+      color: white;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      font-weight: 800;
+      margin: 0 auto 20px;
+      box-shadow: 0 8px 24px rgba(91, 63, 255, .35);
+    }
+
+    .step h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .step p {
+      font-size: 14px;
+      color: var(--ink2);
+      line-height: 1.65;
+    }
+
+    /* ── PRICING ── */
+    .plans-wrap {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 40px 24px 60px;
+    }
+
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .plan-card {
+      background: white;
+      border-radius: 32px;
+      padding: 40px 32px;
+      border: 1.5px solid #e8e5f8;
+      display: flex;
+      flex-direction: column;
+      transition: all .4s cubic-bezier(.34, 1.56, .64, 1);
+      position: relative;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, .03);
+      text-align: left;
+    }
+
+    .plan-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 48px rgba(91, 63, 255, .1);
+      border-color: var(--accent);
+    }
+
+    .plan-card.featured {
+      background: var(--ink);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 32px 64px rgba(91, 63, 255, .25);
+      z-index: 2;
+    }
+
+    .plan-card.featured .plan-name,
+    .plan-card.featured .price-num,
+    .plan-card.featured .price-sym {
+      color: white;
+    }
+
+    .plan-card.featured .plan-desc,
+    .plan-card.featured .price-cycle,
+    .plan-card.featured .feat-heading {
+      color: rgba(255, 255, 255, .5);
+    }
+
+    .plan-card.featured .feat-row {
+      color: rgba(255, 255, 255, .9);
+    }
+
+    .plan-card.featured .feat-icon.yes {
+      background: rgba(255, 255, 255, .1);
+    }
+
+    .plan-card.featured .feat-icon.yes svg {
+      stroke: #fff;
+    }
+
+    .plan-badge-v2 {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      background: var(--accent);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 999px;
+      letter-spacing: .02em;
+    }
+
+    .pn-v2 {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: var(--ink);
+    }
+
+    .plan-card.featured .pn-v2 {
+      color: white;
+    }
+
+    .pd-v2 {
+      font-size: 14px;
+      color: var(--ink3);
+      line-height: 1.5;
+      margin-bottom: 32px;
+      min-height: 42px;
+    }
+
+    .price-block-v2 {
+      margin-bottom: 32px;
+    }
+
+    .price-main-v2 {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .price-sym-v2 {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .price-num-v2 {
+      font-size: 56px;
+      font-weight: 900;
+      letter-spacing: -2px;
+      color: var(--ink);
+    }
+
+    .price-cycle-v2 {
+      font-size: 14px;
+      color: var(--ink3);
+      font-weight: 500;
+    }
+
+    .plan-cta-v2 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 16px;
+      border-radius: 16px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all .3s;
+      margin-bottom: 40px;
+    }
+
+    .cta-outline-v2 {
+      background: #f5f3ff;
+      color: var(--accent);
+    }
+
+    .cta-outline-v2:hover {
+      background: var(--soft);
+      transform: translateY(-2px);
+    }
+
+    .cta-solid-v2 {
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 8px 20px rgba(91, 63, 255, .3);
+    }
+
+    .cta-solid-v2:hover {
+      background: var(--accent2);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(91, 63, 255, .4);
+    }
+
+    .cta-dark-v2 {
+      background: var(--ink);
+      color: white;
+    }
+
+    .cta-dark-v2:hover {
+      background: #1a1a2e;
+      transform: translateY(-2px);
+    }
+
+    .feat-heading-v2 {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--ink3);
+      margin-bottom: 20px;
+    }
+
+    .feat-list-v2 {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding: 0;
+    }
+
+    .feat-row-v2 {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .feat-icon-v2.yes {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      background: #f0eeff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .feat-icon-v2.yes svg {
+      width: 12px;
+      height: 12px;
+      stroke: var(--accent);
+      stroke-width: 3;
+      fill: none;
+    }
+
+    .feat-row-v2.no {
+      opacity: 0.35;
+      text-decoration: line-through;
+    }
+
+    .feat-icon-v2.cross {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .feat-icon-v2.cross svg {
+      width: 12px;
+      height: 12px;
+      stroke: var(--ink3);
+      stroke-width: 2;
+    }
+
+    .billing-toggle-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+
+    .billing-toggle {
+      display: inline-flex;
+      align-items: center;
+      background: var(--bg);
+      border: 1.5px solid #e0ddf8;
+      border-radius: 999px;
+      padding: 5px;
+      gap: 4px;
+    }
+
+    .toggle-opt {
+      padding: 9px 22px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .25s cubic-bezier(.34, 1.3, .64, 1);
+      color: var(--ink3);
+      border: none;
+      background: none;
+      font-family: inherit;
+    }
+
+    .toggle-opt.active {
+      background: white;
+      color: var(--accent);
+      box-shadow: 0 2px 12px rgba(91, 63, 255, .18);
+    }
+
+    .save-tag {
+      display: inline-flex;
+      align-items: center;
+      background: linear-gradient(135deg, var(--accent), #7c5fff);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-left: 6px;
+    }
+
+    @media(max-width: 1100px) {
+      .plans-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media(max-width: 600px) {
+      .plans-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .plan-popup-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .plan-popup-desc {
+      font-size: 14px;
+      color: var(--ink2);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .plan-popup-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .plan-popup-features li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--ink);
+    }
+
+    .plan-popup-features li .ck {
+      flex-shrink: 0;
+    }
+
+    .plan-popup-cta {
+      width: 100%;
+      padding: 15px;
+      border-radius: 14px;
+      border: none;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 8px 24px rgba(91, 63, 255, .35);
+      transition: transform .15s, opacity .15s;
+    }
+
+    .plan-popup-cta:hover {
+      transform: translateY(-2px);
+      opacity: .9;
+    }
+
+    .plan-popup-sub {
+      text-align: center;
+      font-size: 12px;
+      color: var(--ink3);
+      margin-top: 12px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: white;
+      border-top: 1px solid #eeeef4;
+      padding: 60px 48px 32px;
+    }
+
+    .fg {
+      display: grid;
+      grid-template-columns: 1.8fr 1fr 1fr 1fr;
+      gap: 36px;
+      max-width: 1080px;
+      margin: 0 auto 48px;
+    }
+
+    .fl h4 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .fl a {
+      display: block;
+      font-size: 14px;
+      color: var(--ink3);
+      text-decoration: none;
+      margin-bottom: 9px;
+      transition: color .2s;
+      cursor: pointer;
+    }
+
+    .fl a:hover {
+      color: var(--accent);
+    }
+
+    .fl p {
+      font-size: 14px;
+      color: var(--ink3);
+      margin-top: 12px;
+      line-height: 1.6;
+      max-width: 230px;
+    }
+
+    .fb {
+      text-align: center;
+      padding-top: 24px;
+      border-top: 1px solid #eeeef4;
+      font-size: 13px;
+      color: var(--ink3);
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: #0f0a2e;
+      color: white;
+      padding: 14px 22px;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, .25);
+      z-index: 9999;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: transform .35s cubic-bezier(.34, 1.56, .64, 1), opacity .35s ease;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast-icon {
+      width: 20px;
+      height: 20px;
+      background: var(--green);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .toast-icon svg {
+      width: 11px;
+      height: 11px;
+      stroke: white;
+      fill: none;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* ── MODAL ── */
+    .modal-bg {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 10, 15, 0.6);
+      backdrop-filter: blur(6px);
+      z-index: 500;
+      display: grid;
+      place-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s;
+    }
+
+    .modal-bg.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 24px;
+      padding: 40px;
+      width: 100%;
+      max-width: 440px;
+      position: relative;
+      transform: scale(.94);
+      transition: transform .25s cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    .modal-bg.open .modal {
+      transform: scale(1);
+    }
+
+    .modal h3 {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .modal p {
+      font-size: 14px;
+      color: var(--ink3);
+      margin-bottom: 28px;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--ink2);
+    }
+
+    .field input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid #e0e0ea;
+      border-radius: 10px;
+      font-size: 15px;
+      outline: none;
+      transition: border-color .2s;
+      font-family: inherit;
+    }
+
+    .field input:focus {
+      border-color: var(--accent);
+    }
+
+    .modal-submit {
+      width: 100%;
+      padding: 14px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background .2s, transform .15s;
+      margin-top: 4px;
+    }
+
+    .modal-submit:hover {
+      background: var(--accent2);
+      transform: translateY(-1px);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 18px;
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: var(--ink3);
+      line-height: 1;
+      padding: 4px 8px;
+    }
+
+    .modal-close:hover {
+      color: var(--ink);
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, .35);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .pg {
+        grid-template-columns: 1fr;
+        max-width: 420px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        padding: 0 20px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding: 64px 20px 72px;
+      }
+
+      .sec {
+        padding: 64px 20px;
+      }
+
+      .steps {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .steps::before {
+        display: none;
+      }
+
+      .fg {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      footer {
+        padding: 48px 20px 28px;
+      }
+
+      .hero-stats {
+        gap: 28px;
+      }
+
+      .modal {
+        margin: 16px;
+      }
+    }
+
+    /* ── ANNOUNCEMENT BAR ── */
+    .announce-bar {
+      width: 100%;
+      background: linear-gradient(90deg, #5b3fff 0%, #7c3aed 50%, #5b3fff 100%);
+      background-size: 200% 100%;
+      animation: grad-shift 6s linear infinite;
+      overflow: hidden;
+      padding: 11px 0;
+    }
+
+    @keyframes grad-shift {
+      0% {
+        background-position: 0%
+      }
+
+      100% {
+        background-position: 200%
+      }
+    }
+
+    .announce-inner {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      width: max-content;
+      animation: announce-scroll 18s linear infinite;
+    }
+
+    .announce-inner:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes announce-scroll {
+      from {
+        transform: translateX(0)
+      }
+
+      to {
+        transform: translateX(-50%)
+      }
+    }
+
+    .announce-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: white;
+      white-space: nowrap;
+      padding: 0 20px;
+      letter-spacing: 0.03em;
+    }
+
+    .announce-sep {
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .announce-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #5b3fff;
+      flex-shrink: 0;
+      margin: 0 16px;
+      animation: pulse 2s infinite;
+    }
+  
+        /* Premium Text Logo Styles */
+        .brand-wrapper { display: flex; align-items: center; gap: 8px; }
+        .brand-icon { height: 42px; width: auto; object-fit: contain; flex-shrink: 0; display: block; }
+        .brand-text-col { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+        .brand-logo-text { font-size: 26px; font-weight: 800; letter-spacing: -0.8px; line-height: 1; font-family: var(--font, 'Inter', system-ui, sans-serif); color: var(--ink, #0a0a0f); }
+        .left-logo .brand-logo-text { color: #ffffff; }
+        .brand-bill { color: inherit; }
+        .brand-sathi { background: linear-gradient(135deg, #5b3fff, #a855f7); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .brand-tagline { font-size: 7.5px; font-weight: 700; letter-spacing: 1.2px; color: #8888a0; text-transform: uppercase; margin-top: 3px; line-height: 1; font-family: var(--font, 'Inter', system-ui, sans-serif); }
+
+        .sb-logo .brand-icon { height: 34px; }
+        .sb-logo .brand-logo-text { font-size: 21px; }
+        .sb-logo .brand-tagline { font-size: 6.5px; }
+
+        @media (max-width: 768px) {
+            .brand-icon { height: 34px; }
+            .brand-logo-text { font-size: 21px; }
+            .brand-tagline { font-size: 6.5px; }
+        }
+
+    </style>
+  <link rel="stylesheet" crossorigin href="/assets/index-CFP2bWgn.css">
+</head>
+
+<body>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast">
+    <span class="toast-icon"><svg viewBox="0 0 12 12">
+        <polyline points="2 6 5 9 10 3" />
+      </svg></span>
+    <span id="toast-msg">Action successful!</span>
+  </div>
+
+  <!-- AUTH MODAL -->
+  <div class="modal-bg" id="authModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal()">&#x2715;</button>
+      <h3 id="modal-title">Create Your Account</h3>
+      <p id="modal-sub">Start invoicing professionally in under 2 minutes.</p>
+      <div class="field"><label>Full Name</label><input type="text" id="inp-name" placeholder="Rahul Sharma" /></div>
+      <div class="field"><label>Email Address</label><input type="email" id="inp-email" placeholder="you@company.com" />
+      </div>
+      <div class="field"><label>Password</label><input type="password" id="inp-pass" placeholder="Min. 8 characters" />
+      </div>
+      <button class="modal-submit" id="modal-btn" onclick="submitAuth()">Create Account</button>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav id="navbar">
+  <a href="index.html" class="logo">
+    <div class="brand-wrapper">
+    <img src="assets/favicon.png" alt="BillSathi Icon" class="brand-icon" />
+    <div class="brand-text-col">
+        <div class="brand-logo-text"><span class="brand-bill">Bill</span><span class="brand-sathi">sathi</span></div>
+        <div class="brand-tagline">SMART BILLING. STRONG BUSINESS.</div>
+    </div>
+</div>
+  </a>
+
+  <div class="nav-links">
+    <a href="index.html" class="active">Home</a>
+    <a href="features.html">Features</a>
+    <a href="templates.html">Templates</a>
+    <a href="how-it-works.html">How It Works</a>
+    <a href="pricing.html">Pricing</a>
+  </div>
+
+  <div class="nav-right">
+    <a href="login.html" class="btn-g" style="text-decoration: none; display: inline-flex; align-items: center;">Login</a>
+    <a href="signup.html" class="btn-p" style="text-decoration: none; display: inline-flex; align-items: center;">Get Started</a>
+  </div>
+</nav>
+
+  <!-- ANNOUNCEMENT BAR -->
+  <div class="announce-bar">
+    <div class="announce-inner">
+      <span class="announce-dot"></span>
+      <span class="announce-text">Powering Businesses Across the Globe</span>
+      <span class="announce-sep">·</span>
+      <span class="announce-text">Built for Speed, Precision &amp; Scale</span>
+      <span class="announce-sep">·</span>
+      <span class="announce-text">Powering Businesses Across the Globe</span>
+      <span class="announce-sep">·</span>
+      <span class="announce-text">Built for Speed, Precision &amp; Scale</span>
+      <span class="announce-sep">·</span>
+      <span class="announce-text">Powering Businesses Across the Globe</span>
+      <span class="announce-sep">·</span>
+      <span class="announce-text">Built for Speed, Precision &amp; Scale</span>
+      <span class="announce-sep">·</span>
+      <span class="announce-text">Powering Businesses Across the Globe</span>
+      <span class="announce-sep">·</span>
+      <span class="announce-text">Built for Speed, Precision &amp; Scale</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+
+    <h1>Create Invoices That<br><span class="grad">Get You Paid Faster</span></h1>
+    <p>Professional invoicing backed by a powerful cloud engine. Generate, send, and track every invoice — all in one
+      intelligent platform.</p>
+    <div class="hero-btns">
+      <button class="cta-a" onclick="openModal('signup')">Start Invoicing <svg viewBox="0 0 24 24">
+          <line x1="5" y1="12" x2="19" y2="12" />
+          <polyline points="12 5 19 12 12 19" />
+        </svg></button>
+      <button class="cta-b" onclick="openModal('demo')">Watch Demo</button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">1.2K+</div>
+        <div class="stat-label">Active Users</div>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat">
+        <div class="stat-num">48K+</div>
+        <div class="stat-label">Invoices Generated</div>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat">
+        <div class="stat-num">99.9%</div>
+        <div class="stat-label">Uptime SLA</div>
+      </div>
+      <div class="stat-div"></div>
+      <div class="stat">
+        <div class="stat-num">30+</div>
+        <div class="stat-label">Countries Supported</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUSTED BY MARQUEE -->
+  <div class="trusted">
+    <p class="trusted-title">Used by teams at leading companies worldwide</p>
+    <div class="mq-outer">
+      <div class="mq-track">
+        <span class="brand" style="color:#4285F4">Google</span><span class="divider"></span>
+        <span class="brand" style="color:#96bf48">Shopify</span><span class="divider"></span>
+        <span class="brand" style="color:#635bff">Stripe</span><span class="divider"></span>
+        <span class="brand" style="color:#003087">PayPal</span><span class="divider"></span>
+        <span class="brand" style="color:#6fda44">Upwork</span><span class="divider"></span>
+        <span class="brand" style="color:#1dbf73">Fiverr</span><span class="divider"></span>
+        <span class="brand" style="color:#29b2fe">Freelancer</span><span class="divider"></span>
+        <span class="brand" style="color:#333">Notion</span><span class="divider"></span>
+        <span class="brand" style="color:#4285F4">Google</span><span class="divider"></span>
+        <span class="brand" style="color:#96bf48">Shopify</span><span class="divider"></span>
+        <span class="brand" style="color:#635bff">Stripe</span><span class="divider"></span>
+        <span class="brand" style="color:#003087">PayPal</span><span class="divider"></span>
+        <span class="brand" style="color:#6fda44">Upwork</span><span class="divider"></span>
+        <span class="brand" style="color:#1dbf73">Fiverr</span><span class="divider"></span>
+        <span class="brand" style="color:#29b2fe">Freelancer</span><span class="divider"></span>
+        <span class="brand" style="color:#333">Notion</span><span class="divider"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section class="sec" style="background:#f8f7ff" id="features">
+    <div class="sec-head">
+      <div class="sec-pill">Features</div>
+      <h2>Stop Wasting Time. <span class="h-grad">Start Getting Paid.</span></h2>
+      <p>BillSathi gives you everything — stunning templates, cloud sync, instant PDFs, and global currency support —
+        so you can focus on your work, not your paperwork.</p>
+    </div>
+    <div class="feat-grid">
+
+      <div class="fc" data-card="1">
+        <div class="fc-strip"></div>
+        <div class="fc-tag">Design</div>
+        <div class="fi"><svg viewBox="0 0 24 24">
+            <rect x="3" y="3" width="18" height="18" rx="2" />
+            <path d="M3 9h18M9 21V9" />
+          </svg></div>
+        <h3>Agency-Grade Templates</h3>
+        <p class="fc-short">Polished invoice layouts that build instant client trust and reflect your brand perfectly.
+        </p>
+        <div class="fc-expand">
+          <div class="fc-expand-inner">
+            Your invoice is often the last thing a client sees before paying — it should look impressive. BillSathi
+            templates are designed by professionals to match agency-quality standards. Choose from multiple layouts, add
+            your logo, brand colors, and signature. Every template is print-ready and optimized for screens.
+            <ul>
+              <li>✦ 10+ premium invoice templates</li>
+              <li>✦ Upload your own logo &amp; brand colors</li>
+              <li>✦ Print-ready &amp; email-ready formats</li>
+              <li>✦ GST, VAT &amp; standard invoice types</li>
+            </ul>
+          </div>
+        </div>
+        <div class="fc-read" onclick="toggleCard(this)"><span class="fc-btn-text">Read More</span> <svg
+            viewBox="0 0 24 24">
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <polyline points="19 12 12 19 5 12" />
+          </svg></div>
+        <div class="fc-num">01</div>
+      </div>
+
+      <div class="fc" data-card="2">
+        <div class="fc-strip"></div>
+        <div class="fc-tag">Cloud</div>
+        <div class="fi"><svg viewBox="0 0 24 24">
+            <ellipse cx="12" cy="5" rx="9" ry="3" />
+            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+          </svg></div>
+        <h3>Cloud Backend Sync</h3>
+        <p class="fc-short">Every invoice saved to our secure cloud — access and edit from any device, anywhere.</p>
+        <div class="fc-expand">
+          <div class="fc-expand-inner">
+            Never lose an invoice again. The moment you create or edit anything, it syncs instantly to our encrypted
+            cloud servers. Whether you're on your laptop at the office or your phone on the go — everything is always up
+            to date. Your data is protected with bank-grade encryption.
+            <ul>
+              <li>✦ Real-time auto-save to cloud</li>
+              <li>✦ Access from any device — web &amp; mobile</li>
+              <li>✦ AES-256 encrypted storage</li>
+              <li>✦ 99.9% uptime — always available</li>
+            </ul>
+          </div>
+        </div>
+        <div class="fc-read" onclick="toggleCard(this)"><span class="fc-btn-text">Read More</span> <svg
+            viewBox="0 0 24 24">
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <polyline points="19 12 12 19 5 12" />
+          </svg></div>
+        <div class="fc-num">02</div>
+      </div>
+
+      <div class="fc" data-card="3">
+        <div class="fc-strip"></div>
+        <div class="fc-tag">Export</div>
+        <div class="fi"><svg viewBox="0 0 24 24">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+          </svg></div>
+        <h3>Instant PDF Export</h3>
+        <p class="fc-short">Server-rendered, pixel-perfect A4 PDFs in milliseconds — share with clients instantly.</p>
+        <div class="fc-expand">
+          <div class="fc-expand-inner">
+            PDFs are generated server-side for pixel-perfect output every single time. No blurry fonts, no broken
+            layouts — just a crisp, professional document ready to send. You can download it, email it directly from
+            BillSathi, or share a live link with your client.
+            <ul>
+              <li>✦ Server-rendered — perfect on all screens &amp; printers</li>
+              <li>✦ One-click email to client</li>
+              <li>✦ Shareable live invoice link</li>
+              <li>✦ A4 &amp; Letter size support</li>
+            </ul>
+          </div>
+        </div>
+        <div class="fc-read" onclick="toggleCard(this)"><span class="fc-btn-text">Read More</span> <svg
+            viewBox="0 0 24 24">
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <polyline points="19 12 12 19 5 12" />
+          </svg></div>
+        <div class="fc-num">03</div>
+      </div>
+
+      <div class="fc" data-card="4">
+        <div class="fc-strip"></div>
+        <div class="fc-tag">Global</div>
+        <div class="fi"><svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="2" y1="12" x2="22" y2="12" />
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+          </svg></div>
+        <h3>Multi-Currency Support</h3>
+        <p class="fc-short">Bill international clients with real-time rates — USD, EUR, INR, GBP and 100+ more.</p>
+        <div class="fc-expand">
+          <div class="fc-expand-inner">
+            Whether your client is in New York, London, Dubai, or Mumbai — BillSathi has you covered. Select any
+            currency and we automatically fetch live exchange rates so your invoice always shows the correct amount.
+            Perfect for freelancers and agencies working with global clients.
+            <ul>
+              <li>✦ 100+ currencies supported</li>
+              <li>✦ Live exchange rate integration</li>
+              <li>✦ Auto-format per country standards</li>
+              <li>✦ Multi-currency in one invoice</li>
+            </ul>
+          </div>
+        </div>
+        <div class="fc-read" onclick="toggleCard(this)"><span class="fc-btn-text">Read More</span> <svg
+            viewBox="0 0 24 24">
+            <line x1="12" y1="5" x2="12" y2="19" />
+            <polyline points="19 12 12 19 5 12" />
+          </svg></div>
+        <div class="fc-num">04</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="sec" style="background:white" id="how">
+    <div class="sec-head">
+      <div class="sec-pill">Process</div>
+      <h2>How It Works</h2>
+      <p>Three steps. Your invoice is live in minutes.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="sn">1</div>
+        <h3>Sign Up &amp; Connect</h3>
+        <p>Create your account and connect your business profile. Our backend sets up your workspace instantly.</p>
+      </div>
+      <div class="step">
+        <div class="sn">2</div>
+        <h3>Build Your Invoice</h3>
+        <p>Choose a template, add line items, apply taxes. Our smart engine handles all calculations automatically.</p>
+      </div>
+      <div class="step">
+        <div class="sn">3</div>
+        <h3>Send &amp; Track</h3>
+        <p>Send directly via email or download as PDF. Track opens, payment status, and reminders — all automated.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="sec" style="background:#f8f7ff" id="pricing">
+    <div class="sec-head">
+      <div class="sec-pill">Pricing</div>
+      <h2>Plans Built for Every Scale</h2>
+      <p>Powerful invoicing that grows with your business. Cancel anytime.</p>
+    </div>
+
+    <div class="billing-toggle-wrap">
+      <div class="billing-toggle">
+        <button class="toggle-opt active" id="opt-monthly" onclick="setBilling('monthly')">Monthly</button>
+        <button class="toggle-opt" id="opt-annual" onclick="setBilling('annual')">Annual <span
+            class="save-tag">-20%</span></button>
+      </div>
+    </div>
+
+    <div class="plans-wrap">
+      <div class="plans-grid">
+
+        <!-- FREE -->
+        <div class="plan-card reveal">
+          <div class="pn-v2">Free</div>
+          <p class="pd-v2">Try it out, no strings attached</p>
+          <div class="price-block-v2">
+            <div class="price-main-v2">
+              <span class="price-sym-v2">$</span>
+              <span class="price-num-v2" id="p-free">0</span>
+              <span class="price-cycle-v2">/ mo</span>
+            </div>
+          </div>
+          <a href="signup.html" class="plan-cta-v2 cta-outline-v2">Choose Free</a>
+          <div class="feat-heading-v2">What's included</div>
+          <ul class="feat-list-v2">
+            <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                  <polyline points="2 6 5 9 10 3" />
+                </svg></span>5 invoices / month</li>
+            <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                  <polyline points="2 6 5 9 10 3" />
+                </svg></span>2 templates</li>
+            <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                  <polyline points="2 6 5 9 10 3" />
+                </svg></span>Basic PDF download</li>
+            <li class="feat-row-v2 no"><span class="feat-icon-v2 cross"><svg viewBox="0 0 12 12">
+                  <line x1="2" y1="2" x2="10" y2="10" />
+                  <line x1="10" y1="2" x2="2" y2="10" />
+                </svg></span>BillSathi watermark</li>
+            <li class="feat-row-v2 no"><span class="feat-icon-v2 cross"><svg viewBox="0 0 12 12">
+                  <line x1="2" y1="2" x2="10" y2="10" />
+                  <line x1="10" y1="2" x2="2" y2="10" />
+                </svg></span>No logo upload</li>
+          </ul>
+        </div>
+
+        <!-- STARTER -->
+        <div class="plan-card reveal">
+          <div class="plan-badge-v2" style="background:#0284c7">Freelancers</div>
+          <div class="pn-v2">Starter</div>
+          <p class="pd-v2">Built for solo professionals</p>
+          <div class="price-block-v2">
+            <div class="price-main-v2">
+              <span class="price-sym-v2">$</span>
+              <span class="price-num-v2" id="p-starter">7</span>
+              <span class="price-cycle-v2">/ mo</span>
+            </div>
+          </div>
+          <a href="signup.html" class="plan-cta-v2 cta-outline-v2">Choose Starter</a>
+          <div class="feat-heading-v2">What's included</div>
+          <ul class="feat-list-v2">
+            <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                  <polyline points="2 6 5 9 10 3" />
+                </svg></span>50 invoices / month</li>
+            <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                  <polyline points="2 6 5 9 10 3" />
+                </svg></span>5 templates</li>
+            <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                  <polyline points="2 6 5 9 10 3" />
+                </svg></span>Logo upload</li>
+            <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                  <polyline points="2 6 5 9 10 3" />
+                </svg></span>PDF export</li>
+            <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                  <polyline points="2 6 5 9 10 3" />
+                </svg></span>QR code on invoice</li>
+          </ul>
+        </div>
+
+        <!-- PRO -->
+        <div class="plan-card featured reveal">
+          <div class="plan-badge-v2">Most Popular</div>
+          <div class="pn-v2">Pro</div>
+          <p class="pd-v2">For growing businesses</p>
+          <div class="price-block-v2">
+            <div class="price-main-v2">
+              <span class="price-sym-v2">$</span>
+              <span class="price-num-v2" id="p-pro">15</span>
+              <span class="price-cycle-v2">/ mo</span>
+            </div>
+          </div>
+          <a href="signup.html" class="plan-cta-v2 cta-solid-v2">Choose Pro</a>
+          <div class="feat-heading-v2">Everything in Starter, plus</div>
+          <ul class="feat-list-v2">
+            <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                  <polyline points="2 6 5 9 10 3" />
+                </svg></span>Unlimited invoices</li>
+            <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                  <polyline points="2 6 5 9 10 3" />
+                </svg></span>10+ templates</li>
+            <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                  <polyline points="2 6 5 9 10 3" />
+                </svg></span>Cloud save & sync</li>
+            <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                  <polyline points="2 6 5 9 10 3" />
+                </svg></span>Email invoice to client</li>
+            <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                  <polyline points="2 6 5 9 10 3" />
+                </svg></span>Remove watermark</li>
+          </ul>
+        </div>
+
+        <!-- BUSINESS -->
+        <div class="plan-card reveal">
+          <div class="plan-badge-v2" style="background:#dc2626">Companies</div>
+          <div class="pn-v2">Business</div>
+          <p class="pd-v2">Scale with your entire team</p>
+          <div class="price-block-v2">
+            <div class="price-main-v2">
+              <span class="price-sym-v2">$</span>
+              <span class="price-num-v2" id="p-biz">29</span>
+              <span class="price-cycle-v2">/ mo</span>
+            </div>
+          </div>
+          <a href="signup.html" class="plan-cta-v2 cta-dark-v2">Choose Business</a>
+          <div class="feat-heading-v2">Everything in Pro, plus</div>
+          <ul class="feat-list-v2">
+            <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                  <polyline points="2 6 5 9 10 3" />
+                </svg></span>Team accounts</li>
+            <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                  <polyline points="2 6 5 9 10 3" />
+                </svg></span>Invoice analytics</li>
+            <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                  <polyline points="2 6 5 9 10 3" />
+                </svg></span>Payment reminders</li>
+            <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                  <polyline points="2 6 5 9 10 3" />
+                </svg></span>Custom branding</li>
+            <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                  <polyline points="2 6 5 9 10 3" />
+                </svg></span>Priority support</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="fg">
+      <div class="fl footer-brand-col">
+        <a href="index.html" class="logo">
+          <div class="brand-wrapper">
+    <img src="assets/favicon.png" alt="BillSathi Icon" class="brand-icon" />
+    <div class="brand-text-col">
+        <div class="brand-logo-text"><span class="brand-bill">Bill</span><span class="brand-sathi">sathi</span></div>
+        <div class="brand-tagline">SMART BILLING. STRONG BUSINESS.</div>
+    </div>
+</div>
+        </a>
+        <p class="footer-desc">Professional invoicing backed by a powerful cloud engine. Built for businesses that mean
+          business.</p>
+        <div class="footer-socials">
+          <a class="social-btn" title="Twitter">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
+              <path
+                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.742l7.732-8.835L1.254 2.25H8.08l4.259 5.633 5.905-5.633zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+            </svg>
+          </a>
+          <a class="social-btn" title="LinkedIn">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
+              <path
+                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+            </svg>
+          </a>
+          <a class="social-btn" title="GitHub">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
+              <path
+                d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div class="fl">
+        <h4>Product</h4>
+        <a href="templates.html">Templates</a>
+        <a href="features.html">Features</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="#">API Docs</a>
+      </div>
+      <div class="fl">
+        <h4>Resources</h4>
+        <a>Invoice Guide</a>
+        <a>Blog</a>
+        <a>Support Center</a>
+        <a>Status Page</a>
+      </div>
+      <div class="fl">
+        <h4>Legal</h4>
+        <a>Privacy Policy</a>
+        <a>Terms of Service</a>
+        <a>Cookie Policy</a>
+        <a>GDPR</a>
+      </div>
+    </div>
+    <div class="fb">&copy; 2026 BillSathi. All rights reserved.</div>
+  </footer>
+
+  <script>
+    /* ── SMOOTH PAGE TRANSITIONS ── */
+    (function () {
+      var ov = document.createElement('div');
+      ov.className = 'pt-overlay'; document.body.appendChild(ov);
+      // Clear overlay when the current page finishes loading
+      function clearOverlay() { ov.style.opacity = '0'; ov.style.pointerEvents = 'none'; }
+      window.addEventListener('load', clearOverlay);
+      window.addEventListener('pageshow', clearOverlay);
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest('a[href]');
+        if (!a) return;
+        var h = a.getAttribute('href');
+        if (!h || h === '#' || h.startsWith('#') || h.startsWith('http') || h.startsWith('mailto') || h.startsWith('tel') || a.target === '_blank') return;
+        e.preventDefault();
+        ov.style.opacity = '1'; ov.style.pointerEvents = 'all';
+        setTimeout(function () { window.location.href = h; }, 270);
+      });
+    })();
+
+    /* ── CONFIG ── replace with your real API base URL */
+    const API_BASE = 'https://api.invoicepro.io/v2';
+
+    /* ── HELPERS ── */
+    function showToast(msg, duration = 3500) {
+      const t = document.getElementById('toast');
+      document.getElementById('toast-msg').textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), duration);
+    }
+
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    /* ── AUTH MODAL ── */
+    let currentMode = 'signup';
+    function openModal(mode) {
+      currentMode = mode;
+      const modal = document.getElementById('authModal');
+      const title = document.getElementById('modal-title');
+      const sub = document.getElementById('modal-sub');
+      const btn = document.getElementById('modal-btn');
+      const nameField = document.getElementById('inp-name').parentElement;
+      const passField = document.getElementById('inp-pass').parentElement;
+      if (mode === 'login') {
+        title.textContent = 'Welcome Back';
+        sub.textContent = 'Log in to your BillSathi account.';
+        btn.textContent = 'Log In';
+        nameField.style.display = 'none';
+      } else if (mode === 'demo') {
+        title.textContent = 'Watch a Live Demo';
+        sub.textContent = 'Enter your email and we will send you access to the demo dashboard.';
+        btn.textContent = 'Send Demo Link';
+        nameField.style.display = 'none';
+        passField.style.display = 'none';
+      } else {
+        title.textContent = 'Create Your Account';
+        sub.textContent = 'Start invoicing professionally in under 2 minutes.';
+        btn.textContent = 'Create Account';
+        nameField.style.display = 'block';
+        passField.style.display = 'block';
+      }
+      modal.classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('authModal').classList.remove('open');
+      document.getElementById('inp-pass').parentElement.style.display = 'block';
+      document.getElementById('inp-name').parentElement.style.display = 'block';
+    }
+
+    document.getElementById('authModal').addEventListener('click', function (e) {
+      if (e.target === this) closeModal();
+    });
+
+    async function submitAuth() {
+      const btn = document.getElementById('modal-btn');
+      const email = document.getElementById('inp-email').value.trim();
+      const name = document.getElementById('inp-name').value.trim();
+      const pass = document.getElementById('inp-pass').value;
+
+      if (!email || !email.includes('@')) { showToast('Please enter a valid email address.'); return; }
+
+      const originalText = btn.textContent;
+      btn.innerHTML = '<span class="spinner"></span> Connecting...';
+      btn.disabled = true;
+
+      try {
+        let endpoint, payload;
+        if (currentMode === 'signup') {
+          endpoint = `${API_BASE}/auth/register`;
+          payload = { name, email, password: pass };
+        } else if (currentMode === 'login') {
+          endpoint = `${API_BASE}/auth/login`;
+          payload = { email, password: pass };
+        } else {
+          endpoint = `${API_BASE}/demo/request`;
+          payload = { email };
+        }
+
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data.token) localStorage.setItem('invoicepro_token', data.token);
+          closeModal();
+          const msgs = { signup: 'Account created! Welcome to BillSathi.', login: 'Logged in successfully!', demo: 'Demo link sent to your email!' };
+          showToast(msgs[currentMode] || 'Done!');
+        } else {
+          const err = await res.json().catch(() => ({}));
+          showToast(err.message || 'Something went wrong. Please try again.');
+        }
+      } catch (e) {
+        /* API not connected yet — show a friendly placeholder message */
+        closeModal();
+        const msgs = { signup: 'Account created successfully! Backend connecting soon.', login: 'Login successful! Redirecting...', demo: 'Demo link will be sent once backend is live!' };
+        showToast(msgs[currentMode] || 'Noted!');
+      } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }
+    }
+
+    /* ── BILLING ── */
+    var isAnnual = false;
+    var monthly = { starter: 7, pro: 15, biz: 29 };
+    var annual = { starter: 6, pro: 12, biz: 23 };
+
+    function setBilling(mode) {
+      isAnnual = mode === 'annual';
+      var mBtn = document.getElementById('opt-monthly');
+      var aBtn = document.getElementById('opt-annual');
+      if (isAnnual) {
+        mBtn.classList.remove('active');
+        aBtn.classList.add('active');
+      } else {
+        aBtn.classList.remove('active');
+        mBtn.classList.add('active');
+      }
+      var plans = ['starter', 'pro', 'biz'];
+      plans.forEach(function (p) {
+        var from = parseInt(document.getElementById('p-' + p).textContent);
+        var to = isAnnual ? annual[p] : monthly[p];
+        animNum(document.getElementById('p-' + p), from, to);
+      });
+    }
+
+    function animNum(el, from, to) {
+      var steps = 15;
+      var cur = from;
+      var diff = (to - from) / steps;
+      var i = 0;
+      var int = setInterval(function () {
+        cur += diff;
+        el.textContent = Math.round(cur);
+        if (++i >= steps) {
+          el.textContent = to;
+          clearInterval(int);
+        }
+      }, 20);
+    }
+
+    /* ── FEATURE CARDS SCROLL REVEAL ── */
+    const fcObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('fc-visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fc').forEach((el, i) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(28px)';
+      el.style.transition = `opacity .6s ${i * 0.1}s ease, transform .6s ${i * 0.1}s ease, box-shadow .3s, border-color .3s`;
+      fcObserver.observe(el);
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.fc').forEach(el => {
+        const obs = new IntersectionObserver(([e]) => {
+          if (e.isIntersecting) {
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+          }
+        }, { threshold: 0.1 });
+        obs.observe(el);
+      });
+    });
+
+    /* ── FEATURE CARD TOGGLE ── */
+    function toggleCard(btn) {
+      const card = btn.closest('.fc');
+      const isOpen = card.classList.contains('open');
+
+      // close all cards first
+      document.querySelectorAll('.fc').forEach(c => {
+        c.classList.remove('open');
+        const b = c.querySelector('.fc-read');
+        if (b) {
+          const txt = b.querySelector('.fc-btn-text');
+          if (txt) txt.textContent = 'Read More';
+          const svg = b.querySelector('svg');
+          if (svg) svg.style.transform = '';
+        }
+      });
+
+      // open only clicked card if it was closed
+      if (!isOpen) {
+        card.classList.add('open');
+        const txt = btn.querySelector('.fc-btn-text');
+        if (txt) txt.textContent = 'Show Less';
+      }
+    }
+  </script>
+
+  <!-- Shared script: nav, scroll reveal -->
+  <script src="js/app.min.js" defer></script>
+</body>
+
+</html>

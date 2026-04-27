@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"></noscript>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pricing — BillSathi</title>
+    <link rel="stylesheet" href="css/style.min.css">
+  <link rel="stylesheet" href="css/theme.css">
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --ink: #080812;
+            --ink2: #2e2e48;
+            --ink3: #7878a0;
+            --bg: #f7f6ff;
+            --surface: #fff;
+            --accent: #5b3fff;
+            --accent2: #7c5fff;
+            --soft: #edeaff;
+            --green: #5b3fff;
+            --amber: #f59e0b;
+            --free-c: #5b3fff;
+            --starter-c: #0284c7;
+            --pro-c: #5b3fff;
+            --biz-c: #dc2626;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            overflow-x: hidden;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            padding: 0 32px;
+            height: 66px;
+            background: rgba(247, 246, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(91, 63, 255, .1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            text-decoration: none;
+        }
+
+        .logo-img { height: 60px; width: auto; max-width: none; max-height: none; object-fit: contain; display: block; background: transparent; border: none; box-shadow: none; image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; }
+    @media (max-width: 768px) { .logo-img { height: 50px; } }
+.logo em {
+            color: var(--accent);
+            font-style: normal;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--ink2);
+            text-decoration: none;
+            transition: color .2s;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+            opacity: 1;
+            filter: none;
+        }
+
+        .nav-links a.active {
+            color: #111;
+            font-weight: 600;
+            opacity: 1;
+            filter: none;
+        }
+
+        .nav-right {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-g {
+            padding: 9px 18px;
+            border: none;
+            background: none;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--ink2);
+            cursor: pointer;
+            border-radius: 10px;
+            transition: background .2s;
+            font-family: inherit;
+            text-decoration: none;
+        }
+
+        .btn-g:hover {
+            background: var(--soft);
+            color: var(--accent);
+        }
+
+        .btn-p {
+            padding: 10px 22px;
+            background: var(--accent);
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform .15s, box-shadow .2s;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            box-shadow: 0 4px 16px rgba(91, 63, 255, .35);
+        }
+
+        .btn-p:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(91, 63, 255, .45);
+        }
+
+        /* ── ANNOUNCE ── */
+        .announce-bar {
+            background: linear-gradient(90deg, var(--accent), #a855f7, var(--accent));
+            padding: 10px 0;
+            overflow: hidden;
+        }
+
+        .announce-inner {
+            display: flex;
+            white-space: nowrap;
+            animation: marquee 28s linear infinite;
+        }
+
+        .announce-text {
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, .85);
+            padding: 0 16px;
+        }
+
+        .announce-sep {
+            color: rgba(255, 255, 255, .35);
+        }
+
+        .announce-dot {
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, .5);
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0)
+            }
+
+            100% {
+                transform: translateX(-50%)
+            }
+        }
+
+        /* ── HERO ── */
+        .hero {
+            padding: 96px 48px 64px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: white;
+        }
+
+        .hero-glow {
+            position: absolute;
+            top: -120px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1000px;
+            height: 700px;
+            background: radial-gradient(ellipse at center, rgba(91, 63, 255, .08) 0%, rgba(168, 85, 247, .05) 40%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: white;
+            background: var(--accent);
+            padding: 7px 18px;
+            border-radius: 999px;
+            margin-bottom: 28px;
+            box-shadow: 0 4px 16px rgba(91, 63, 255, .4);
+        }
+
+        .hero h1 {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            font-size: clamp(44px, 6vw, 80px);
+            font-weight: 900;
+            letter-spacing: -3px;
+            line-height: 1;
+            margin-bottom: 18px;
+        }
+
+        .grad {
+            background: linear-gradient(135deg, #5b3fff 0%, #a855f7 60%, #ec4899 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-sub {
+            font-size: 18px;
+            color: var(--ink3);
+            max-width: 500px;
+            margin: 0 auto 44px;
+            line-height: 1.65;
+        }
+
+        /* ── TOGGLE ── */
+        .billing-toggle-wrap {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .billing-toggle {
+            display: inline-flex;
+            align-items: center;
+            background: var(--bg);
+            border: 1.5px solid #e0ddf8;
+            border-radius: 999px;
+            padding: 5px;
+            gap: 4px;
+        }
+
+        .toggle-opt {
+            padding: 9px 22px;
+            border-radius: 999px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .25s cubic-bezier(.34, 1.3, .64, 1);
+            color: var(--ink3);
+            border: none;
+            background: none;
+            font-family: inherit;
+        }
+
+        .toggle-opt.active {
+            background: white;
+            color: var(--accent);
+            box-shadow: 0 2px 12px rgba(91, 63, 255, .18);
+        }
+
+        .save-tag {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--green), #7c5fff);
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 999px;
+            margin-left: 6px;
+        }
+
+        /* ── PLANS GRID ── */
+        .plans-wrap {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 40px 24px 60px;
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            align-items: stretch;
+        }
+
+        /* ── PLAN CARD ── */
+        .plan-card {
+            background: white;
+            border-radius: 32px;
+            padding: 40px 32px;
+            border: 1.5px solid #e8e5f8;
+            display: flex;
+            flex-direction: column;
+            transition: all .4s cubic-bezier(.34, 1.56, .64, 1);
+            position: relative;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, .03);
+            text-align: left;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 48px rgba(91, 63, 255, .1);
+            border-color: var(--accent);
+        }
+
+        /* Featured/Pro Card */
+        .plan-card.featured {
+            background: var(--ink);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 32px 64px rgba(91, 63, 255, .25);
+            z-index: 2;
+        }
+
+        .plan-card.featured:hover {
+            box-shadow: 0 40px 80px rgba(91, 63, 255, .35);
+        }
+
+        .plan-card.featured .pn-v2,
+        .plan-card.featured .price-num-v2,
+        .plan-card.featured .price-sym-v2 {
+            color: white;
+        }
+
+        .plan-card.featured .pd-v2,
+        .plan-card.featured .price-cycle-v2,
+        .plan-card.featured .feat-heading-v2 {
+            color: rgba(255, 255, 255, .5);
+        }
+
+        .plan-card.featured .feat-row-v2 {
+            color: rgba(255, 255, 255, .9);
+        }
+
+        .plan-card.featured .feat-icon-v2.yes {
+            background: rgba(255, 255, 255, .1);
+        }
+
+        .plan-card.featured .feat-icon-v2.yes svg {
+            stroke: #fff;
+        }
+
+        /* Plan Badge */
+        .plan-badge-v2 {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: var(--accent);
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 999px;
+            letter-spacing: .02em;
+        }
+
+        .pn-v2 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--ink);
+        }
+
+        .pd-v2 {
+            font-size: 14px;
+            color: var(--ink3);
+            line-height: 1.5;
+            margin-bottom: 32px;
+            min-height: 42px;
+        }
+
+        /* Price */
+        .price-block-v2 {
+            margin-bottom: 32px;
+        }
+
+        .price-main-v2 {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .price-sym-v2 {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--ink);
+        }
+
+        .price-num-v2 {
+            font-size: 56px;
+            font-weight: 900;
+            letter-spacing: -2px;
+            color: var(--ink);
+        }
+
+        .price-cycle-v2 {
+            font-size: 14px;
+            color: var(--ink3);
+            font-weight: 500;
+        }
+
+        /* CTA */
+        .plan-cta-v2 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all .3s;
+            margin-bottom: 40px;
+        }
+
+        .cta-outline-v2 {
+            background: #f5f3ff;
+            color: var(--accent);
+        }
+
+        .cta-outline-v2:hover {
+            background: var(--soft);
+            transform: translateY(-2px);
+        }
+
+        .cta-solid-v2 {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 8px 20px rgba(91, 63, 255, .3);
+        }
+
+        .cta-solid-v2:hover {
+            background: var(--accent2);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(91, 63, 255, .4);
+        }
+
+        .cta-dark-v2 {
+            background: var(--ink);
+            color: white;
+        }
+
+        .cta-dark-v2:hover {
+            background: #1a1a2e;
+            transform: translateY(-2px);
+        }
+
+        /* Features */
+        .feat-heading-v2 {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            color: var(--ink3);
+            margin-bottom: 20px;
+        }
+
+        .feat-list-v2 {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            padding: 0;
+        }
+
+        .feat-row-v2 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .feat-icon-v2.yes {
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            background: #f0eeff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .feat-icon-v2.yes svg {
+            width: 12px;
+            height: 12px;
+            stroke: var(--accent);
+            stroke-width: 3;
+            fill: none;
+        }
+
+        .feat-row-v2.no {
+            opacity: 0.35;
+            text-decoration: line-through;
+        }
+
+        .feat-icon-v2.cross {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .feat-icon-v2.cross svg {
+            width: 12px;
+            height: 12px;
+            stroke: var(--ink3);
+            stroke-width: 2;
+        }
+
+        @media(max-width: 1100px) {
+            .plans-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width: 600px) {
+            .plans-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ── GUARANTEES ── */
+        .guarantees {
+            max-width: 1160px;
+            margin: 0 auto 72px;
+            padding: 0 48px;
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            background: white;
+            border-radius: 20px;
+            border: 1.5px solid #e0ddf8;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, .04);
+        }
+
+        .g-item {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 22px 28px;
+            border-right: 1px solid #f0eeff;
+        }
+
+        .g-item:last-child {
+            border-right: none;
+        }
+
+        .g-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+        }
+
+        .g-icon svg {
+            width: 18px;
+            height: 18px;
+            stroke-width: 2.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+        }
+
+        .g-text strong {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 2px;
+        }
+
+        .g-text span {
+            font-size: 11px;
+            color: var(--ink3);
+        }
+
+        /* ── COMPARE TABLE ── */
+        .compare-wrap {
+            max-width: 1000px;
+            margin: 0 auto 80px;
+            padding: 0 48px;
+        }
+
+        .compare-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .compare-header h2 {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .toggle-compare-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 1.5px solid #e0ddf8;
+            background: white;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent);
+            cursor: pointer;
+            font-family: inherit;
+            transition: all .2s;
+        }
+
+        .toggle-compare-btn:hover {
+            background: var(--soft);
+            border-color: var(--accent);
+        }
+
+        .compare-table-wrap {
+            display: none;
+        }
+
+        .compare-table-wrap.open {
+            display: block;
+            animation: slideDown .35s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-12px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .ctable {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(91, 63, 255, .07);
+            border: 1.5px solid #e0ddf8;
+        }
+
+        .ctable th {
+            padding: 18px 22px;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+            background: var(--ink);
+            color: rgba(255, 255, 255, .5);
+        }
+
+        .ctable th:first-child {
+            text-align: left;
+            width: 35%;
+        }
+
+        .ctable th.pro-th {
+            background: var(--accent);
+            color: white;
+        }
+
+        .ctable thead tr th:first-child {
+            border-radius: 0;
+        }
+
+        .ctable td {
+            padding: 13px 22px;
+            font-size: 13px;
+            border-bottom: 1px solid #f5f3ff;
+            color: var(--ink3);
+            text-align: center;
+        }
+
+        .ctable td:first-child {
+            text-align: left;
+            color: var(--ink2);
+            font-weight: 600;
+        }
+
+        .ctable tr:last-child td {
+            border-bottom: none;
+        }
+
+        .ctable tr:nth-child(odd) td {
+            background: #faf9ff;
+        }
+
+        .ctable tr:nth-child(odd) td:nth-child(4) {
+            background: rgba(91, 63, 255, .05);
+        }
+
+        .ctable td:nth-child(4) {
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .ctick {
+            color: var(--green);
+            font-size: 16px;
+            font-weight: 900;
+        }
+
+        .ccross {
+            color: #d1d5db;
+        }
+
+        /* ── FAQ ── */
+        .faq-wrap {
+            max-width: 720px;
+            margin: 0 auto 80px;
+            padding: 0 48px;
+        }
+
+        .faq-title {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 16px;
+            border: 1.5px solid #e0ddf8;
+            overflow: hidden;
+            margin-bottom: 10px;
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        .faq-item.open {
+            border-color: rgba(91, 63, 255, .3);
+            box-shadow: 0 6px 24px rgba(91, 63, 255, .08);
+        }
+
+        .faq-q {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 700;
+            gap: 14px;
+            transition: color .2s;
+        }
+
+        .faq-q:hover {
+            color: var(--accent);
+        }
+
+        .faq-ico {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: var(--soft);
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            transition: background .2s, transform .3s;
+        }
+
+        .faq-ico svg {
+            width: 13px;
+            height: 13px;
+            stroke: var(--accent);
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+        }
+
+        .faq-item.open .faq-ico {
+            background: var(--accent);
+            transform: rotate(45deg);
+        }
+
+        .faq-item.open .faq-ico svg {
+            stroke: white;
+        }
+
+        .faq-a {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .4s ease;
+        }
+
+        .faq-item.open .faq-a {
+            max-height: 220px;
+        }
+
+        .faq-ans {
+            padding: 0 24px 20px;
+            font-size: 14px;
+            color: var(--ink3);
+            line-height: 1.8;
+            border-top: 1px solid #f0eeff;
+            padding-top: 16px;
+        }
+
+        /* ── CTA ── */
+        .cta-band {
+            background: linear-gradient(135deg, #1a0a4e 0%, var(--accent) 50%, #7c3aed 100%);
+            padding: 88px 48px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-band::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 255, 255, .07), transparent 65%);
+            pointer-events: none;
+        }
+
+        .cta-band .eye {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, .55);
+            margin-bottom: 16px;
+        }
+
+        .cta-band h2 {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            font-size: clamp(32px, 5vw, 60px);
+            font-weight: 900;
+            color: white;
+            letter-spacing: -2.5px;
+            margin-bottom: 14px;
+            line-height: 1.05;
+        }
+
+        .cta-band p {
+            font-size: 17px;
+            color: rgba(255, 255, 255, .65);
+            max-width: 440px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+
+        .cta-btns {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .cta-white {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 36px;
+            background: white;
+            color: var(--accent);
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 14px;
+            text-decoration: none;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, .25);
+            transition: transform .2s;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+        }
+
+        .cta-white:hover {
+            transform: translateY(-3px);
+        }
+
+        .cta-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 36px;
+            background: rgba(255, 255, 255, .1);
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 14px;
+            text-decoration: none;
+            border: 1.5px solid rgba(255, 255, 255, .2);
+            transition: background .2s;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+        }
+
+        .cta-ghost:hover {
+            background: rgba(255, 255, 255, .18);
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: white;
+            border-top: 1px solid #eeeef4;
+            padding: 60px 48px 32px;
+        }
+
+        .fg {
+            display: grid;
+            grid-template-columns: 1.8fr 1fr 1fr 1fr;
+            gap: 36px;
+            max-width: 1080px;
+            margin: 0 auto 48px;
+        }
+
+        .fl .logo {
+            margin-bottom: 12px;
+            display: inline-flex;
+        }
+
+        .fl .logo em {
+            color: var(--accent);
+        }
+
+        .fdesc {
+            font-size: 13.5px;
+            color: var(--ink3);
+            margin-top: 14px;
+            line-height: 1.7;
+            max-width: 220px;
+        }
+
+        .fsocials {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .fsoc {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--bg);
+            border: 1.5px solid #e0e0ea;
+            display: grid;
+            place-items: center;
+            color: var(--ink2);
+            cursor: pointer;
+            text-decoration: none;
+            transition: background .2s, border-color .2s, color .2s;
+        }
+
+        .fsoc:hover {
+            background: var(--accent-soft);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .fl h4 {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--ink);
+            margin-bottom: 18px;
+        }
+
+        .fl a {
+            display: flex;
+            align-items: center;
+            font-size: 13.5px;
+            color: var(--ink3);
+            text-decoration: none;
+            margin-bottom: 11px;
+            padding: 5px 8px;
+            border-radius: 8px;
+            transition: background .18s, color .18s;
+        }
+
+        .fl a:not(.logo):hover {
+            background: var(--accent-soft);
+            color: var(--accent);
+        }
+
+        .fb {
+            text-align: center;
+            padding-top: 24px;
+            border-top: 1px solid #eeeef4;
+            font-size: 13px;
+            color: var(--ink3);
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+
+        /* ── REVEAL ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity .55s ease, transform .55s ease;
+        }
+
+        .reveal.in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media(max-width: 960px) {
+            .plans-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .plan-pro {
+                transform: none;
+            }
+
+            .plan-pro:hover {
+                transform: translateY(-8px);
+            }
+
+            .guarantees {
+                flex-wrap: wrap;
+            }
+
+            .g-item {
+                min-width: 50%;
+                border-right: none;
+                border-bottom: 1px solid #f0eeff;
+            }
+
+            .g-item:nth-child(odd) {
+                border-right: 1px solid #f0eeff;
+            }
+        }
+
+        @media(max-width: 600px) {
+            nav {
+                padding: 0 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero,
+            .plans-wrap,
+            .compare-wrap,
+            .faq-wrap,
+            .cta-band {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .plans-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .fg {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    
+        /* Premium Text Logo Styles */
+        .brand-wrapper { display: flex; align-items: center; gap: 8px; }
+        .brand-icon { height: 42px; width: auto; object-fit: contain; flex-shrink: 0; display: block; }
+        .brand-text-col { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+        .brand-logo-text { font-size: 26px; font-weight: 800; letter-spacing: -0.8px; line-height: 1; font-family: var(--font, 'Inter', system-ui, sans-serif); color: var(--ink, #0a0a0f); }
+        .left-logo .brand-logo-text { color: #ffffff; }
+        .brand-bill { color: inherit; }
+        .brand-sathi { background: linear-gradient(135deg, #5b3fff, #a855f7); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .brand-tagline { font-size: 7.5px; font-weight: 700; letter-spacing: 1.2px; color: #8888a0; text-transform: uppercase; margin-top: 3px; line-height: 1; font-family: var(--font, 'Inter', system-ui, sans-serif); }
+
+        .sb-logo .brand-icon { height: 34px; }
+        .sb-logo .brand-logo-text { font-size: 21px; }
+        .sb-logo .brand-tagline { font-size: 6.5px; }
+
+        @media (max-width: 768px) {
+            .brand-icon { height: 34px; }
+            .brand-logo-text { font-size: 21px; }
+            .brand-tagline { font-size: 6.5px; }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav id="navbar">
+  <a href="index.html" class="logo">
+    <div class="brand-wrapper">
+    <img src="assets/favicon.png" alt="BillSathi Icon" class="brand-icon" />
+    <div class="brand-text-col">
+        <div class="brand-logo-text"><span class="brand-bill">Bill</span><span class="brand-sathi">sathi</span></div>
+        <div class="brand-tagline">SMART BILLING. STRONG BUSINESS.</div>
+    </div>
+</div>
+  </a>
+
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="features.html">Features</a>
+    <a href="templates.html">Templates</a>
+    <a href="how-it-works.html">How It Works</a>
+    <a href="pricing.html" class="active">Pricing</a>
+    <a href="dashboard.html">Dashboard</a>
+  </div>
+
+  <div class="nav-right">
+    <a href="login.html" class="btn-g" style="text-decoration: none; display: inline-flex; align-items: center;">Login</a>
+    <a href="signup.html" class="btn-p" style="text-decoration: none; display: inline-flex; align-items: center;">Get Started</a>
+  </div>
+</nav>
+
+    <!-- ANNOUNCE -->
+    <div class="announce-bar">
+        <div class="announce-inner">
+            <span class="announce-dot"></span><span class="announce-text">No Credit Card Required</span><span
+                class="announce-sep"> · </span>
+            <span class="announce-text">Cancel Anytime</span><span class="announce-sep"> · </span>
+            <span class="announce-text">Free Plan Forever</span><span class="announce-sep"> · </span>
+            <span class="announce-text">30-Day Money Back</span><span class="announce-sep"> · </span>
+            <span class="announce-text">Upgrade in One Click</span><span class="announce-sep"> · </span>
+            <span class="announce-dot"></span><span class="announce-text">No Credit Card Required</span><span
+                class="announce-sep"> · </span>
+            <span class="announce-text">Cancel Anytime</span><span class="announce-sep"> · </span>
+            <span class="announce-text">Free Plan Forever</span><span class="announce-sep"> · </span>
+            <span class="announce-text">30-Day Money Back</span><span class="announce-sep"> · </span>
+            <span class="announce-text">Upgrade in One Click</span><span class="announce-sep"> · </span>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-glow"></div>
+        <div class="pill">💰 Pricing</div>
+        <h1>The Smartest Way to <span class="grad">Get Paid.</span></h1>
+        <p class="hero-sub">Start free. Scale when you're ready. Every plan ships with QR invoices, templates, and live
+            tracking.</p>
+
+        <div class="billing-toggle-wrap">
+        <div class="billing-toggle">
+            <button class="toggle-opt active" id="opt-monthly" onclick="setBilling('monthly')">Monthly</button>
+            <button class="toggle-opt" id="opt-annual" onclick="setBilling('annual')">Annual <span
+                    class="save-tag">-20%</span></button>
+        </div>
+    </div>
+    </section>
+
+    <!-- PLANS -->
+    <div class="plans-wrap">
+        <div class="plans-grid">
+
+            <!-- FREE -->
+            <div class="plan-card reveal">
+                <div class="pn-v2">Free</div>
+                <p class="pd-v2">Try it out, no strings attached</p>
+                <div class="price-block-v2">
+                    <div class="price-main-v2">
+                        <span class="price-sym-v2">$</span>
+                        <span class="price-num-v2" id="p-free">0</span>
+                        <span class="price-cycle-v2">/ mo</span>
+                    </div>
+                </div>
+                <a href="signup.html" class="plan-cta-v2 cta-outline-v2">Choose Free</a>
+                <div class="feat-heading-v2">What's included</div>
+                <ul class="feat-list-v2">
+                    <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>5 invoices / month</li>
+                    <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>2 templates</li>
+                    <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>Basic PDF download</li>
+                    <li class="feat-row-v2 no"><span class="feat-icon-v2 cross"><svg viewBox="0 0 12 12">
+                                <line x1="2" y1="2" x2="10" y2="10" /><line x1="10" y1="2" x2="2" y2="10" />
+                            </svg></span>BillSathi watermark</li>
+                </ul>
+            </div>
+
+            <!-- STARTER -->
+            <div class="plan-card reveal">
+                <div class="plan-badge-v2" style="background:#0284c7">Freelancers</div>
+                <div class="pn-v2">Starter</div>
+                <p class="pd-v2">Built for solo professionals</p>
+                <div class="price-block-v2">
+                    <div class="price-main-v2">
+                        <span class="price-sym-v2">$</span>
+                        <span class="price-num-v2" id="p-starter">7</span>
+                        <span class="price-cycle-v2">/ mo</span>
+                    </div>
+                </div>
+                <a href="signup.html" class="plan-cta-v2 cta-outline-v2">Choose Starter</a>
+                <div class="feat-heading-v2">What's included</div>
+                <ul class="feat-list-v2">
+                    <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>50 invoices / month</li>
+                    <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>5 templates</li>
+                    <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>Logo upload</li>
+                    <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>PDF export</li>
+                    <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>QR code on invoice</li>
+                    <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>Client list</li>
+                </ul>
+            </div>
+
+            <!-- PRO -->
+            <div class="plan-card featured reveal">
+                <div class="plan-badge-v2">Most Popular</div>
+                <div class="pn-v2">Pro</div>
+                <p class="pd-v2">For growing businesses</p>
+                <div class="price-block-v2">
+                    <div class="price-main-v2">
+                        <span class="price-sym-v2">$</span>
+                        <span class="price-num-v2" id="p-pro">15</span>
+                        <span class="price-cycle-v2">/ mo</span>
+                    </div>
+                </div>
+                <a href="signup.html" class="plan-cta-v2 cta-solid-v2">Choose Pro</a>
+                <div class="feat-heading-v2">Everything in Starter, plus</div>
+                <ul class="feat-list-v2">
+                    <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>Unlimited invoices</li>
+                    <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>10+ templates</li>
+                    <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>Multi-currency</li>
+                    <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>Cloud save & sync</li>
+                    <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>Email invoice to client</li>
+                    <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>Live payment tracking</li>
+                    <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>Remove watermark</li>
+                </ul>
+            </div>
+
+            <!-- BUSINESS -->
+            <div class="plan-card reveal">
+                <div class="plan-badge-v2" style="background:#dc2626">Companies</div>
+                <div class="pn-v2">Business</div>
+                <p class="pd-v2">Scale with your entire team</p>
+                <div class="price-block-v2">
+                    <div class="price-main-v2">
+                        <span class="price-sym-v2">$</span>
+                        <span class="price-num-v2" id="p-biz">29</span>
+                        <span class="price-cycle-v2">/ mo</span>
+                    </div>
+                </div>
+                <a href="signup.html" class="plan-cta-v2 cta-dark-v2">Choose Business</a>
+                <div class="feat-heading-v2">Everything in Pro, plus</div>
+                <ul class="feat-list-v2">
+                    <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>Team accounts</li>
+                    <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>Invoice analytics</li>
+                    <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>Payment reminders</li>
+                    <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>Custom branding</li>
+                    <li class="feat-row-v2 has"><span class="feat-icon-v2 yes"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>Priority support</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- GUARANTEES -->
+    <div style="max-width:1160px;margin:0 auto 64px;padding:0 48px" class="reveal">
+        <div style="display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:nowrap;overflow-x:auto;">
+            <div
+                style="display:inline-flex;align-items:center;gap:9px;background:white;border:1.5px solid #e8e5f8;border-radius:999px;padding:10px 20px;box-shadow:0 2px 12px rgba(91,63,255,.06)">
+                <div
+                    style="width:28px;height:28px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="white" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                </div>
+                <span style="font-size:13px;font-weight:700;color:var(--ink)">Invoice in 60 seconds flat</span>
+            </div>
+            <div
+                style="display:inline-flex;align-items:center;gap:9px;background:white;border:1.5px solid #e8e5f8;border-radius:999px;padding:10px 20px;box-shadow:0 2px 12px rgba(91,63,255,.06)">
+                <div
+                    style="width:28px;height:28px;background:#0284c7;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="white" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7" />
+                        <rect x="14" y="3" width="7" height="7" />
+                        <rect x="3" y="14" width="7" height="7" />
+                        <rect x="14" y="14" width="3" height="3" />
+                    </svg>
+                </div>
+                <span style="font-size:13px;font-weight:700;color:var(--ink)">QR code on every invoice</span>
+            </div>
+            <div
+                style="display:inline-flex;align-items:center;gap:9px;background:white;border:1.5px solid #e8e5f8;border-radius:999px;padding:10px 20px;box-shadow:0 2px 12px rgba(91,63,255,.06)">
+                <div
+                    style="width:28px;height:28px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="white" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                        <circle cx="12" cy="12" r="3" />
+                    </svg>
+                </div>
+                <span style="font-size:13px;font-weight:700;color:var(--ink)">See when client views invoice</span>
+            </div>
+            <div
+                style="display:inline-flex;align-items:center;gap:9px;background:white;border:1.5px solid #e8e5f8;border-radius:999px;padding:10px 20px;box-shadow:0 2px 12px rgba(91,63,255,.06)">
+                <div
+                    style="width:28px;height:28px;background:#7c3aed;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="white" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 20h9" />
+                        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                    </svg>
+                </div>
+                <span style="font-size:13px;font-weight:700;color:var(--ink)">Draw or upload your signature</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- COMPARE -->
+    <div style="max-width:1000px;margin:0 auto 56px;padding:0 48px" class="reveal">
+        <div style="text-align:center;margin-bottom:40px">
+            <div
+                style="display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:white;background:var(--accent);padding:7px 18px;border-radius:999px;margin-bottom:16px;box-shadow:0 4px 16px rgba(91,63,255,.4)">
+                Compare Plans</div>
+            <h2 style="font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-1.5px;margin-bottom:10px">Every
+                Feature, <span class="grad">Side by Side</span></h2>
+            <p style="font-size:15px;color:var(--ink3);max-width:420px;margin:0 auto">Not sure which plan fits? See
+                exactly what each plan includes.</p>
+        </div>
+        <div
+            style="background:white;border-radius:24px;overflow:hidden;box-shadow:0 8px 40px rgba(91,63,255,.09);border:1.5px solid #e8e5f8">
+            <table style="width:100%;border-collapse:collapse">
+                <thead>
+                    <tr>
+                        <th
+                            style="padding:18px 24px;font-size:12px;font-weight:700;text-align:left;background:#0a0814;color:rgba(255,255,255,.4);letter-spacing:.06em;width:34%">
+                            Feature</th>
+                        <th
+                            style="padding:18px 16px;font-size:13px;font-weight:700;text-align:center;background:#0a0814;color:rgba(255,255,255,.5)">
+                            Free</th>
+                        <th
+                            style="padding:18px 16px;font-size:13px;font-weight:700;text-align:center;background:#0a0814;color:rgba(255,255,255,.5)">
+                            Starter</th>
+                        <th
+                            style="padding:18px 16px;font-size:13px;font-weight:800;text-align:center;background:var(--accent);color:white">
+                            Pro ⭐</th>
+                        <th
+                            style="padding:18px 16px;font-size:13px;font-weight:700;text-align:center;background:#0a0814;color:rgba(255,255,255,.5)">
+                            Business</th>
+                    </tr>
+                </thead>
+                <tbody id="compareBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- FAQ -->
+    <div style="max-width:800px;margin:0 auto 80px;padding:0 48px" class="reveal">
+        <div style="text-align:center;margin-bottom:40px">
+            <div
+                style="display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:white;background:var(--accent);padding:7px 18px;border-radius:999px;margin-bottom:16px;box-shadow:0 4px 16px rgba(91,63,255,.4)">
+                FAQ</div>
+            <h2 style="font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-1.5px">Got Questions? <span
+                    class="grad">We've Got Answers.</span></h2>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-q">Can I switch plans anytime?<div class="faq-ico"><svg viewBox="0 0 24 24">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg></div>
+                </div>
+                <div class="faq-a">
+                    <div class="faq-ans">Yes — upgrade instantly, downgrade at cycle end. Either way you always keep the
+                        value of what you paid.</div>
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-q">Is the Free plan really free forever?<div class="faq-ico"><svg viewBox="0 0 24 24">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg></div>
+                </div>
+                <div class="faq-a">
+                    <div class="faq-ans">Yes. 5 invoices every month, forever, zero cost. No credit card required to
+                        sign up, no hidden charges, no expiry.</div>
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-q">What is the BillSathi watermark?<div class="faq-ico"><svg viewBox="0 0 24 24">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg></div>
+                </div>
+                <div class="faq-a">
+                    <div class="faq-ans">Free and Starter plans show a small "Made with BillSathi" tag on the PDF. Pro
+                        removes it completely — your invoice, your brand, nothing else.</div>
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-q">Do you offer refunds?<div class="faq-ico"><svg viewBox="0 0 24 24">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg></div>
+                </div>
+                <div class="faq-a">
+                    <div class="faq-ans">30-day full refund on all paid plans. No questions, no friction. Just contact
+                        support within 30 days and your money is back.</div>
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-q">How does annual billing save 20%?<div class="faq-ico"><svg viewBox="0 0 24 24">
+                            <line x1="12" y1="5" x2="12" y2="19" />
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                        </svg></div>
+                </div>
+                <div class="faq-a">
+                    <div class="faq-ans">Pay for 10 months, get 12 — billed once a year. You can still cancel anytime
+                        and get a prorated refund for unused months.</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-band">
+        <div class="eye">Start today — it's free</div>
+        <h2>Your First Invoice<br>is on Us</h2>
+        <p>No credit card. No setup. Live in 2 minutes.</p>
+        <div class="cta-btns">
+            <a href="signup.html" class="cta-white">Start Free →</a>
+            <a href="how-it-works.html" class="cta-ghost">See How It Works</a>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="fg">
+            <div class="fl">
+                <a href="index.html" class="logo">
+                    <div class="brand-wrapper">
+    <img src="assets/favicon.png" alt="BillSathi Icon" class="brand-icon" />
+    <div class="brand-text-col">
+        <div class="brand-logo-text"><span class="brand-bill">Bill</span><span class="brand-sathi">sathi</span></div>
+        <div class="brand-tagline">SMART BILLING. STRONG BUSINESS.</div>
+    </div>
+</div>
+                </a>
+                <p class="fdesc">Professional invoicing backed by a powerful cloud engine.</p>
+                <div class="fsocials">
+                    <a class="fsoc" href="#"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                            <path
+                                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.742l7.732-8.835L1.254 2.25H8.08l4.259 5.633 5.905-5.633zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                        </svg></a>
+                    <a class="fsoc" href="#"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                            <path
+                                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                        </svg></a>
+                    <a class="fsoc" href="#"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                            <path
+                                d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                        </svg></a>
+                </div>
+            </div>
+            <div class="fl">
+                <h4>Product</h4><a href="templates.html">Templates</a><a href="features.html">Features</a><a
+                    href="pricing.html">Pricing</a><a href="#">API Docs</a>
+            </div>
+            <div class="fl">
+                <h4>Resources</h4><a href="#">Invoice Guide</a><a href="#">Blog</a><a href="#">Support</a><a
+                    href="#">Status</a>
+            </div>
+            <div class="fl">
+                <h4>Legal</h4><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a
+                    href="cookies.html">Cookie Policy</a><a href="gdpr.html">GDPR</a>
+            </div>
+        </div>
+        <div class="fb">&copy; 2026 BillSathi. All rights reserved.</div>
+    </footer>
+
+    <script>
+        /* 3D TILT ON PLAN CARDS */
+        document.querySelectorAll('.plan-card').forEach(function (card) {
+            card.addEventListener('mousemove', function (e) {
+                var rect = card.getBoundingClientRect();
+                var x = e.clientX - rect.left;
+                var y = e.clientY - rect.top;
+                var cx = rect.width / 2;
+                var cy = rect.height / 2;
+                var rotX = ((y - cy) / cy) * -6;
+                var rotY = ((x - cx) / cx) * 6;
+                var isPro = card.classList.contains('plan-pro');
+                var lift = isPro ? 'translateY(-20px) scale(1.04)' : 'translateY(-12px) scale(1.02)';
+                card.style.transform = lift + ' rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg)';
+                card.style.transition = 'box-shadow .4s, border-color .3s';
+                // moving highlight
+                var shine = card.querySelector('.card-shine');
+                if (shine) {
+                    shine.style.background = 'radial-gradient(circle at ' + (x) + 'px ' + (y) + 'px, rgba(255,255,255,.12) 0%, transparent 60%)';
+                }
+            });
+            card.addEventListener('mouseleave', function () {
+                card.style.transition = 'transform .5s cubic-bezier(.34,1.3,.64,1), box-shadow .4s, border-color .3s';
+                var isPro = card.classList.contains('plan-pro');
+                card.style.transform = isPro ? 'translateY(-16px) scale(1.02)' : '';
+                var shine = card.querySelector('.card-shine');
+                if (shine) shine.style.background = 'transparent';
+            });
+        });
+
+        /* REVEAL */
+        function revealAll() {
+            document.querySelectorAll('.reveal').forEach(function (el) {
+                var rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight + 100) el.classList.add('in');
+            });
+        }
+        var ro = new IntersectionObserver(function (e) {
+            e.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add('in'); ro.unobserve(x.target); } });
+        }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
+        document.querySelectorAll('.reveal').forEach(function (el) { ro.observe(el); });
+        // fire immediately on load
+        window.addEventListener('load', revealAll);
+        setTimeout(revealAll, 100);
+        revealAll();
+
+        /* BILLING */
+        var isAnnual = false;
+        var monthly = { starter: 7, pro: 15, biz: 29 };
+        var annual = { starter: 6, pro: 12, biz: 23 };
+
+        function setBilling(mode) {
+            isAnnual = mode === 'annual';
+            var mBtn = document.getElementById('opt-monthly');
+            var aBtn = document.getElementById('opt-annual');
+            if (isAnnual) {
+                mBtn.classList.remove('active');
+                aBtn.classList.add('active');
+            } else {
+                aBtn.classList.remove('active');
+                mBtn.classList.add('active');
+            }
+            var plans = ['starter', 'pro', 'biz'];
+            plans.forEach(function (p) {
+                var from = parseInt(document.getElementById('p-' + p).textContent);
+                var to = isAnnual ? annual[p] : monthly[p];
+                animNum(document.getElementById('p-' + p), from, to);
+            });
+        }
+
+        function animNum(el, from, to) {
+            var steps = 15;
+            var cur = from;
+            var diff = (to - from) / steps;
+            var i = 0;
+            var int = setInterval(function () {
+                cur += diff;
+                el.textContent = Math.round(cur);
+                if (++i >= steps) {
+                    el.textContent = to;
+                    clearInterval(int);
+                }
+            }, 20);
+        }
+
+        /* COMPARE */
+        function toggleCompare(btn) {
+            var tbl = document.getElementById('cmpTable');
+            var open = tbl.classList.toggle('open');
+            btn.querySelector('span, text') && null;
+            btn.lastChild.textContent = open ? ' Hide table' : ' Show full table';
+            if (open) setTimeout(function () { tbl.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 100);
+        }
+
+
+        /* BUILD COMPARE TABLE */
+        var compareRows = [
+            ['Invoices / month', '5', '50', 'Unlimited', 'Unlimited'],
+            ['Templates', '2', '5', '10+', '10+'],
+            ['Logo upload', false, true, true, true],
+            ['PDF export', true, true, true, true],
+            ['QR code on invoice', false, true, true, true],
+            ['Client list', false, true, true, true],
+            ['Remove watermark', false, false, true, true],
+            ['Multi-currency', false, false, true, true],
+            ['Live payment tracking', false, false, true, true],
+            ['Email to client', false, false, true, true],
+            ['Cloud save & sync', false, false, true, true],
+            ['Team accounts', false, false, false, true],
+            ['Invoice analytics', false, false, false, true],
+            ['Payment reminders', false, false, false, true],
+            ['Custom branding', false, false, false, true],
+            ['Priority support', false, false, false, true],
+        ];
+        (function () {
+            var tbody = document.getElementById('compareBody');
+            if (!tbody) return;
+            compareRows.forEach(function (row, i) {
+                var tr = document.createElement('tr');
+                var bg = i % 2 === 0 ? '#faf9ff' : '#fff';
+                tr.style.cssText = 'border-bottom:1px solid #f0eeff';
+                tr.innerHTML = '<td style="padding:13px 24px;font-size:13px;font-weight:600;color:var(--ink2);background:' + bg + '">' + row[0] + '</td>'
+                    + [1, 2, 3, 4].map(function (ci) {
+                        var v = row[ci];
+                        var bg2 = ci === 3 ? 'rgba(91,63,255,.03)' : bg;
+                        var val = typeof v === 'boolean'
+                            ? (v ? '<span style="color:var(--green);font-size:16px;font-weight:900">✓</span>'
+                                : '<span style="color:#d1d5db;font-size:13px">—</span>')
+                            : '<span style="font-size:13px;font-weight:700;color:var(--ink2)">' + v + '</span>';
+                        return '<td style="padding:13px 16px;text-align:center;background:' + bg2 + '">' + val + '</td>';
+                    }).join('');
+                tbody.appendChild(tr);
+            });
+        })();
+
+        /* FAQ */
+        function toggleFaq(item) {
+            var was = item.classList.contains('open');
+            document.querySelectorAll('.faq-item.open').forEach(function (f) { f.classList.remove('open'); });
+            if (!was) item.classList.add('open');
+        }
+    </script>
+  <script src="js/app.min.js" defer></script>
+</body>
+
+</html>

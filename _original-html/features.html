@@ -1,0 +1,2689 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Features — InvoicePro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --ink: #0a0a0f;
+            --ink2: #3d3d52;
+            --ink3: #8888a0;
+            --bg: #f8f7ff;
+            --surface: #ffffff;
+            --accent: #5b3fff;
+            --accent2: #7c5fff;
+            --accent-soft: #ede9ff;
+            --green: #5b3fff;
+            --green-soft: #ede9ff;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            overflow-x: hidden;
+        }
+
+        /* NAV */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            padding: 0 32px;
+            height: 66px;
+            background: rgba(248, 247, 255, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(91, 63, 255, 0.1);
+            transform: translateZ(0);
+            will-change: backdrop-filter, background;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--accent);
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+        }
+
+        .logo-icon svg {
+            width: 17px;
+            height: 17px;
+            fill: white;
+        }
+
+        .logo em {
+            color: var(--accent);
+            font-style: normal;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--ink2);
+            text-decoration: none;
+            transition: color .2s;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+            opacity: 1;
+            filter: none;
+        }
+
+        .nav-links a.active {
+            color: #111;
+            font-weight: 600;
+            opacity: 1;
+            filter: none;
+        }
+
+        .nav-right {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-g {
+            padding: 9px 18px;
+            border: none;
+            background: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--ink2);
+            cursor: pointer;
+            border-radius: 10px;
+            transition: background .2s;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn-g:hover {
+            background: var(--accent-soft);
+            color: var(--accent);
+        }
+
+        .btn-p {
+            padding: 10px 22px;
+            background: var(--accent);
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform .15s, background .2s;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn-p:hover {
+            background: var(--accent2);
+            transform: translateY(-1px);
+        }
+
+        /* ANNOUNCE BAR */
+        .announce-bar {
+            width: 100%;
+            background: linear-gradient(90deg, #5b3fff 0%, #7c3aed 50%, #5b3fff 100%);
+            background-size: 200% 100%;
+            animation: grad-shift 6s linear infinite;
+            overflow: hidden;
+            padding: 11px 0;
+        }
+
+        @keyframes grad-shift {
+            0% {
+                background-position: 0%
+            }
+
+            100% {
+                background-position: 200%
+            }
+        }
+
+        .announce-inner {
+            display: flex;
+            align-items: center;
+            width: max-content;
+            animation: announce-scroll 18s linear infinite;
+        }
+
+        @keyframes announce-scroll {
+            from {
+                transform: translateX(0)
+            }
+
+            to {
+                transform: translateX(-50%)
+            }
+        }
+
+        .announce-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: white;
+            white-space: nowrap;
+            padding: 0 20px;
+            letter-spacing: 0.03em;
+        }
+
+        .announce-sep {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .announce-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #5b3fff;
+            flex-shrink: 0;
+            margin: 0 16px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1)
+            }
+
+            50% {
+                opacity: .4;
+                transform: scale(1.5)
+            }
+        }
+
+        /* PAGE HERO */
+        .page-hero {
+            padding: 90px 48px 80px;
+            text-align: center;
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(91, 63, 255, 0.07) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .sec-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: white;
+            background: var(--accent);
+            padding: 8px 20px;
+            border-radius: 999px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 16px rgba(91, 63, 255, .35);
+        }
+
+        .sec-pill::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+        }
+
+        .page-hero h1 {
+            font-size: clamp(40px, 5.5vw, 68px);
+            font-weight: 800;
+            letter-spacing: -2.5px;
+            line-height: 1.06;
+            margin-bottom: 22px;
+        }
+
+        .grad {
+            background: linear-gradient(135deg, #5b3fff 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-hero p {
+            font-size: 18px;
+            color: var(--ink2);
+            max-width: 560px;
+            margin: 0 auto 44px;
+            line-height: 1.7;
+        }
+
+        .hero-btns {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .cta-a {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 36px;
+            background: var(--accent);
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            border: none;
+            border-radius: 999px;
+            cursor: pointer;
+            box-shadow: 0 10px 34px rgba(91, 63, 255, .38);
+            transition: transform .2s, box-shadow .2s;
+            font-family: inherit;
+            text-decoration: none;
+        }
+
+        .cta-a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 44px rgba(91, 63, 255, .5);
+        }
+
+        .cta-a svg {
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: white;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .cta-b {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 36px;
+            background: white;
+            color: var(--ink);
+            font-size: 16px;
+            font-weight: 600;
+            border: 1.5px solid rgba(0, 0, 0, 0.12);
+            border-radius: 999px;
+            text-decoration: none;
+            transition: transform .2s, border-color .2s, color .2s;
+        }
+
+        .cta-b:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* HERO STATS */
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 48px;
+            margin-top: 56px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-num {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--ink);
+            letter-spacing: -1.5px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--ink3);
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        .stat-div {
+            width: 1px;
+            height: 36px;
+            background: #e0e0ea;
+        }
+
+        /* MAIN SECTION */
+        .sec {
+            padding: 100px 48px;
+        }
+
+        .sec-head {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+
+        .sec-head h2 {
+            font-size: clamp(36px, 4.5vw, 56px);
+            font-weight: 800;
+            letter-spacing: -2.5px;
+            margin-bottom: 18px;
+            line-height: 1.05;
+        }
+
+        .sec-head p {
+            font-size: 17px;
+            color: var(--ink2);
+            max-width: 560px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* ── FEATURE CARDS — same as your original .fc ── */
+        .feat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 1020px;
+            margin: 0 auto;
+        }
+
+        .fc {
+            background: white;
+            padding: 36px;
+            border-radius: 20px;
+            border: 1.5px solid #e8e6f8;
+            position: relative;
+            overflow: hidden;
+            cursor: default;
+            transition: transform .3s cubic-bezier(.34, 1.56, .64, 1), box-shadow .3s, border-color .3s;
+        }
+
+        .fc:hover {
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 24px 56px rgba(91, 63, 255, .14);
+            border-color: rgba(91, 63, 255, .4);
+        }
+
+        .fc::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at top left, rgba(91, 63, 255, .05), transparent 65%);
+            opacity: 0;
+            transition: opacity .3s;
+            pointer-events: none;
+        }
+
+        .fc:hover::after {
+            opacity: 1;
+        }
+
+        /* left accent strip — same as original */
+        .fc-strip {
+            position: absolute;
+            left: 0;
+            top: 20px;
+            bottom: 20px;
+            width: 3px;
+            border-radius: 0 3px 3px 0;
+            background: var(--accent);
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform .35s cubic-bezier(.34, 1.56, .64, 1);
+        }
+
+        .fc:hover .fc-strip {
+            transform: scaleY(1);
+        }
+
+        .fc:hover h3 {
+            color: var(--accent);
+        }
+
+        .fc h3 {
+            transition: color .2s;
+        }
+
+        .fc-tag {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: var(--accent-soft);
+            padding: 3px 10px;
+            border-radius: 999px;
+            margin-bottom: 16px;
+        }
+
+        /* icon — same as your .fi */
+        .fi {
+            width: 44px;
+            height: 44px;
+            background: var(--accent);
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 14px rgba(91, 63, 255, .25);
+            transition: transform .35s cubic-bezier(.34, 1.56, .64, 1);
+        }
+
+        .fi svg {
+            width: 20px;
+            height: 20px;
+            stroke: white;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .fc:hover .fi {
+            transform: scale(1.12) rotate(-4deg);
+        }
+
+        /* card 1 icon bounce */
+        .fc[data-card="1"] .fi {
+            animation: icon-bounce 2.5s ease-in-out infinite;
+        }
+
+        @keyframes icon-bounce {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-5px)
+            }
+        }
+
+        .fc[data-card="1"]:hover .fi {
+            animation: none;
+            transform: scale(1.12) rotate(-4deg);
+        }
+
+        /* card 2 icon pulse */
+        .fc[data-card="2"] .fi {
+            animation: icon-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes icon-pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 4px 14px rgba(91, 63, 255, .25)
+            }
+
+            50% {
+                box-shadow: 0 4px 28px rgba(91, 63, 255, .6), 0 0 0 8px rgba(91, 63, 255, .08)
+            }
+        }
+
+        .fc[data-card="2"]:hover .fi {
+            animation: none;
+        }
+
+        /* card 3 icon zap */
+        .fc[data-card="3"] .fi {
+            animation: icon-zap 1.8s ease-in-out infinite;
+        }
+
+        @keyframes icon-zap {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(1) rotate(0deg)
+            }
+
+            90% {
+                transform: scale(1.15) rotate(-8deg)
+            }
+        }
+
+        .fc[data-card="3"]:hover .fi {
+            animation: none;
+            transform: scale(1.12) rotate(-4deg);
+        }
+
+        /* card 4 globe spin */
+        .fc[data-card="4"] .fi svg {
+            animation: icon-spin 6s linear infinite;
+            transform-origin: center;
+        }
+
+        @keyframes icon-spin {
+            from {
+                transform: rotate(0deg)
+            }
+
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        .fc h3 {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: var(--ink);
+            letter-spacing: -0.3px;
+        }
+
+        .fc-short {
+            font-size: 14px;
+            color: var(--ink2);
+            line-height: 1.75;
+            margin-bottom: 0;
+        }
+
+        /* big number watermark — same as original */
+        .fc-num {
+            position: absolute;
+            bottom: 14px;
+            right: 20px;
+            font-size: 52px;
+            font-weight: 900;
+            color: rgba(91, 63, 255, 0.04);
+            line-height: 1;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        /* expand — same as original */
+        .fc-expand {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .45s ease, opacity .35s ease;
+            opacity: 0;
+        }
+
+        .fc.open .fc-expand {
+            max-height: 400px;
+            opacity: 1;
+        }
+
+        .fc-expand-inner {
+            padding-top: 16px;
+            font-size: 14px;
+            color: var(--ink2);
+            line-height: 1.8;
+            border-top: 1px solid #f0eeff;
+            margin-top: 16px;
+        }
+
+        .fc-expand-inner ul {
+            padding-left: 0;
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            list-style: none;
+        }
+
+        .fc-expand-inner ul li {
+            font-size: 13.5px;
+            color: var(--ink2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .fc-expand-inner ul li::before {
+            content: '✦';
+            color: var(--accent);
+            font-size: 10px;
+            flex-shrink: 0;
+        }
+
+        /* read more button — same as original */
+        .fc-read {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent);
+            cursor: pointer;
+            margin-top: 18px;
+            padding: 7px 16px;
+            background: var(--accent-soft);
+            border-radius: 999px;
+            border: 1px solid rgba(91, 63, 255, .15);
+            transition: background .2s, gap .2s;
+            user-select: none;
+        }
+
+        .fc-read:hover {
+            background: #ddd8ff;
+            gap: 10px;
+        }
+
+        .fc-read svg {
+            width: 13px;
+            height: 13px;
+            stroke: var(--accent);
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: transform .3s;
+        }
+
+        .fc.open .fc-read svg {
+            transform: rotate(90deg);
+        }
+
+        /* ── VISUAL ILLUSTRATION inside each card ── */
+        .fc-visual {
+            margin: 20px 0 4px;
+            border-radius: 14px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* card 1: template preview strips */
+        .tmpl-viz {
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid #ebe8fb;
+        }
+
+        .tmpl-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .tmpl-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .tmpl-bar {
+            height: 8px;
+            border-radius: 4px;
+            background: var(--accent-soft);
+        }
+
+        .tmpl-bar.accent {
+            background: var(--accent);
+        }
+
+        .tmpl-bar.sm {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+        }
+
+        .tmpl-dot-row {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 8px;
+        }
+
+        .tmpl-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-soft);
+        }
+
+        .tmpl-dot.a {
+            background: var(--accent);
+        }
+
+        .tmpl-total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0 0;
+            border-top: 1px solid #ebe8fb;
+            margin-top: 4px;
+        }
+
+        .tmpl-lbl {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            color: var(--ink3);
+        }
+
+        .tmpl-amt {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        /* card 2: cloud sync animation */
+        .cloud-viz {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            padding: 10px 0;
+        }
+
+        .cv-node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .cv-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+        }
+
+        .cv-icon svg {
+            width: 18px;
+            height: 18px;
+            stroke: white;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .cv-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--ink3);
+            letter-spacing: .04em;
+        }
+
+        .cv-line {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            flex: 1;
+            padding: 0 6px;
+        }
+
+        .cv-dash {
+            width: 10px;
+            height: 2px;
+            border-radius: 1px;
+            background: var(--accent-soft);
+            animation: dash-flow 1.4s linear infinite;
+        }
+
+        .cv-dash:nth-child(2) {
+            animation-delay: .2s;
+        }
+
+        .cv-dash:nth-child(3) {
+            animation-delay: .4s;
+        }
+
+        .cv-dash:nth-child(4) {
+            animation-delay: .6s;
+        }
+
+        .cv-dash:nth-child(5) {
+            animation-delay: .8s;
+        }
+
+        @keyframes dash-flow {
+
+            0%,
+            100% {
+                background: var(--accent-soft)
+            }
+
+            50% {
+                background: var(--accent)
+            }
+        }
+
+        .cv-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 8px var(--green);
+            animation: cv-pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes cv-pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1
+            }
+
+            50% {
+                transform: scale(1.5);
+                opacity: .6
+            }
+        }
+
+        /* card 3: pdf speed meter */
+        .pdf-viz {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 4px 0;
+        }
+
+        .pdf-doc-mini {
+            background: white;
+            border: 1.5px solid #e8e6f8;
+            border-radius: 10px;
+            padding: 10px 12px;
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pdf-doc-mini::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 10px 10px 0 0;
+        }
+
+        .pdf-line {
+            height: 6px;
+            border-radius: 3px;
+            background: var(--accent-soft);
+            margin-bottom: 5px;
+        }
+
+        .pdf-line:last-child {
+            margin-bottom: 0;
+            width: 60%;
+        }
+
+        .pdf-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
+        .pdf-arrow svg {
+            width: 22px;
+            height: 22px;
+            stroke: var(--accent);
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            animation: arrow-move 1.2s ease-in-out infinite;
+        }
+
+        @keyframes arrow-move {
+
+            0%,
+            100% {
+                transform: translateX(0)
+            }
+
+            50% {
+                transform: translateX(4px)
+            }
+        }
+
+        .pdf-speed {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--green);
+            letter-spacing: -.2px;
+        }
+
+        .pdf-badge {
+            background: var(--green-soft);
+            border-radius: 8px;
+            padding: 8px 12px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .pdf-badge-val {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--green);
+        }
+
+        .pdf-badge-label {
+            font-size: 9px;
+            font-weight: 700;
+            color: var(--green);
+            opacity: .7;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+        }
+
+        /* card 4: currency chips */
+        .curr-viz {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            padding: 4px 0;
+        }
+
+        .curr-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 11px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            background: var(--bg);
+            border: 1.5px solid #e8e6f8;
+            color: var(--ink2);
+            white-space: nowrap;
+            transition: transform .2s, border-color .2s;
+        }
+
+        .curr-chip:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .curr-chip .flag {
+            font-size: 14px;
+        }
+
+        .curr-chip.live {
+            border-color: rgba(91, 63, 255, .4);
+            color: var(--green);
+            background: var(--green-soft);
+        }
+
+        .curr-chip .live-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--green);
+            animation: cv-pulse 1.5s ease-in-out infinite;
+        }
+
+        /* ── DEEP FEATURE ROWS ── */
+        .deep-section {
+            background: white;
+            padding: 100px 48px;
+        }
+
+        .deep-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            max-width: 1060px;
+            margin: 0 auto 100px;
+        }
+
+        .deep-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .deep-row.flip {
+            direction: rtl;
+        }
+
+        .deep-row.flip>* {
+            direction: ltr;
+        }
+
+        .deep-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 14px;
+        }
+
+        .deep-eyebrow::before {
+            content: '';
+            width: 18px;
+            height: 1.5px;
+            background: var(--accent);
+        }
+
+        .deep-title {
+            font-size: clamp(26px, 2.8vw, 36px);
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            color: var(--ink);
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+
+        .deep-body {
+            font-size: 15px;
+            color: var(--ink2);
+            line-height: 1.85;
+            margin-bottom: 28px;
+        }
+
+        .deep-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 11px;
+        }
+
+        .deep-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+            font-size: 14px;
+            color: var(--ink2);
+            line-height: 1.6;
+        }
+
+        .dl-ck {
+            width: 22px;
+            height: 22px;
+            flex-shrink: 0;
+            background: var(--green-soft);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            margin-top: 1px;
+        }
+
+        .dl-ck svg {
+            width: 11px;
+            height: 11px;
+            stroke: var(--green);
+            fill: none;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* deep visual panels */
+        .deep-visual {
+            border-radius: 24px;
+            overflow: hidden;
+            aspect-ratio: 5/4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px;
+            position: relative;
+        }
+
+        /* panel 1: template showcase */
+        .dp-templates {
+            background: linear-gradient(145deg, #0d0b1e, #1a1040);
+        }
+
+        .dp-templates::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at top right, rgba(91, 63, 255, .25), transparent 60%);
+        }
+
+        .invoice-card {
+            background: white;
+            border-radius: 14px;
+            width: 220px;
+            padding: 18px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .4);
+            position: relative;
+            z-index: 1;
+            animation: float-card 4s ease-in-out infinite;
+        }
+
+        @keyframes float-card {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(-1.5deg)
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(-1.5deg)
+            }
+        }
+
+        .ic-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f0eeff;
+        }
+
+        .ic-logo {
+            width: 28px;
+            height: 28px;
+            background: var(--accent);
+            border-radius: 7px;
+            display: grid;
+            place-items: center;
+        }
+
+        .ic-logo svg {
+            width: 13px;
+            height: 13px;
+            fill: white;
+        }
+
+        .ic-biz {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--ink);
+        }
+
+        .ic-num {
+            font-size: 9px;
+            color: var(--ink3);
+        }
+
+        .ic-to {
+            font-size: 8px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            color: var(--ink3);
+            margin-bottom: 3px;
+        }
+
+        .ic-client {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 12px;
+        }
+
+        .ic-lines {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-bottom: 12px;
+        }
+
+        .ic-line-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ic-line-bar {
+            height: 6px;
+            border-radius: 3px;
+            background: #f0eeff;
+        }
+
+        .ic-line-amt {
+            font-size: 9px;
+            font-weight: 700;
+            color: var(--ink3);
+        }
+
+        .ic-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 10px;
+            border-top: 1px solid #f0eeff;
+        }
+
+        .ic-total-lbl {
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            color: var(--ink3);
+        }
+
+        .ic-total-val {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .ic-badge {
+            display: inline-block;
+            font-size: 7px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            background: var(--green-soft);
+            color: var(--green);
+            padding: 3px 8px;
+            border-radius: 99px;
+            margin-top: 8px;
+        }
+
+        /* panel 2: cloud nodes */
+        .dp-cloud {
+            background: linear-gradient(145deg, #0a1628, #0f2548);
+        }
+
+        .dp-cloud::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at bottom left, rgba(56, 189, 248, .1), transparent 60%);
+        }
+
+        .cloud-ring {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            z-index: 1;
+        }
+
+        .cr-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 56px;
+            height: 56px;
+            background: rgba(91, 63, 255, .3);
+            border: 2px solid rgba(91, 63, 255, .6);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+        }
+
+        .cr-center svg {
+            width: 22px;
+            height: 22px;
+            stroke: white;
+            fill: none;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .cr-orbit {
+            position: absolute;
+            inset: 0;
+            animation: cr-spin 8s linear infinite;
+        }
+
+        .cr-sat {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, .08);
+            border: 1px solid rgba(255, 255, 255, .15);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px);
+        }
+
+        .cr-sat svg {
+            width: 16px;
+            height: 16px;
+            stroke: rgba(255, 255, 255, .8);
+            fill: none;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .cr-sat-1 {
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .cr-sat-2 {
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .cr-sat-3 {
+            left: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .cr-sat-4 {
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        @keyframes cr-spin {
+            from {
+                transform: rotate(0deg)
+            }
+
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        .cr-pulse-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            border: 1px solid rgba(91, 63, 255, .3);
+            border-radius: 50%;
+            animation: cr-pulse-ring 2s ease-out infinite;
+        }
+
+        .cr-pulse-ring-2 {
+            animation-delay: .7s;
+        }
+
+        @keyframes cr-pulse-ring {
+            0% {
+                transform: translate(-50%, -50%) scale(.8);
+                opacity: 1
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(2.2);
+                opacity: 0
+            }
+        }
+
+        .cr-sync-label {
+            position: absolute;
+            bottom: -28px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--green);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .cr-sync-label::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--green);
+            animation: cv-pulse 1.5s infinite;
+        }
+
+        /* panel 3: pdf export */
+        .dp-pdf {
+            background: linear-gradient(145deg, #1a0a2e, #2d0b5a);
+        }
+
+        .dp-pdf::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at top, rgba(168, 85, 247, .2), transparent 55%);
+        }
+
+        .pdf-export-viz {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .pev-doc {
+            background: white;
+            border-radius: 12px;
+            width: 140px;
+            padding: 14px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, .4);
+        }
+
+        .pev-top {
+            height: 4px;
+            border-radius: 2px;
+            background: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .pev-lines {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .pev-line {
+            height: 5px;
+            border-radius: 3px;
+            background: #f0eeff;
+        }
+
+        .pev-line.short {
+            width: 60%;
+        }
+
+        .pev-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid #f0eeff;
+        }
+
+        .pev-lbl {
+            font-size: 7px;
+            font-weight: 700;
+            color: var(--ink3);
+            text-transform: uppercase;
+            letter-spacing: .1em;
+        }
+
+        .pev-val {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .pev-arrow-track {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .pev-arrow-dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .3);
+            animation: fall-dot .8s ease-in-out infinite;
+        }
+
+        .pev-arrow-dot:nth-child(2) {
+            animation-delay: .15s;
+        }
+
+        .pev-arrow-dot:nth-child(3) {
+            animation-delay: .3s;
+        }
+
+        .pev-arrow-dot:nth-child(4) {
+            animation-delay: .45s;
+        }
+
+        @keyframes fall-dot {
+
+            0%,
+            100% {
+                opacity: .2;
+                transform: translateY(0)
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateY(3px)
+            }
+        }
+
+        .pev-pdf-badge {
+            background: rgba(91, 63, 255, .15);
+            border: 1px solid rgba(91, 63, 255, .4);
+            border-radius: 10px;
+            padding: 10px 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pev-pdf-icon {
+            width: 28px;
+            height: 28px;
+            background: var(--green);
+            border-radius: 7px;
+            display: grid;
+            place-items: center;
+        }
+
+        .pev-pdf-icon svg {
+            width: 14px;
+            height: 14px;
+            stroke: white;
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .pev-pdf-text {
+            font-size: 11px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .pev-pdf-time {
+            font-size: 9px;
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .pev-stamp {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            width: 52px;
+            height: 52px;
+            border: 2px solid var(--green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--green);
+            font-size: 7px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            text-align: center;
+            line-height: 1.3;
+            transform: rotate(15deg);
+            animation: float-card 4s ease-in-out infinite;
+            background: rgba(91, 63, 255, .06);
+        }
+
+        /* panel 4: currency globe */
+        .dp-currency {
+            background: linear-gradient(145deg, #0c1a0e, #14361a);
+        }
+
+        .dp-currency::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(91, 63, 255, .12), transparent 60%);
+        }
+
+        .curr-globe-viz {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            max-width: 240px;
+        }
+
+        .cg-chip {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 13px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .08);
+            border: 1px solid rgba(255, 255, 255, .12);
+            font-size: 13px;
+            font-weight: 700;
+            color: white;
+            transition: transform .2s;
+        }
+
+        .cg-chip:hover {
+            transform: scale(1.06);
+        }
+
+        .cg-chip.hi {
+            background: rgba(91, 63, 255, .15);
+            border-color: rgba(91, 63, 255, .4);
+            color: #5b3fff;
+        }
+
+        .cg-chip .f {
+            font-size: 16px;
+        }
+
+        .cg-chip .r {
+            font-size: 10px;
+            opacity: .5;
+            font-weight: 500;
+        }
+
+        /* ── CTA BANNER ── */
+        .cta-section {
+            background: white;
+            padding: 0 48px 100px;
+        }
+
+        .cta-band {
+            background: linear-gradient(135deg, #5b3fff 0%, #7c3aed 55%, #a855f7 100%);
+            border-radius: 28px;
+            padding: 70px 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            max-width: 1020px;
+            margin: 0 auto;
+        }
+
+        .cta-band::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 280px;
+            height: 280px;
+            background: rgba(255, 255, 255, .07);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .cta-band::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            left: -40px;
+            width: 240px;
+            height: 240px;
+            background: rgba(255, 255, 255, .05);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .cta-band h2 {
+            font-size: clamp(30px, 4vw, 48px);
+            font-weight: 800;
+            color: white;
+            letter-spacing: -2px;
+            margin-bottom: 14px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-band p {
+            font-size: 16px;
+            color: rgba(255, 255, 255, .75);
+            margin-bottom: 36px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-band-btns {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-white {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 34px;
+            background: white;
+            color: var(--accent);
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 999px;
+            text-decoration: none;
+            transition: transform .2s;
+        }
+
+        .cta-white:hover {
+            transform: translateY(-3px);
+        }
+
+        .cta-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 34px;
+            background: rgba(255, 255, 255, .12);
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 999px;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, .25);
+            transition: background .2s;
+        }
+
+        .cta-ghost:hover {
+            background: rgba(255, 255, 255, .2);
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: white;
+            border-top: 1px solid #eeeef4;
+            padding: 60px 48px 32px;
+        }
+
+        .fg {
+            display: grid;
+            grid-template-columns: 1.8fr 1fr 1fr 1fr;
+            gap: 36px;
+            max-width: 1080px;
+            margin: 0 auto 48px;
+        }
+
+        .fl h4 {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--ink);
+            margin-bottom: 18px;
+        }
+
+        .fl a {
+            display: flex;
+            align-items: center;
+            font-size: 13.5px;
+            color: var(--ink3);
+            text-decoration: none;
+            margin-bottom: 11px;
+            padding: 5px 8px;
+            border-radius: 8px;
+            transition: background .18s, color .18s;
+        }
+
+        .fl a:not(.logo):hover {
+            background: var(--accent-soft);
+            color: var(--accent);
+        }
+
+        .footer-desc {
+            font-size: 13.5px;
+            color: var(--ink3);
+            margin-top: 14px;
+            line-height: 1.7;
+            max-width: 220px;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .social-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--bg);
+            border: 1.5px solid #e0e0ea;
+            display: grid;
+            place-items: center;
+            color: var(--ink2);
+            cursor: pointer;
+            text-decoration: none;
+            transition: background .2s, border-color .2s, color .2s;
+        }
+
+        .social-btn:hover {
+            background: var(--accent-soft);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .fb {
+            text-align: center;
+            padding-top: 24px;
+            border-top: 1px solid #eeeef4;
+            font-size: 13px;
+            color: var(--ink3);
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+
+        /* ── TOAST ── */
+        .toast {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            background: #0f0a2e;
+            color: white;
+            padding: 14px 22px;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, .25);
+            z-index: 9999;
+            transform: translateY(80px);
+            opacity: 0;
+            transition: transform .35s cubic-bezier(.34, 1.56, .64, 1), opacity .35s ease;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast-icon {
+            width: 20px;
+            height: 20px;
+            background: var(--green);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+        }
+
+        .toast-icon svg {
+            width: 11px;
+            height: 11px;
+            stroke: white;
+            fill: none;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity .65s ease, transform .65s cubic-bezier(.2, .8, .3, 1);
+        }
+
+        .reveal.in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-d1 {
+            transition-delay: .1s;
+        }
+
+        .reveal-d2 {
+            transition-delay: .2s;
+        }
+
+        .reveal-d3 {
+            transition-delay: .3s;
+        }
+
+        .reveal-d4 {
+            transition-delay: .4s;
+        }
+
+        @media (max-width: 960px) {
+
+            .deep-row,
+            .deep-row.flip {
+                grid-template-columns: 1fr;
+                direction: ltr;
+            }
+
+            .deep-visual {
+                aspect-ratio: 16/9;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 0 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .page-hero,
+            .sec,
+            .deep-section,
+            .cta-section {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .feat-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .fg {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            footer {
+                padding: 48px 20px 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="toast" id="toast"><span class="toast-icon"><svg viewBox="0 0 12 12">
+                <polyline points="2 6 5 9 10 3" />
+            </svg></span><span id="toast-msg"></span></div>
+
+    <!-- NAV -->
+    <nav id="navbar">
+  <a href="index.html" class="logo">
+    <div class="logo-icon"><svg viewBox="0 0 24 24">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+      </svg></div>Invoice<em>Pro</em>
+  </a>
+
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="features.html" class="active">Features</a>
+    <a href="templates.html">Templates</a>
+    <a href="how-it-works.html">How It Works</a>
+    <a href="pricing.html">Pricing</a>
+  </div>
+
+  <div class="nav-right">
+    <a href="login.html" class="btn-g" style="text-decoration: none; display: inline-flex; align-items: center;">Login</a>
+    <a href="signup.html" class="btn-p" style="text-decoration: none; display: inline-flex; align-items: center;">Get Started</a>
+  </div>
+</nav>
+
+    <!-- ANNOUNCE BAR -->
+    <div class="announce-bar">
+        <div class="announce-inner">
+            <span class="announce-dot"></span><span class="announce-text">Powering Businesses Across the
+                Globe</span><span class="announce-sep">·</span>
+            <span class="announce-text">Built for Speed, Precision &amp; Scale</span><span class="announce-sep">·</span>
+            <span class="announce-text">Powering Businesses Across the Globe</span><span class="announce-sep">·</span>
+            <span class="announce-text">Built for Speed, Precision &amp; Scale</span><span class="announce-sep">·</span>
+            <span class="announce-text">Powering Businesses Across the Globe</span><span class="announce-sep">·</span>
+            <span class="announce-text">Built for Speed, Precision &amp; Scale</span>
+        </div>
+    </div>
+
+    <!-- PAGE HERO -->
+    <section class="page-hero">
+        <div class="sec-pill">Features</div>
+        <h1>Powerful Features.<br><span class="grad">Built for Professionals.</span></h1>
+        <p>From agency-grade templates to real-time cloud sync — every feature in InvoicePro is designed to make your
+            invoicing faster, smarter, and more impressive.</p>
+        <div class="hero-btns">
+            <a href="signup.html" class="cta-a">Start Free Trial <svg viewBox="0 0 24 24">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                </svg></a>
+            <a href="pricing.html" class="cta-b">View Pricing →</a>
+        </div>
+        <div class="hero-stats">
+            <div class="stat">
+                <div class="stat-num">10+</div>
+                <div class="stat-label">Templates</div>
+            </div>
+            <div class="stat-div"></div>
+            <div class="stat">
+                <div class="stat-num">100+</div>
+                <div class="stat-label">Currencies</div>
+            </div>
+            <div class="stat-div"></div>
+            <div class="stat">
+                <div class="stat-num">&lt;200ms</div>
+                <div class="stat-label">PDF Speed</div>
+            </div>
+            <div class="stat-div"></div>
+            <div class="stat">
+                <div class="stat-num">99.9%</div>
+                <div class="stat-label">Uptime SLA</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4 FEATURE CARDS — same grid as your landing page -->
+    <section class="sec" style="background:#f8f7ff;">
+        <div class="sec-head">
+            <div class="sec-pill">Core Features</div>
+            <h2>Four pillars of <span class="grad">professional invoicing</span></h2>
+            <p>Every feature is engineered to save you time, impress your clients, and make sure you get paid — faster.
+            </p>
+        </div>
+        <div class="feat-grid">
+
+            <!-- Card 1: Templates -->
+            <div class="fc reveal" data-card="1">
+                <div class="fc-strip"></div>
+                <div class="fc-tag">Design</div>
+                <div class="fi"><svg viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                        <path d="M3 9h18M9 21V9" />
+                    </svg></div>
+                <h3>Agency-Grade Templates</h3>
+                <p class="fc-short">Polished invoice layouts that build instant client trust and reflect your brand
+                    perfectly.</p>
+
+                <div class="fc-visual">
+                    <div class="tmpl-viz">
+                        <div class="tmpl-dot-row">
+                            <div class="tmpl-dot a"></div>
+                            <div class="tmpl-dot a"></div>
+                            <div class="tmpl-dot"></div>
+                        </div>
+                        <div class="tmpl-row">
+                            <div class="tmpl-bar accent" style="width:20px;height:20px;border-radius:6px;flex-shrink:0">
+                            </div>
+                            <div class="tmpl-bar" style="width:80px"></div>
+                            <div style="margin-left:auto">
+                                <div class="tmpl-bar" style="width:50px;margin-bottom:4px"></div>
+                                <div class="tmpl-bar" style="width:35px"></div>
+                            </div>
+                        </div>
+                        <div class="tmpl-row">
+                            <div class="tmpl-bar" style="width:100%;height:1px;background:#ebe8fb;margin:4px 0"></div>
+                        </div>
+                        <div class="tmpl-row">
+                            <div class="tmpl-bar" style="width:55%"></div>
+                            <div style="margin-left:auto">
+                                <div class="tmpl-bar" style="width:40px"></div>
+                            </div>
+                        </div>
+                        <div class="tmpl-row">
+                            <div class="tmpl-bar" style="width:45%"></div>
+                            <div style="margin-left:auto">
+                                <div class="tmpl-bar" style="width:40px"></div>
+                            </div>
+                        </div>
+                        <div class="tmpl-total-row"><span class="tmpl-lbl">Total Due</span><span
+                                class="tmpl-amt">$4,800</span></div>
+                    </div>
+                </div>
+
+                <div class="fc-expand">
+                    <div class="fc-expand-inner">
+                        Your invoice is often the last thing a client sees before paying — it should look impressive.
+                        InvoicePro templates are designed by professionals to match agency-quality standards. Choose
+                        from multiple layouts, add your logo, brand colors, and signature.
+                        <ul>
+                            <li>10+ premium invoice templates</li>
+                            <li>Upload your own logo &amp; brand colors</li>
+                            <li>Print-ready &amp; email-ready formats</li>
+                            <li>GST, VAT &amp; standard invoice types</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="fc-read" onclick="toggleCard(this)"><span class="fc-btn-text">Read More</span><svg
+                        viewBox="0 0 24 24">
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <polyline points="19 12 12 19 5 12" />
+                    </svg></div>
+                <div class="fc-num">01</div>
+            </div>
+
+            <!-- Card 2: Cloud Sync -->
+            <div class="fc reveal reveal-d1" data-card="2">
+                <div class="fc-strip"></div>
+                <div class="fc-tag">Cloud</div>
+                <div class="fi"><svg viewBox="0 0 24 24">
+                        <ellipse cx="12" cy="5" rx="9" ry="3" />
+                        <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+                        <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+                    </svg></div>
+                <h3>Cloud Backend Sync</h3>
+                <p class="fc-short">Every invoice saved to our secure cloud — access and edit from any device, anywhere.
+                </p>
+
+                <div class="fc-visual">
+                    <div class="cloud-viz">
+                        <div class="cv-node">
+                            <div class="cv-icon" style="background:var(--accent-soft)">
+                                <svg viewBox="0 0 24 24" style="stroke:var(--accent)">
+                                    <rect x="5" y="2" width="14" height="20" rx="2" />
+                                    <line x1="9" y1="7" x2="15" y2="7" />
+                                    <line x1="9" y1="11" x2="15" y2="11" />
+                                </svg>
+                            </div>
+                            <span class="cv-label">Device</span>
+                        </div>
+                        <div class="cv-line">
+                            <div class="cv-dash"></div>
+                            <div class="cv-dash"></div>
+                            <div class="cv-dash"></div>
+                            <div class="cv-dash"></div>
+                            <div class="cv-dash"></div>
+                        </div>
+                        <div class="cv-node">
+                            <div class="cv-icon" style="background:var(--accent)">
+                                <svg viewBox="0 0 24 24">
+                                    <ellipse cx="12" cy="5" rx="9" ry="3" />
+                                    <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+                                    <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+                                </svg>
+                            </div>
+                            <div class="cv-dot"></div>
+                        </div>
+                        <div class="cv-line">
+                            <div class="cv-dash"></div>
+                            <div class="cv-dash"></div>
+                            <div class="cv-dash"></div>
+                            <div class="cv-dash"></div>
+                            <div class="cv-dash"></div>
+                        </div>
+                        <div class="cv-node">
+                            <div class="cv-icon" style="background:var(--green-soft)">
+                                <svg viewBox="0 0 24 24" style="stroke:var(--green)">
+                                    <rect x="5" y="11" width="14" height="11" rx="2" />
+                                    <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+                                </svg>
+                            </div>
+                            <span class="cv-label">Secured</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fc-expand">
+                    <div class="fc-expand-inner">
+                        Never lose an invoice again. The moment you create or edit anything, it syncs instantly to our
+                        encrypted cloud servers. Whether you're on your laptop at the office or your phone on the go —
+                        everything is always up to date.
+                        <ul>
+                            <li>Real-time auto-save to cloud</li>
+                            <li>Access from any device — web &amp; mobile</li>
+                            <li>AES-256 encrypted storage</li>
+                            <li>99.9% uptime — always available</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="fc-read" onclick="toggleCard(this)"><span class="fc-btn-text">Read More</span><svg
+                        viewBox="0 0 24 24">
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <polyline points="19 12 12 19 5 12" />
+                    </svg></div>
+                <div class="fc-num">02</div>
+            </div>
+
+            <!-- Card 3: PDF Export -->
+            <div class="fc reveal reveal-d2" data-card="3">
+                <div class="fc-strip"></div>
+                <div class="fc-tag">Export</div>
+                <div class="fi"><svg viewBox="0 0 24 24">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                    </svg></div>
+                <h3>Instant PDF Export</h3>
+                <p class="fc-short">Server-rendered, pixel-perfect A4 PDFs in milliseconds — share with clients
+                    instantly.</p>
+
+                <div class="fc-visual">
+                    <div class="pdf-viz">
+                        <div class="pdf-doc-mini">
+                            <div class="pdf-line" style="width:80%"></div>
+                            <div class="pdf-line" style="width:65%"></div>
+                            <div class="pdf-line" style="width:70%"></div>
+                            <div class="pdf-line short"></div>
+                        </div>
+                        <div class="pdf-arrow">
+                            <svg viewBox="0 0 24 24">
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                            <span class="pdf-speed">&lt;200ms</span>
+                        </div>
+                        <div class="pdf-badge">
+                            <div class="pdf-badge-val">PDF</div>
+                            <div class="pdf-badge-label">Ready</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fc-expand">
+                    <div class="fc-expand-inner">
+                        PDFs are generated server-side for pixel-perfect output every single time. No blurry fonts, no
+                        broken layouts — just a crisp, professional document ready to send. Download it, email it
+                        directly, or share a live link with your client.
+                        <ul>
+                            <li>Server-rendered — perfect on all screens &amp; printers</li>
+                            <li>One-click email to client</li>
+                            <li>Shareable live invoice link</li>
+                            <li>A4 &amp; Letter size support</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="fc-read" onclick="toggleCard(this)"><span class="fc-btn-text">Read More</span><svg
+                        viewBox="0 0 24 24">
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <polyline points="19 12 12 19 5 12" />
+                    </svg></div>
+                <div class="fc-num">03</div>
+            </div>
+
+            <!-- Card 4: Multi-Currency -->
+            <div class="fc reveal reveal-d3" data-card="4">
+                <div class="fc-strip"></div>
+                <div class="fc-tag">Global</div>
+                <div class="fi"><svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="2" y1="12" x2="22" y2="12" />
+                        <path
+                            d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                    </svg></div>
+                <h3>Multi-Currency Support</h3>
+                <p class="fc-short">Bill international clients with real-time rates — USD, EUR, INR, GBP and 100+ more.
+                </p>
+
+                <div class="fc-visual">
+                    <div class="curr-viz">
+                        <div class="curr-chip live"><span class="flag">🇮🇳</span> INR <span class="live-dot"></span>
+                        </div>
+                        <div class="curr-chip live"><span class="flag">🇺🇸</span> USD <span class="live-dot"></span>
+                        </div>
+                        <div class="curr-chip"><span class="flag">🇪🇺</span> EUR</div>
+                        <div class="curr-chip"><span class="flag">🇬🇧</span> GBP</div>
+                        <div class="curr-chip"><span class="flag">🇦🇪</span> AED</div>
+                        <div class="curr-chip"><span class="flag">🇯🇵</span> JPY</div>
+                        <div class="curr-chip"><span class="flag">🇸🇬</span> SGD</div>
+                        <div class="curr-chip"><span class="flag">🇦🇺</span> AUD</div>
+                    </div>
+                </div>
+
+                <div class="fc-expand">
+                    <div class="fc-expand-inner">
+                        Whether your client is in New York, London, Dubai, or Mumbai — InvoicePro has you covered.
+                        Select any currency and we automatically fetch live exchange rates so your invoice always shows
+                        the correct amount.
+                        <ul>
+                            <li>100+ currencies supported</li>
+                            <li>Live exchange rate integration</li>
+                            <li>Auto-format per country standards</li>
+                            <li>Multi-currency in one invoice</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="fc-read" onclick="toggleCard(this)"><span class="fc-btn-text">Read More</span><svg
+                        viewBox="0 0 24 24">
+                        <line x1="12" y1="5" x2="12" y2="19" />
+                        <polyline points="19 12 12 19 5 12" />
+                    </svg></div>
+                <div class="fc-num">04</div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- DEEP FEATURE ROWS -->
+    <section class="deep-section">
+        <div style="max-width:1060px;margin:0 auto 80px;text-align:center" class="reveal">
+            <div class="sec-pill">Deep Dive</div>
+            <h2
+                style="font-size:clamp(32px,4vw,50px);font-weight:800;letter-spacing:-2px;margin-top:20px;margin-bottom:16px">
+                Every feature, <span class="grad">up close</span></h2>
+            <p style="font-size:17px;color:var(--ink2);max-width:500px;margin:0 auto;line-height:1.8">The details that
+                make InvoicePro a cut above every basic invoice tool.</p>
+        </div>
+
+        <!-- Row 1: Templates -->
+        <div class="deep-row reveal">
+            <div class="deep-visual dp-templates">
+                <div class="invoice-card">
+                    <div class="ic-header">
+                        <div class="ic-logo"><svg viewBox="0 0 24 24">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                            </svg></div>
+                        <div>
+                            <div class="ic-biz">Acme Studio</div>
+                            <div class="ic-num">#INV-0042</div>
+                        </div>
+                    </div>
+                    <div class="ic-to">Bill To</div>
+                    <div class="ic-client">Google LLC</div>
+                    <div class="ic-lines">
+                        <div class="ic-line-row">
+                            <div class="ic-line-bar" style="width:70%"></div>
+                            <div class="ic-line-amt">$2,400</div>
+                        </div>
+                        <div class="ic-line-row">
+                            <div class="ic-line-bar" style="width:50%"></div>
+                            <div class="ic-line-amt">$1,800</div>
+                        </div>
+                        <div class="ic-line-row">
+                            <div class="ic-line-bar" style="width:40%"></div>
+                            <div class="ic-line-amt">$600</div>
+                        </div>
+                    </div>
+                    <div class="ic-total">
+                        <div class="ic-total-lbl">Total Due</div>
+                        <div class="ic-total-val">$4,800</div>
+                    </div>
+                    <div class="ic-badge">GST Compliant ✓</div>
+                </div>
+            </div>
+            <div class="deep-text-side">
+                <div class="deep-eyebrow">Design</div>
+                <h3 class="deep-title">Templates that make clients say "wow" before they pay</h3>
+                <p class="deep-body">Your invoice is the last touchpoint before payment. InvoicePro's template engine
+                    lets you build a fully branded document in seconds — logo, colors, signature, all saved for every
+                    future invoice.</p>
+                <ul class="deep-list">
+                    <li><span class="dl-ck"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>10+ agency-quality layouts to choose from</li>
+                    <li><span class="dl-ck"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>One-time brand setup — auto-applied to all invoices</li>
+                    <li><span class="dl-ck"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>GST, VAT, standard — all compliance types built in</li>
+                    <li><span class="dl-ck"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>Print-ready A4 + screen-optimized simultaneously</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Row 2: Cloud (flipped) -->
+        <div class="deep-row flip reveal">
+            <div class="deep-visual dp-cloud">
+                <div class="cloud-ring">
+                    <div class="cr-pulse-ring"></div>
+                    <div class="cr-pulse-ring cr-pulse-ring-2"></div>
+                    <div class="cr-center">
+                        <svg viewBox="0 0 24 24">
+                            <ellipse cx="12" cy="5" rx="9" ry="3" />
+                            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+                            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+                        </svg>
+                    </div>
+                    <div class="cr-orbit">
+                        <div class="cr-sat cr-sat-1"><svg viewBox="0 0 24 24">
+                                <rect x="5" y="2" width="14" height="20" rx="2" />
+                                <line x1="9" y1="7" x2="15" y2="7" />
+                            </svg></div>
+                        <div class="cr-sat cr-sat-2"><svg viewBox="0 0 24 24">
+                                <rect x="2" y="3" width="20" height="14" rx="2" />
+                                <path d="M8 21h8M12 17v4" />
+                            </svg></div>
+                        <div class="cr-sat cr-sat-3"><svg viewBox="0 0 24 24">
+                                <rect x="5" y="11" width="14" height="11" rx="2" />
+                                <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+                            </svg></div>
+                        <div class="cr-sat cr-sat-4"><svg viewBox="0 0 24 24">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            </svg></div>
+                    </div>
+                    <div class="cr-sync-label">Live Sync Active</div>
+                </div>
+            </div>
+            <div class="deep-text-side">
+                <div class="deep-eyebrow">Cloud</div>
+                <h3 class="deep-title">Never lose an invoice — ever again</h3>
+                <p class="deep-body">InvoicePro auto-saves every change the instant you make it. Your entire history —
+                    every invoice, every client, every draft — is encrypted and replicated across multiple servers.</p>
+                <ul class="deep-list">
+                    <li><span class="dl-ck"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>Real-time auto-save — zero data loss guaranteed</li>
+                    <li><span class="dl-ck"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>AES-256 encryption at rest, TLS 1.3 in transit</li>
+                    <li><span class="dl-ck"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>Access from laptop, phone, or tablet — always in sync</li>
+                    <li><span class="dl-ck"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>99.9% uptime SLA — your data is always there</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Row 3: PDF -->
+        <div class="deep-row reveal">
+            <div class="deep-visual dp-pdf">
+                <div class="pdf-export-viz">
+                    <div class="pev-doc">
+                        <div class="pev-top"></div>
+                        <div class="pev-lines">
+                            <div class="pev-line"></div>
+                            <div class="pev-line" style="width:75%"></div>
+                            <div class="pev-line"></div>
+                            <div class="pev-line short"></div>
+                        </div>
+                        <div class="pev-bottom">
+                            <div class="pev-lbl">Total</div>
+                            <div class="pev-val">$2,400</div>
+                        </div>
+                    </div>
+                    <div class="pev-arrow-track">
+                        <div class="pev-arrow-dot"></div>
+                        <div class="pev-arrow-dot"></div>
+                        <div class="pev-arrow-dot"></div>
+                        <div class="pev-arrow-dot"></div>
+                    </div>
+                    <div class="pev-pdf-badge">
+                        <div class="pev-pdf-icon"><svg viewBox="0 0 24 24">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                <polyline points="14 2 14 8 20 8" />
+                            </svg></div>
+                        <div>
+                            <div class="pev-pdf-text">invoice_0042.pdf</div>
+                            <div class="pev-pdf-time">Generated in 187ms ✓</div>
+                        </div>
+                    </div>
+                    <div class="pev-stamp">PAID ✓</div>
+                </div>
+            </div>
+            <div class="deep-text-side">
+                <div class="deep-eyebrow">Export</div>
+                <h3 class="deep-title">Pixel-perfect PDFs — generated server-side in &lt;200ms</h3>
+                <p class="deep-body">Browser-generated PDFs break. InvoicePro renders every PDF on our servers — crisp
+                    fonts, perfect layout, every time. One click sends it straight to your client's inbox.</p>
+                <ul class="deep-list">
+                    <li><span class="dl-ck"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>Headless server render — no layout breaks, ever</li>
+                    <li><span class="dl-ck"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>One-click email delivery with branded client email</li>
+                    <li><span class="dl-ck"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>Shareable live link — client sees invoice in browser too</li>
+                    <li><span class="dl-ck"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>A4 + Letter format — print or screen, both perfect</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Row 4: Currencies (flipped) -->
+        <div class="deep-row flip reveal">
+            <div class="deep-visual dp-currency">
+                <div class="curr-globe-viz">
+                    <div class="cg-chip hi"><span class="f">🇮🇳</span> INR <span class="r">83.4</span></div>
+                    <div class="cg-chip hi"><span class="f">🇺🇸</span> USD <span class="r">1.00</span></div>
+                    <div class="cg-chip"><span class="f">🇪🇺</span> EUR <span class="r">0.92</span></div>
+                    <div class="cg-chip"><span class="f">🇬🇧</span> GBP <span class="r">0.79</span></div>
+                    <div class="cg-chip"><span class="f">🇦🇪</span> AED <span class="r">3.67</span></div>
+                    <div class="cg-chip"><span class="f">🇯🇵</span> JPY <span class="r">151</span></div>
+                    <div class="cg-chip"><span class="f">🇸🇬</span> SGD <span class="r">1.34</span></div>
+                    <div class="cg-chip"><span class="f">🇦🇺</span> AUD <span class="r">1.54</span></div>
+                </div>
+            </div>
+            <div class="deep-text-side">
+                <div class="deep-eyebrow">Global</div>
+                <h3 class="deep-title">Bill anyone, anywhere — in their own currency</h3>
+                <p class="deep-body">Mumbai client? New York agency? Dubai startup? InvoicePro fetches live exchange
+                    rates for 100+ currencies and auto-formats numbers per country standard — so your invoice always
+                    looks local.</p>
+                <ul class="deep-list">
+                    <li><span class="dl-ck"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>100+ currencies — INR, USD, EUR, GBP, AED and more</li>
+                    <li><span class="dl-ck"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>Live exchange rates updated every 60 seconds</li>
+                    <li><span class="dl-ck"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>Country-standard number formatting, automatically</li>
+                    <li><span class="dl-ck"><svg viewBox="0 0 12 12">
+                                <polyline points="2 6 5 9 10 3" />
+                            </svg></span>Multi-currency line items within a single invoice</li>
+                </ul>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- CTA BANNER -->
+    <div class="cta-section">
+        <div class="cta-band reveal">
+            <h2>Ready to invoice like a pro?</h2>
+            <p>Join 1,200+ businesses already using InvoicePro. Setup takes under 2 minutes — no credit card needed.</p>
+            <div class="cta-band-btns">
+                <a href="signup.html" class="cta-white">Start Free Trial →</a>
+                <a href="pricing.html" class="cta-ghost">View Pricing</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="fg">
+            <div class="fl">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon" style="width:32px;height:32px;border-radius:9px"><svg viewBox="0 0 24 24"
+                            style="width:15px;height:15px;fill:white">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                        </svg></div>Invoice<em>Pro</em>
+                </a>
+                <p class="footer-desc">Professional invoicing backed by a powerful cloud engine. Built for businesses
+                    that mean business.</p>
+                <div class="footer-socials">
+                    <a class="social-btn" title="Twitter"><svg viewBox="0 0 24 24" width="15" height="15"
+                            fill="currentColor">
+                            <path
+                                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.742l7.732-8.835L1.254 2.25H8.08l4.259 5.633 5.905-5.633zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                        </svg></a>
+                    <a class="social-btn" title="LinkedIn"><svg viewBox="0 0 24 24" width="15" height="15"
+                            fill="currentColor">
+                            <path
+                                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                        </svg></a>
+                    <a class="social-btn" title="GitHub"><svg viewBox="0 0 24 24" width="15" height="15"
+                            fill="currentColor">
+                            <path
+                                d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                        </svg></a>
+                </div>
+            </div>
+            <div class="fl">
+                <h4>Product</h4><a href="templates.html">Templates</a><a href="features.html">Features</a><a
+                    href="pricing.html">Pricing</a><a href="#">API Docs</a>
+            </div>
+            <div class="fl">
+                <h4>Resources</h4><a href="#">Invoice Guide</a><a href="#">Blog</a><a href="#">Support Center</a><a
+                    href="#">Status Page</a>
+            </div>
+            <div class="fl">
+                <h4>Legal</h4><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Cookie
+                    Policy</a><a href="#">GDPR</a>
+            </div>
+        </div>
+        <div class="fb">&copy; 2026 InvoicePro. All rights reserved.</div>
+    </footer>
+
+    <script>
+        function showToast(msg, d = 3500) {
+            const t = document.getElementById('toast');
+            document.getElementById('toast-msg').textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), d);
+        }
+
+        // Same toggleCard as original
+        function toggleCard(btn) {
+            const card = btn.closest('.fc');
+            const isOpen = card.classList.contains('open');
+            document.querySelectorAll('.fc').forEach(c => {
+                c.classList.remove('open');
+                const b = c.querySelector('.fc-read');
+                if (b) { const t = b.querySelector('.fc-btn-text'); if (t) t.textContent = 'Read More'; }
+            });
+            if (!isOpen) {
+                card.classList.add('open');
+                const t = btn.querySelector('.fc-btn-text');
+                if (t) t.textContent = 'Show Less';
+            }
+        }
+
+        // Scroll reveal
+        const ro = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); } });
+        }, { threshold: 0.12 });
+        document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+    </script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>
